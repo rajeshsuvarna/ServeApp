@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Serve App</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+
+    <!--login & registration screen-->
+    <string name="hint_mobile">Your Mobile no.</string>
+    <string name="btn_login">LOGIN TO SERVE APP</string>
+    <string name="err_msg_mobile">Enter your valid mobile no.</string>
+    <string name="no_account">No account yet? Create one</string>
+    <string name="btn_register">REGISTER NOW</string>
+
+    <string name="hint_fname">Your First Name</string>
+    <string name="hint_lname">Your Last Name</string>
+    <string name="hint_email">Your Email Address</string>
+    <string name="btn_reg">REGISTER</string>
+    <string name="already_member">Already Member ?</string>
+    <string name="btn_login_to_your_account">LOGIN TO YOUR ACCOUNT</string>
+    <!--end of login & registration screen-->
+
+
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_myprofile">My Profile</string>
+    <string name="nav_item_myservice_request">My Service Request</string>
+    <string name="nav_item_notification">Notification</string>
+    <string name="nav_item_addmy_service">Add My Service</string>
+    <string name="nav_item_about_serveapp">About Serve App</string>
+    <string name="nav_item_faq">FAQ</string>
+    <string name="nav_item_share_serveapp">Share Serve App</string>
+    <string name="nav_item_support">Support</string>
+    <string name="hello_blank_fragment">This is blank fragment</string>
+
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_myprofile</item>
+        <item>@string/nav_item_myservice_request</item>
+        <item>@string/nav_item_notification</item>
+        <item>@string/nav_item_addmy_service</item>
+        <item>@string/nav_item_about_serveapp</item>
+        <item>@string/nav_item_faq</item>
+        <item>@string/nav_item_share_serveapp</item>
+        <item>@string/nav_item_support</item>
+    </string-array>
+
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
+    <string name="user_name">User Name</string>
+    <string name="user_location">User Location</string>
+</resources>
