@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.infouna.serveapp.activity.LoginActivity;
-import com.infouna.serveapp.activity.UserHome;
 
 public class Splashscreen extends AppCompatActivity {
 

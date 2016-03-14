@@ -21,6 +21,8 @@
     <string name="btn_login_to_your_account">LOGIN TO YOUR ACCOUNT</string>
     <!--end of login & registration screen-->
 
+    <string name="hello_world">Fuck that shit</string>
+
 
     <string name="nav_item_home">Home</string>
     <string name="nav_item_myprofile">My Profile</string>
