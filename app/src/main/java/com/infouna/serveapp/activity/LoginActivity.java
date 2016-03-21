@@ -121,8 +121,8 @@ public class LoginActivity extends AppCompatActivity {
         String phone = input_phone.getText().toString();
 
 
-        if (phone.isEmpty() || phone.length() < 1 || phone.length() > 10) {
-            input_phone.setError(" 10 numeric characters");
+        if (phone.isEmpty() || phone.length() < 10 || phone.length() > 10) {
+            input_phone.setError("Please enter valid phone number");
             valid = false;
         } else {
             input_phone.setError(null);

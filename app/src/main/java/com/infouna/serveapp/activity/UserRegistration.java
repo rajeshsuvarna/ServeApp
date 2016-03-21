@@ -111,28 +111,28 @@ public class UserRegistration extends AppCompatActivity{
         String phone = _phoneNumber.getText().toString();
 
         if (fname.isEmpty() || fname.length() < 3) {
-            _fnameText.setError("at least 3 characters");
+            _fnameText.setError("Must be minimum 3 characters");
             valid = false;
         } else {
             _fnameText.setError(null);
         }
 
         if (lname.isEmpty() || lname.length() < 3) {
-            _lnameText.setError("at least 3 characters");
+            _lnameText.setError("Must be minimum 3 characters");
             valid = false;
         } else {
             _lnameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Please enter valid e-mail address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
-        if (phone.isEmpty() || phone.length() < 1 || phone.length() > 10) {
-            _phoneNumber.setError("10 numeric characters");
+        if (phone.isEmpty() || phone.length() < 10 || phone.length() > 10) {
+            _phoneNumber.setError("Please enter valid phone number");
             valid = false;
         } else {
             _phoneNumber.setError(null);

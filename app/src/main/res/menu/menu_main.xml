@@ -8,7 +8,7 @@
         android:id="@+id/action_search"
         android:title="@string/action_search"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_action_search"
+        android:icon="@mipmap/ic_search"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         app:showAsAction="ifRoom" />

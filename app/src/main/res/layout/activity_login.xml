@@ -12,7 +12,7 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/logo"
+        <ImageView android:src="@mipmap/logo_main"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"
@@ -28,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
-                android:hint="@string/hint_mobile" />
+                android:hint="@string/hint_mobile"
+                android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -40,7 +41,7 @@
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="@string/btn_login"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/icons"
             android:background="@color/green"/>
 
         <View style="@style/Divider"
@@ -66,7 +67,7 @@
             android:padding="12dp"
             android:text="@string/btn_register"
             android:textColor="@color/navigationBarColor"
-            android:background="@color/divider"/>
+            android:background="@color/light_grey"/>
 
     </LinearLayout>
 </ScrollView>

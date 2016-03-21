@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--This is the primary color of the app. This color will be applied as toolbar background-->
-    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimary">#FF6d00</color>
+
     <!--This is darkest primary color of the app mainly applies to notification bar background-->
     <color name="colorPrimaryDark">#E64A19</color>
+
+    <!--secondary color  action bar background-->
+    <color name="colorSecondary">#009688</color>
+
+    <!--primary green  primary action button-->
+    <color name="green">#7cb342</color>
+
+    <!--primary red warning button-->
+    <color name="red">#d84315</color>
+
+    <!--primary blue for links-->
+    <color name="blue">#42a5f5</color>
+
+    <!--light grey for secondary action button ,nabvugation current element background-->
+    <color name="light_grey">#dbdbdb</color>
+
     <!--This is the primary color of text. This applies to toolbar title-->
-    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorPrimary">#212121</color>
+
+    <!--mute text color for input box non focus text color-->
+    <color name="mute_text_color">#999999</color>
+
+    <!-- secondary text color-->
+    <color name="secondary_text">#616161</color>
+
+    <!--yellow rating page and like background-->
+    <color name="yellow">#ffca28</color>
+
     <!--This is the default background color of the app-->
     <color name="windowBackground">#FFFFFF</color>
     <!--This color defines the background color of footer navigation bar-->
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#FF9800</color>
-    <color name="primary_light">#FFCCBC</color>
-    <color name="secondary_text">#727272</color>
+    <color name="primary_light">#ff8a33</color>
+
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
-    <color name="green">#689F38</color>
+
 </resources>
