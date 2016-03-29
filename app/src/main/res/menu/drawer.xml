@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home"
+            android:checked="true"
+            android:title="@string/nav_item_home" />
+
+        <item
+            android:id="@+id/myprofile"
+            android:checked="false"
+            android:title="@string/nav_item_myprofile" />
+
+
+        <item
+            android:id="@+id/myservicerequest"
+            android:checked="false"
+            android:title="@string/nav_item_myservice_request" />
+
+        <item
+            android:id="@+id/notifications"
+            android:checked="false"
+            android:title="@string/nav_item_notification" />
+    </group>
+
+    <group
+        android:id="@+id/menu_middle"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/addmyservice"
+            android:checked="false"
+            android:title="@string/nav_item_addmy_service" />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/aboutserveapp"
+            android:checked="false"
+            android:title="@string/nav_item_about_serveapp" />
+        <item
+            android:id="@+id/faq"
+            android:checked="false"
+            android:title="@string/nav_item_faq"/>
+        <item
+            android:id="@+id/share"
+            android:checked="false"
+            android:title="@string/nav_item_share_serveapp" />
+        <item
+            android:id="@+id/support"
+            android:checked="false"
+            android:title="@string/nav_item_support" />
+
+    </group>
+</menu>
