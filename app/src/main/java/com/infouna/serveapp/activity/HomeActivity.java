@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 
+import android.app.Notification;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.fragments.AboutServeApp;
+import com.infouna.serveapp.fragments.AddMyServe;
+import com.infouna.serveapp.fragments.FAQ;
+import com.infouna.serveapp.fragments.MyServiceRequest;
+import com.infouna.serveapp.fragments.Notifications;
+import com.infouna.serveapp.fragments.ShareServeApp;
+import com.infouna.serveapp.fragments.Support;
 import com.infouna.serveapp.fragments.UserProfile;
 
 public class HomeActivity extends AppCompatActivity {
@@ -52,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
 
 
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
+                    //Replacing the main content with ContentFragment Which is our home View;
                     case R.id.home:
                         Toast.makeText(getApplicationContext(), "home Selected", Toast.LENGTH_SHORT).show();
                         return true;
@@ -60,33 +68,53 @@ public class HomeActivity extends AppCompatActivity {
                     // For rest of the options we just show a toast on click
 
                     case R.id.myprofile:
-                        Toast.makeText(getApplicationContext(), "user profile Selected", Toast.LENGTH_SHORT).show();
-                        UserProfile fragment = new UserProfile();
-                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, fragment);
-                        fragmentTransaction.commit();
+                        UserProfile userProfilefragment = new UserProfile();
+                        android.support.v4.app.FragmentTransaction userProfilefragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        userProfilefragmentTransaction.replace(R.id.frame, userProfilefragment);
+                        userProfilefragmentTransaction.commit();
 
                         return true;
                     case R.id.myservicerequest:
-                        Toast.makeText(getApplicationContext(), "Send Selected", Toast.LENGTH_SHORT).show();
+                        MyServiceRequest myServiceRequestfragment = new  MyServiceRequest();
+                        android.support.v4.app.FragmentTransaction myServiceRequestfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        myServiceRequestfragmentTransaction.replace(R.id.frame, myServiceRequestfragment);
+                        myServiceRequestfragmentTransaction.commit();
                         return true;
                     case R.id.notifications:
-                        Toast.makeText(getApplicationContext(), "Drafts Selected", Toast.LENGTH_SHORT).show();
+                        Notifications notificationsFragment = new Notifications();
+                        android.support.v4.app.FragmentTransaction notificationfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        notificationfragmentTransaction.replace(R.id.frame, notificationsFragment);
+                        notificationfragmentTransaction.commit();
                         return true;
                     case R.id.addmyservice:
-                        Toast.makeText(getApplicationContext(), "All Mail Selected", Toast.LENGTH_SHORT).show();
+                        AddMyServe addMyServeFragment = new AddMyServe();
+                        android.support.v4.app.FragmentTransaction addMyServefragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        addMyServefragmentTransaction.replace(R.id.frame, addMyServeFragment);
+                        addMyServefragmentTransaction.commit();
                         return true;
                     case R.id.aboutserveapp:
-                        Toast.makeText(getApplicationContext(), "Trash Selected", Toast.LENGTH_SHORT).show();
+                        AboutServeApp aboutServeAppFragment = new AboutServeApp();
+                        android.support.v4.app.FragmentTransaction aboutServeAppfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        aboutServeAppfragmentTransaction.replace(R.id.frame, aboutServeAppFragment);
+                        aboutServeAppfragmentTransaction.commit();
                         return true;
                     case R.id.faq:
-                        Toast.makeText(getApplicationContext(), "Spam Selected", Toast.LENGTH_SHORT).show();
+                        FAQ faqFragment = new FAQ();
+                        android.support.v4.app.FragmentTransaction faqfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        faqfragmentTransaction.replace(R.id.frame, faqFragment);
+                        faqfragmentTransaction.commit();
                         return true;
                     case R.id.share:
-                        Toast.makeText(getApplicationContext(), "Spam Selected", Toast.LENGTH_SHORT).show();
+                        ShareServeApp shareServeAppFragment = new ShareServeApp();
+                        android.support.v4.app.FragmentTransaction shareServeAppfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        shareServeAppfragmentTransaction.replace(R.id.frame, shareServeAppFragment);
+                        shareServeAppfragmentTransaction.commit();
                         return true;
                     case R.id.support:
-                        Toast.makeText(getApplicationContext(), "Spam Selected", Toast.LENGTH_SHORT).show();
+                        Support supportFragment = new Support();
+                        android.support.v4.app.FragmentTransaction supportfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        supportfragmentTransaction.replace(R.id.frame, supportFragment);
+                        supportfragmentTransaction.commit();
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();

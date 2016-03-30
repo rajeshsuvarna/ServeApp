@@ -29,7 +29,7 @@
 
     <group
         android:id="@+id/menu_middle"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/addmyservice"
             android:checked="false"
@@ -39,7 +39,7 @@
 
     <group
         android:id="@+id/menu_bottom"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/aboutserveapp"

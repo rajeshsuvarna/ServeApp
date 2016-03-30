@@ -112,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
         _loginButton.setEnabled(true);
     }
 
@@ -124,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (phone.isEmpty() || phone.length() < 10 || phone.length() > 10) {
-            input_phone.setError("Please enter valid phone number");
+            input_phone.setError("Number not valid");
             valid = false;
         } else {
             input_phone.setError(null);

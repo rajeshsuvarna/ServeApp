@@ -110,29 +110,36 @@ public class UserRegistration extends AppCompatActivity{
         String email = _emailText.getText().toString();
         String phone = _phoneNumber.getText().toString();
 
-        if (fname.isEmpty() || fname.length() < 3) {
-            _fnameText.setError("Must be minimum 3 characters");
+        if (fname.isEmpty()) {
+            _fnameText.setError("Oops forgot your first name");
             valid = false;
-        } else {
+        } else if(fname.length() < 3) {
+            _fnameText.setError("Oh..very short name");
+            valid = false;
+        }
+        else
+        {
             _fnameText.setError(null);
         }
 
-        if (lname.isEmpty() || lname.length() < 3) {
-            _lnameText.setError("Must be minimum 3 characters");
+        if (lname.isEmpty()) {
+            _lnameText.setError("Oops forgot your surname");
             valid = false;
-        } else {
+        }
+        else
+        {
             _lnameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Please enter valid e-mail address");
+            _emailText.setError("Email address not valid");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (phone.isEmpty() || phone.length() < 10 || phone.length() > 10) {
-            _phoneNumber.setError("Please enter valid phone number");
+            _phoneNumber.setError("Number not valid");
             valid = false;
         } else {
             _phoneNumber.setError(null);
