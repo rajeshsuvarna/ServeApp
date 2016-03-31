@@ -1,8 +1,14 @@
 package com.infouna.serveapp.activity;
 
 
+import android.app.AlertDialog;
 import android.app.Notification;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    int ishomeopen = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,59 +69,74 @@ public class HomeActivity extends AppCompatActivity {
 
                     //Replacing the main content with ContentFragment Which is our home View;
                     case R.id.home:
-                        Toast.makeText(getApplicationContext(), "home Selected", Toast.LENGTH_SHORT).show();
-                        return true;
+                        openhome();
 
                     // For rest of the options we just show a toast on click
 
                     case R.id.myprofile:
+                        ishomeopen = 0;
                         UserProfile userProfilefragment = new UserProfile();
                         android.support.v4.app.FragmentTransaction userProfilefragmentTransaction = getSupportFragmentManager().beginTransaction();
                         userProfilefragmentTransaction.replace(R.id.frame, userProfilefragment);
                         userProfilefragmentTransaction.commit();
-
+                        setTitle("My Profile");
                         return true;
                     case R.id.myservicerequest:
+                        ishomeopen = 0;
                         MyServiceRequest myServiceRequestfragment = new  MyServiceRequest();
                         android.support.v4.app.FragmentTransaction myServiceRequestfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         myServiceRequestfragmentTransaction.replace(R.id.frame, myServiceRequestfragment);
                         myServiceRequestfragmentTransaction.commit();
+                        setTitle("My Service Request");
                         return true;
                     case R.id.notifications:
+                        ishomeopen = 0;
                         Notifications notificationsFragment = new Notifications();
                         android.support.v4.app.FragmentTransaction notificationfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         notificationfragmentTransaction.replace(R.id.frame, notificationsFragment);
                         notificationfragmentTransaction.commit();
+                        setTitle("Notifications");
                         return true;
                     case R.id.addmyservice:
+                        ishomeopen = 0;
                         AddMyServe addMyServeFragment = new AddMyServe();
                         android.support.v4.app.FragmentTransaction addMyServefragmentTransaction = getSupportFragmentManager().beginTransaction();
                         addMyServefragmentTransaction.replace(R.id.frame, addMyServeFragment);
                         addMyServefragmentTransaction.commit();
+                        setTitle("Add My Service");
                         return true;
                     case R.id.aboutserveapp:
+                        ishomeopen = 0;
                         AboutServeApp aboutServeAppFragment = new AboutServeApp();
                         android.support.v4.app.FragmentTransaction aboutServeAppfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         aboutServeAppfragmentTransaction.replace(R.id.frame, aboutServeAppFragment);
                         aboutServeAppfragmentTransaction.commit();
+                        setTitle("About Serve App");
                         return true;
                     case R.id.faq:
+                        ishomeopen = 0;
                         FAQ faqFragment = new FAQ();
                         android.support.v4.app.FragmentTransaction faqfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         faqfragmentTransaction.replace(R.id.frame, faqFragment);
                         faqfragmentTransaction.commit();
+                        setTitle("FAQ");
                         return true;
                     case R.id.share:
-                        ShareServeApp shareServeAppFragment = new ShareServeApp();
-                        android.support.v4.app.FragmentTransaction shareServeAppfragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        shareServeAppfragmentTransaction.replace(R.id.frame, shareServeAppFragment);
-                        shareServeAppfragmentTransaction.commit();
+                        ishomeopen = 0;
+                        String message = "Text I want to share.";
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        share.setType("text/plain");
+                        share.putExtra(Intent.EXTRA_TEXT, message);
+                        startActivity(Intent.createChooser(share, "Share Via"));
+                        setTitle("Serve App");
                         return true;
                     case R.id.support:
+                        ishomeopen = 0;
                         Support supportFragment = new Support();
                         android.support.v4.app.FragmentTransaction supportfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         supportfragmentTransaction.replace(R.id.frame, supportFragment);
                         supportfragmentTransaction.commit();
+                        setTitle("Support");
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
@@ -148,6 +170,54 @@ public class HomeActivity extends AppCompatActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
+    }
+    public void onBackPressed()
+    {
+
+        if (ishomeopen != 1)
+        {
+            openhome();
+        }
+        else
+        {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
+            drawer.closeDrawer(GravityCompat.START);
+            closeExit();
+        }
+    }
+
+
+    public void closeExit()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Exit Application");
+        alertDialogBuilder.setCancelable(false).setNegativeButton("No", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                dialog.cancel();
+            }
+        }).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                AppExit();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    public void AppExit()
+    {
+        finish();
+    }
+
+    public void openhome()
+    {
+        ishomeopen=1;
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        startActivity(i);
+        setTitle("Serve App");
     }
 
     @Override

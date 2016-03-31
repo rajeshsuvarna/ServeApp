@@ -4,6 +4,7 @@ package com.infouna.serveapp.activity;
  * Created by MAHE on 3/9/2016.
  */
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -48,8 +49,8 @@ public class UserRegistration extends AppCompatActivity{
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                finish();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -64,8 +65,7 @@ public class UserRegistration extends AppCompatActivity{
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(UserRegistration.this,
-                R.style.MyMaterialTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(UserRegistration.this,R.style.MyMaterialTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
