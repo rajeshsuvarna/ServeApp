@@ -22,7 +22,7 @@ public class UserProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_profile,container,false);
 
-
+        Button bt = (Button) v.findViewById(R.id.button_edit_my_profile);
 
 
         return v;
