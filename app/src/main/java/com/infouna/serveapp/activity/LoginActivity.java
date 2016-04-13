@@ -3,6 +3,7 @@ package com.infouna.serveapp.activity;
 /**
  * Created by MAHE on 3/8/2016.
  */
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +25,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @Bind(R.id.input_phone) EditText input_phone;
-    @Bind(R.id.btn_login) Button _loginButton;
-    @Bind(R.id.btn_register) Button _signupLink;
+    @Bind(R.id.input_phone)
+    EditText input_phone;
+    @Bind(R.id.btn_login)
+    Button _loginButton;
+    @Bind(R.id.btn_register)
+    Button _signupLink;
 
 
     @Override
@@ -64,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,R.style.MyMaterialTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.MyMaterialTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
