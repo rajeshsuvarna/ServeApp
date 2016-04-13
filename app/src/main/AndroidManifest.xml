@@ -37,6 +37,7 @@
             android:name=".activity.ReportServiceActivity"
             android:label="@string/app_name" >
         </activity>
+
     </application>
 
 </manifest>
