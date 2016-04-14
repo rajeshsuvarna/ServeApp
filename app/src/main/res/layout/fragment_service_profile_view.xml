@@ -9,10 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:orientation="horizontal">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/self_shot"/>
+            android:background="@drawable/self_shot" />
 
     </LinearLayout>
 
@@ -38,65 +39,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:text="Your Service:"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:id="@+id/textview_your_service"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:text="Adam"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:text="Sub Service:"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5">
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Your Service:"
+            android:textColor="@color/textColorPrimary" />
 
-            <TextView
-                android:id="@+id/textview_sub_service"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:text="Hansen"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textview_your_service"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Adam"
+            android:textColor="@color/textColorPrimary" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -104,34 +63,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Sub Service:"
+            android:textColor="@color/textColorPrimary" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="7dp"
-                android:text="Service Description:"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textview_sub_service"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Hansen"
+            android:textColor="@color/textColorPrimary" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:id="@+id/textview_service_desc"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="7dp"
-                android:text="xyz@gmail.com"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -139,107 +87,99 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="7dp"
-                android:text="Minimum Service Price:"
-                android:textColor="@color/textColorPrimary" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Service Description:"
+            android:textColor="@color/textColorPrimary" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:id="@+id/textview_min_service_price"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="7dp"
-                android:text="1234567890"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textview_service_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="xyz@gmail.com"
+            android:textColor="@color/textColorPrimary" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+        <TextView
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="7dp"
-                android:text="Address:"
-                android:textColor="@color/textColorPrimary" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Minimum Service Price:"
+            android:textColor="@color/textColorPrimary" />
 
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textview_min_service_price"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="1234567890"
+            android:textColor="@color/textColorPrimary" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:id="@+id/textview_address"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="7dp"
-                android:text="3200 Jail Drive Culver City, CA 90232"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="7dp"
-                android:text="Your Website:"
-                android:textColor="@color/textColorPrimary" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Address:"
+            android:textColor="@color/textColorPrimary" />
 
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+        <TextView
+            android:id="@+id/textview_address"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="3200 Jail Drive Culver City, CA 90232"
+            android:textColor="@color/textColorPrimary" />
 
-            <TextView
-                android:id="@+id/textview_your_website"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="7dp"
-                android:text="www.infouna.com"
-                android:textColor="@color/textColorPrimary" />
-        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="Your Website:"
+            android:textColor="@color/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/textview_your_website"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="7dp"
+            android:text="www.infouna.com"
+            android:textColor="@color/textColorPrimary" />
 
     </LinearLayout>
 
@@ -257,7 +197,7 @@
             android:layout_height="50dp"
             android:background="@color/light_grey"
             android:text="Edit My Service Profile"
-            android:textColor="@color/secondary_text"/>
+            android:textColor="@color/secondary_text" />
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.infouna.serveapp.activity;
 /**
  * Created by MAHE on 3/9/2016.
  */
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
@@ -19,19 +19,22 @@ import butterknife.Bind;
 
 import com.infouna.serveapp.R;
 
-
-import butterknife.Bind;
-import  butterknife.OnClick;
-public class UserRegistration extends AppCompatActivity{
+public class UserRegistration extends AppCompatActivity {
 
     private static final String TAG = "UserRegistration";
 
-    @Bind(R.id.input_fname) EditText _fnameText;
-    @Bind(R.id.input_lname) EditText _lnameText;
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_reg_phone) EditText _phoneNumber;
-    @Bind(R.id.btn_reg) Button _signupButton;
-    @Bind(R.id.btn_loginAcc) Button _loginLink;
+    @Bind(R.id.input_fname)
+    EditText _fnameText;
+    @Bind(R.id.input_lname)
+    EditText _lnameText;
+    @Bind(R.id.input_email)
+    EditText _emailText;
+    @Bind(R.id.input_reg_phone)
+    EditText _phoneNumber;
+    @Bind(R.id.btn_reg)
+    Button _signupButton;
+    @Bind(R.id.btn_loginAcc)
+    Button _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class UserRegistration extends AppCompatActivity{
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(UserRegistration.this,R.style.MyMaterialTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(UserRegistration.this, R.style.MyMaterialTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
@@ -113,21 +116,17 @@ public class UserRegistration extends AppCompatActivity{
         if (fname.isEmpty()) {
             _fnameText.setError("Oops forgot your first name");
             valid = false;
-        } else if(fname.length() < 3) {
+        } else if (fname.length() < 3) {
             _fnameText.setError("Oh..very short name");
             valid = false;
-        }
-        else
-        {
+        } else {
             _fnameText.setError(null);
         }
 
         if (lname.isEmpty()) {
             _lnameText.setError("Oops forgot your surname");
             valid = false;
-        }
-        else
-        {
+        } else {
             _lnameText.setError(null);
         }
 
@@ -147,6 +146,5 @@ public class UserRegistration extends AppCompatActivity{
 
         return valid;
     }
-
 
 }
