@@ -138,24 +138,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
-        <TextView
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:padding="7dp"
-            android:text="Address:"
-            android:textColor="@color/textColorPrimary" />
+            android:layout_weight="0.5">
 
 
-        <TextView
-            android:id="@+id/textview_address"
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="7dp"
+                android:text="Address:"
+                android:textColor="@color/textColorPrimary" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:padding="7dp"
-            android:text="3200 Jail Drive Culver City, CA 90232"
-            android:textColor="@color/textColorPrimary" />
+            android:layout_weight="0.5">
+
+
+            <TextView
+                android:id="@+id/textview_address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="7dp"
+                android:text="3200 Jail Drive Culver City, CA 90232"
+                android:textColor="@color/textColorPrimary" />
+        </RelativeLayout>
 
     </LinearLayout>
 

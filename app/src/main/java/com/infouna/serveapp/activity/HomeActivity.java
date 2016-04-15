@@ -2,12 +2,9 @@ package com.infouna.serveapp.activity;
 
 
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,7 +21,6 @@ import com.infouna.serveapp.fragments.AddMyServe;
 import com.infouna.serveapp.fragments.FAQ;
 import com.infouna.serveapp.fragments.MyServiceRequest;
 import com.infouna.serveapp.fragments.Notifications;
-import com.infouna.serveapp.fragments.ShareServeApp;
 import com.infouna.serveapp.fragments.Support;
 import com.infouna.serveapp.fragments.UserProfile;
 

@@ -7,7 +7,7 @@ public class NotificationDataObject {
     private String mText1;
     private String mText2;
 
-    NotificationDataObject (String text1, String text2){
+    NotificationDataObject(String text1, String text2) {
         mText1 = text1;
         mText2 = text2;
     }
