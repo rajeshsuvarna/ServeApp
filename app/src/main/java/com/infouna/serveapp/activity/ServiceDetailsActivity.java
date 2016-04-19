@@ -8,7 +8,7 @@ import com.infouna.serveapp.R;
 /**
  * Created by Darshan on 13-04-2016.
  */
-public class ServiceDetails extends Activity {
+public class ServiceDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

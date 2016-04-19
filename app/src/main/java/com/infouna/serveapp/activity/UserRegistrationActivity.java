@@ -19,7 +19,7 @@ import butterknife.Bind;
 
 import com.infouna.serveapp.R;
 
-public class UserRegistration extends AppCompatActivity {
+public class UserRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "UserRegistration";
 
@@ -68,7 +68,7 @@ public class UserRegistration extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(UserRegistration.this, R.style.MyMaterialTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(UserRegistrationActivity.this, R.style.MyMaterialTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
