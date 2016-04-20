@@ -1,15 +1,23 @@
 <!-- fragment_about_serve_App.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/edit_name"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:layout_gravity="center" android:orientation="vertical"  >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/about_us"
-        android:text="ServeApp is your one stop destination for all lifestyle services. We help you hire local professionals to get things done that matter in your life. ServeApp helps you find the right service professionals for activities important to you. Whether you are looking to decorate your home, get candid pictures of your wedding, plan your kid's birthday or get healthier, we are sure short destination for your service needs."
+    <LinearLayout
+        android:id="@+id/edit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textSize="15sp"/>
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="ServeApp is your one stop destination for all lifestyle services. We help you hire local professionals to get things done that matter in your life. ServeApp helps you find the right service professionals for activities important to you. Whether you are looking to decorate your home, get candid pictures of your wedding, plan your kid's birthday or get healthier, we are sure short destination for your service needs."
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</ScrollView>

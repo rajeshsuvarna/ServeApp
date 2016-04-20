@@ -8,6 +8,7 @@
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
     android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     app:cardCornerRadius="1dp"
     app:cardElevation="2dp"
     card_view:cardPreventCornerOverlap="false"
