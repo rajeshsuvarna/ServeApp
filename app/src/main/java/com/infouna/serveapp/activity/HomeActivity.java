@@ -14,13 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.fragments.AboutServeApp;
 import com.infouna.serveapp.fragments.AddMyService;
 import com.infouna.serveapp.fragments.FAQ;
+import com.infouna.serveapp.fragments.HomeFragment;
 import com.infouna.serveapp.fragments.MyServiceRequest;
 import com.infouna.serveapp.fragments.Notifications;
 import com.infouna.serveapp.fragments.Support;
@@ -34,8 +33,6 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     int ishomeopen = 1;
 
-    ImageButton jheaderImage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +41,9 @@ public class HomeActivity extends AppCompatActivity {
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        home();
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-
-        //initiliazing header imagebutton
-        jheaderImage = (ImageButton) findViewById(R.id.headerimage);
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -72,9 +66,9 @@ public class HomeActivity extends AppCompatActivity {
 
                     //Replacing the main content with ContentFragment Which is our home View;
                     case R.id.home:
-                        openhome();
-
-                        // For rest of the options we just show a toast on click
+                        ishomeopen = 1;
+                       home();
+                        return true;
 
                     case R.id.myprofile:
                         ishomeopen = 0;
@@ -86,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.myservicerequest:
                         ishomeopen = 0;
-                        MyServiceRequest myServiceRequestfragment = new MyServiceRequest();
+                        MyServiceRequest myServiceRequestfragment = new  MyServiceRequest();
                         android.support.v4.app.FragmentTransaction myServiceRequestfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         myServiceRequestfragmentTransaction.replace(R.id.frame, myServiceRequestfragment);
                         myServiceRequestfragmentTransaction.commit();
@@ -102,9 +96,9 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.addmyservice:
                         ishomeopen = 0;
-                        AddMyService addMyServiceFragment = new AddMyService();
+                        AddMyService addMyServeFragment = new AddMyService() ;
                         android.support.v4.app.FragmentTransaction addMyServefragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        addMyServefragmentTransaction.replace(R.id.frame, addMyServiceFragment);
+                        addMyServefragmentTransaction.replace(R.id.frame, addMyServeFragment);
                         addMyServefragmentTransaction.commit();
                         setTitle("Add My Service");
                         return true;
@@ -149,9 +143,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open, R.string.drawer_close){
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -174,53 +169,60 @@ public class HomeActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
     }
+    public void home()
+    {
+        HomeFragment homeFragment =  new HomeFragment();
+        android.support.v4.app.FragmentTransaction homeFragmentTransaction = getSupportFragmentManager().beginTransaction();
+        homeFragmentTransaction.replace(R.id.frame, homeFragment);
+        homeFragmentTransaction.commit();
+        setTitle("Home");
+    }
 
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
 
-        if (ishomeopen != 1) {
+        if (ishomeopen != 1)
+        {
             openhome();
-        } else {
+        }
+        else
+        {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
             drawer.closeDrawer(GravityCompat.START);
             closeExit();
         }
-
-        jheaderImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //Image header click code goes here
-
-                Toast.makeText(HomeActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
 
-    public void closeExit() {
+    public void closeExit()
+    {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Exit Application");
-        alertDialogBuilder.setCancelable(false).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        alertDialogBuilder.setCancelable(false).setNegativeButton("No", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
                 dialog.cancel();
             }
-        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        }).setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
                 AppExit();
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
-    public void AppExit() {
+    public void AppExit()
+    {
         finish();
     }
 
-    public void openhome() {
-        ishomeopen = 1;
-        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+    public void openhome()
+    {
+        ishomeopen=1;
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
         startActivity(i);
         setTitle("Serve App");
     }
