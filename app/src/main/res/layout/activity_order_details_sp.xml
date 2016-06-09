@@ -47,7 +47,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="Requested on "
+                        android:text="@string/activity_order_details_requested_on"
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp"
                         android:textStyle="italic" />
@@ -65,7 +65,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
-                        android:text="at "
+                        android:text="@string/at"
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp"
                         android:textStyle="italic" />
@@ -101,7 +101,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
-                        android:text="Status: "
+                        android:text="@string/status"
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp"
                         android:textStyle="italic" />
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
-                android:text="Service Request Details"
+                android:text="@string/activity_order_details_service_request_details"
                 android:textColor="@color/secondary_text"
                 android:textStyle="italic" />
 
@@ -299,6 +299,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_weight="0.5"
                     android:background="@color/light_grey"
                     android:text="Report Customer"
@@ -312,6 +313,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
                 android:layout_weight="0.5"
                 android:background="@color/green"
                 android:text="Accept Request"

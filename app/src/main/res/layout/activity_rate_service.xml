@@ -1,82 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="7dp"
-        android:textSize="12dp"
-        android:layout_marginLeft="8dp"
-        android:text="Rating the Service : Laundry Service"
-        android:textColor="@color/secondary_text"
-        android:textStyle="italic" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="7dp"
-        android:layout_marginLeft="8dp"
-        android:text="Rate and Review your Experience"
-        android:textColor="@color/textColorPrimary"
-         />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-        <ImageButton
-            android:id="@+id/star_1"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_star_deselected"
             android:layout_marginLeft="8dp"
-            android:onClick="onClick"/>
-        <ImageButton
-            android:id="@+id/star_2"
-            android:layout_width="wrap_content"
+            android:padding="7dp"
+            android:text="Rating the Service : Laundry Service"
+            android:textColor="@color/secondary_text"
+            android:textSize="12dp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_star_deselected"
             android:layout_marginLeft="8dp"
-            android:onClick="onClick"/>
-        <ImageButton
-            android:id="@+id/star_3"
-            android:layout_width="wrap_content"
+            android:padding="7dp"
+            android:text="Rate and Review your Experience"
+            android:textColor="@color/textColorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_star_deselected"
-            android:layout_marginLeft="8dp"
-            android:onClick="onClick"/>
-        <ImageButton
-            android:id="@+id/star_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_star_deselected"
-            android:layout_marginLeft="8dp"
-            android:onClick="onClick"/>
-        <ImageButton
-            android:id="@+id/star_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_star_deselected"
-            android:layout_marginLeft="8dp"
-            android:onClick="onClick"/>
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <ImageButton
+                android:id="@+id/star_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/ic_star_deselected"
+                android:onClick="onClick" />
+
+            <ImageButton
+                android:id="@+id/star_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/ic_star_deselected"
+                android:onClick="onClick" />
+
+            <ImageButton
+                android:id="@+id/star_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/ic_star_deselected"
+                android:onClick="onClick" />
+
+            <ImageButton
+                android:id="@+id/star_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/ic_star_deselected"
+                android:onClick="onClick" />
+
+            <ImageButton
+                android:id="@+id/star_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/ic_star_deselected"
+                android:onClick="onClick" />
         </LinearLayout>
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:hint="Write your experience"
-        android:textSize="15dp"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:text="SUBMIT MY REVIEW"
-        android:background="@color/green"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="Write your experience"
+            android:textSize="15dp" />
 
-</LinearLayout>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/green"
+            android:text="SUBMIT MY REVIEW"
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+    </LinearLayout>
+</ScrollView>

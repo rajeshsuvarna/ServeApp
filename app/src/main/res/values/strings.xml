@@ -55,4 +55,17 @@
     <string name="title_home">Home</string>
     <string name="user_name">User Name</string>
     <string name="user_location">User Location</string>
+
+    <!-- activity_favourites -->
+    <string name="activity_favourites_you_have">You have</string>
+    <string name="activity_favourites_notifications">Notifications</string>
+    <string name="activity_home_browse_by_category">Browse by Category</string>
+    <string name="activity_order_details_requested_on">Requested on</string>
+    <string name="at">at</string>
+    <string name="status">Status:</string>
+    <string name="activity_order_details_service_request_details">Service Request Details</string>
+    <!-- activity favourites end -->
+
+
+
 </resources>
