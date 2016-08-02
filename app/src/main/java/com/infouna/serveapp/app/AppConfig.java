@@ -2,11 +2,14 @@ package com.infouna.serveapp.app;
 
 public class AppConfig {
 
+    //key
+    public static String KEY = "fd0e5f476a68c73bba35f3ee71ff3b4a";
+
     // Server user login url
-    public static String URL_LOGIN = "serveapp.in/assets/api/login.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+    public static String URL_LOGIN = "serveapp.in/assets/api/login.php";
 
     // Server user register url
-    public static String URL_REGISTER = " ";
+    public static String URL_REGISTER = "http://serveapp.in/assets/api/registeruser.php";
 
     // Dashboard services / categories home page
     public static String URL_DASHBOARD_SERVICES_HOME = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=dashboard_services";
@@ -16,4 +19,8 @@ public class AppConfig {
 
     //Rate service
     public static String URL_RATE_SERVICE = "http://serveapp.in/assets/api/";
+
+    // Get User profile
+
+
 }
