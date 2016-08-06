@@ -6,10 +6,21 @@ import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.app.AppConfig;
+import com.infouna.serveapp.app.AppController;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 
@@ -19,6 +30,11 @@ import butterknife.Bind;
 public class RateServiceActivity extends Activity {
 
     ImageButton stars[] = new ImageButton[5];
+
+    int rate;
+
+    EditText jreview;
+    Button jsubmitreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +47,61 @@ public class RateServiceActivity extends Activity {
         stars[3] = (ImageButton) findViewById(R.id.star_4);
         stars[4] = (ImageButton) findViewById(R.id.star_5);
 
+        jreview = (EditText) findViewById(R.id.review);
+        jsubmitreview = (Button) findViewById(R.id.submit_review);
+
+        jsubmitreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                submitreview("566912", "12345", "carpentor", rate, jreview.getText().toString()); // passing parameters of url to function; refer URL documentation
+
+            }
+        });
+
     }
+
+    private void submitreview(String uid, String spid, String sname, int rating, String review) {
+
+        String tag_json_obj = "json_obj_req";
+
+        String url = AppConfig.URL_RATE_SERVICE;
+
+        url += "&userid=" + uid + "&spid=" + spid + "&s_name=" + sname + "&rating=" + String.valueOf(rating) + "&reviews=" + review;
+
+        if (review.length() != 0 && rate != 0) {
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                Toast.makeText(RateServiceActivity.this, response.toString(), Toast.LENGTH_SHORT).show(); // replace with assignment statement
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+
+// Adding request to request queue
+            AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+        } else {
+
+            Toast.makeText(RateServiceActivity.this, "Ratings and comments necessary", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
+
 
     public void onClick(View v) {
 
@@ -56,16 +126,15 @@ public class RateServiceActivity extends Activity {
 
     }
 
-    public void rater(int rating)
-    {
+    public void rater(int rating) {
+        rate = rating;
         clear_rating();
-        for(int i = 0;i < rating; i++)
+        for (int i = 0; i < rating; i++)
             stars[i].setImageResource(R.mipmap.ic_star_selected);
     }
 
-    public void clear_rating()
-    {
-        for(int i = 0;i < 5; i++)
+    public void clear_rating() {
+        for (int i = 0; i < 5; i++)
             stars[i].setImageResource(R.mipmap.ic_star_deselected);
     }
 
