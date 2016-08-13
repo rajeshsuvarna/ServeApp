@@ -2,7 +2,7 @@ package com.infouna.serveapp.app;
 
 public class AppConfig {
 
-    //key
+    //Key
     public static String KEY = "fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // Server user login url
@@ -20,7 +20,28 @@ public class AppConfig {
     //Rate service'
     public static String URL_RATE_SERVICE = "http://www.serveapp.in/assets/api/rate_service.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
-    // Get User profile
+    // URL_REPORT_SERVICE
     public static String URL_REPORT_SERVICE = "http://www.serveapp.com/assets/api/user_report.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    // URL_GET_SERVICE_PROFILE
+    public static String URL_GET_SERVICE_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_profile&userid=";
+
+    //Add my profile
+    public static String URL_ADD_SERVICE = "";
+
+    // Order details user
+    public static String ORDER_DETAILS_USER = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=order_details";
+
+    // Cancel service request
+    public static String CANCEL_SERVICE_REQUEST = "http://www.serveapp.com/assets/api/cancle_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    // Order listing service provider
+    public static String ORDER_LISTING_SP = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    // Accept service request
+    public static String ACCEPT_SERVICE_REQUEST = "http://serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    // decline request SP
+    public static String DECLINE_SERVICE_REQUEST_SP = "http://serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
 }

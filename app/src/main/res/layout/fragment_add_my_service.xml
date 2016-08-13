@@ -39,7 +39,6 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -147,7 +146,6 @@
                     android:hint="Your Website"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
-
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_reg"

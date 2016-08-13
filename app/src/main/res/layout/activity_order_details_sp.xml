@@ -35,7 +35,8 @@
                     android:paddingTop="10dp"
                     android:text="Arjun Sinha"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:id="@+id/user_name_ods" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -59,7 +60,8 @@
                         android:text="20, Feb 2016 "
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:id="@+id/userdate_ods" />
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -77,7 +79,8 @@
                         android:text="18:15 PM"
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:id="@+id/usertime_ods" />
 
                 </LinearLayout>
 
@@ -89,7 +92,7 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/check"
+                        android:id="@+id/icon_ods"
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_alignParentLeft="true"
@@ -112,7 +115,8 @@
                         android:padding="1dp"
                         android:text="Pending Approval"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:id="@+id/status_ods" />
 
                 </LinearLayout>
 
@@ -157,7 +161,7 @@
                 android:textColor="@color/textColorPrimary" />
 
             <TextView
-                android:id="@+id/max_budget"
+                android:id="@+id/max_budget_ods"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -191,7 +195,7 @@
                 android:layout_weight="0.5">
 
                 <TextView
-                    android:id="@+id/textview_sub_service"
+                    android:id="@+id/service_loc_ods"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
@@ -216,7 +220,7 @@
 
 
             <TextView
-                android:id="@+id/textview_service_desc"
+                android:id="@+id/date_ods"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -251,7 +255,7 @@
                 android:layout_weight="0.5">
 
                 <TextView
-                    android:id="@+id/textview_min_service_price"
+                    android:id="@+id/desc_ods"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
@@ -291,7 +295,8 @@
                     android:layout_weight="0.5"
                     android:background="@color/red"
                     android:text="Decline Request"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:id="@+id/btn_decline_ods" />
 
                 <Button
                     android:layout_width="fill_parent"
@@ -303,7 +308,8 @@
                     android:layout_weight="0.5"
                     android:background="@color/light_grey"
                     android:text="Report Customer"
-                    android:textColor="@color/textColorPrimary" />
+                    android:textColor="@color/textColorPrimary"
+                    android:id="@+id/btn_report_customer_ods" />
 
             </LinearLayout>
 
@@ -317,7 +323,8 @@
                 android:layout_weight="0.5"
                 android:background="@color/green"
                 android:text="Accept Request"
-                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:id="@+id/btn_accept_ods" />
 
         </LinearLayout>
 

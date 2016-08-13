@@ -29,6 +29,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/service_name_odu"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -53,6 +54,7 @@
                         android:textStyle="italic" />
 
                     <TextView
+                        android:id="@+id/service_date_odu"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
@@ -71,6 +73,7 @@
                         android:textStyle="italic" />
 
                     <TextView
+                        android:id="@+id/service_time_odu"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
@@ -89,7 +92,7 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/check"
+                        android:id="@+id/icon_odu"
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_alignParentLeft="true"
@@ -107,6 +110,7 @@
                         android:textStyle="italic" />
 
                     <TextView
+                        android:id="@+id/accepted_status"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:padding="1dp"
@@ -191,7 +195,7 @@
                 android:layout_weight="0.5">
 
                 <TextView
-                    android:id="@+id/textview_sub_service"
+                    android:id="@+id/textview_service_location"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
@@ -215,7 +219,7 @@
                 android:textColor="@color/textColorPrimary" />
 
             <TextView
-                android:id="@+id/textview_service_desc"
+                android:id="@+id/textview_service_date"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -249,7 +253,7 @@
                 android:layout_weight="0.5">
 
                 <TextView
-                    android:id="@+id/textview_min_service_price"
+                    android:id="@+id/textview_add_desc"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
@@ -275,6 +279,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/report"
                 android:layout_width="fill_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="5dp"
@@ -294,6 +299,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/cancel"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="5dp"
@@ -304,6 +310,7 @@
                     android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
                 <Button
+                    android:id="@+id/rate"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="5dp"
