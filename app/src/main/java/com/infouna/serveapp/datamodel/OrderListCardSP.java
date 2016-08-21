@@ -3,10 +3,9 @@ package com.infouna.serveapp.datamodel;
 /**
  * Created by Darshan on 11-08-2016.
  */
-public class OrderListCard {
+public class OrderListCardSP {
 
-    String sp_orders,
-            reqid,
+    public String reqid,
             spid,
             service_name,
             location,
@@ -14,9 +13,8 @@ public class OrderListCard {
             requested_date_time,
             accepted;
 
-    public OrderListCard(String sp_orders, String reqid, String spid, String service_name,
-                         String location, String username, String requested_date_time, String accepted) {
-        this.sp_orders = sp_orders;
+    public OrderListCardSP(String reqid, String spid, String service_name,
+                           String location, String username, String requested_date_time, String accepted) {
         this.reqid = reqid;
         this.spid = spid;
         this.service_name = service_name;

@@ -32,15 +32,15 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     public static final int HOME = 0;
-    public static final int SCORE = 1;
-    public static final int NEWS = 2;
+    public static final int ORDERLISTSP = 1;
+    public static final int ORDERLISTUSER = 2;
 
     public String tag_json_arry = "json_array_req";
     JsonObjectRequest jsonObjReq;
 
     public List<HomeCardData> data;
 
-    private int mDatasetTypes[] = {HOME, SCORE, NEWS, NEWS}; // change array names to different type of card
+    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER}; // change array names to different type of card
 
     RVAdapter adapter;
     RecyclerView recyclerView;
