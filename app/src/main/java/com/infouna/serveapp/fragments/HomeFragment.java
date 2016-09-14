@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     public String tag_json_arry = "json_array_req";
     JsonObjectRequest jsonObjReq;
 
-    public List<HomeCardData> data;
+    public List<HomeCardData> data,d;
 
     RVAdapter adapter;
     RecyclerView recyclerView;
