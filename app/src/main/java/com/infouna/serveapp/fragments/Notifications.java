@@ -30,6 +30,20 @@ public class Notifications extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_notifications,container,false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return v;
 
 

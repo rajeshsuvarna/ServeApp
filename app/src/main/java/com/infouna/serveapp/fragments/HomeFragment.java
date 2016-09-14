@@ -34,13 +34,14 @@ public class HomeFragment extends Fragment {
     public static final int HOME = 0;
     public static final int ORDERLISTSP = 1;
     public static final int ORDERLISTUSER = 2;
+    public static final int SERVICELIST = 3;
+
+    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST};
 
     public String tag_json_arry = "json_array_req";
     JsonObjectRequest jsonObjReq;
 
     public List<HomeCardData> data;
-
-    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER}; // change array names to different type of card
 
     RVAdapter adapter;
     RecyclerView recyclerView;
@@ -103,7 +104,6 @@ public class HomeFragment extends Fragment {
                     JSONObject jsonObject;
 
                     data.clear();
-
 
                     for (int i = 0; i < dash.length(); i++) {
 

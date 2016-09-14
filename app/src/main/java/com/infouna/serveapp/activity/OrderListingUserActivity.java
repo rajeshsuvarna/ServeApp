@@ -30,8 +30,7 @@ import java.util.List;
  * Created by Darshan on 15-04-2016.
  */
 
-public class OrderListingUserActivity extends Activity
-{
+public class OrderListingUserActivity extends Activity {
     RVAdapter adapter;
     RecyclerView recyclerView;
 
@@ -42,8 +41,9 @@ public class OrderListingUserActivity extends Activity
     public static final int HOME = 0;
     public static final int ORDERLISTSP = 1;
     public static final int ORDERLISTUSER = 2;
+    public static final int SERVICELIST = 3;
 
-    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER};
+    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST};
 
     TextView total_orders;
 
@@ -97,12 +97,11 @@ public class OrderListingUserActivity extends Activity
 
                     total_orders.setText(response.getString("total_orders"));
 
-                    if (response.getString("total_orders").equals("1")) {
+                    if (response.getString("result").equals("1")) {
 
                         JSONObject jsonObject;
 
                         data.clear();
-
 
                         for (int i = 0; i < dash.length(); i++) {
 
@@ -110,7 +109,7 @@ public class OrderListingUserActivity extends Activity
 
                             data.add(new OrderListCardUser(jsonObject.getString("request_id"),
                                     jsonObject.getString("service_name"), jsonObject.getString("location"),
-                                     jsonObject.getString("requested_date_time"), jsonObject.getString("accepted")));
+                                    jsonObject.getString("requested_date_time"), jsonObject.getString("accepted")));
                         }
                     }
                     adapter.notifyDataSetChanged();

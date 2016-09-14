@@ -22,6 +22,7 @@ import com.infouna.serveapp.app.AppController;
 import com.infouna.serveapp.datamodel.HomeCardData;
 import com.infouna.serveapp.datamodel.OrderListCardSP;
 import com.infouna.serveapp.datamodel.OrderListCardUser;
+import com.infouna.serveapp.datamodel.ServiceListCard;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,12 +35,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     List<HomeCardData> list = Collections.emptyList();
     List<OrderListCardSP> listODSP = Collections.emptyList();
     List<OrderListCardUser> listODSU = Collections.emptyList();
+    List<ServiceListCard> listService = Collections.emptyList();
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     private int mDataSetTypes;
 
-    public static final int HOMECARD = 0, ORDERSP = 1, ORDERU = 2;
+    public static final int HOMECARD = 0, ORDERSP = 1, ORDERU = 2, SERVICELIST = 3;
 
     public RVAdapter(List data, int mDatasetType) {
         if (mDatasetType == 0) {
@@ -48,6 +50,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.listODSP = (List<OrderListCardSP>) data;
         } else if (mDatasetType == 2) {
             this.listODSU = (List<OrderListCardUser>) data;
+        } else if (mDatasetType == 3) {
+            this.listService = (List<ServiceListCard>) data;
         }
         this.mDataSetTypes = mDatasetType;
     }
@@ -93,7 +97,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.status = (TextView) itemView.findViewById(R.id.orderlistingSP_status);
             this.status_icon = (ImageButton) itemView.findViewById(R.id.odsp_status_image);
         }
-
     }
 
     public class CardOrderListUser extends ViewHolder {
@@ -112,6 +115,27 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
+    public class CardServiceList extends ViewHolder {
+        CardView cv;
+        TextView servicename, review;
+        LinearLayout bgimage;
+        public ImageButton status_icon, favourite_icon, stars[] = new ImageButton[5];
+
+        public CardServiceList(View v) {
+            super(v);
+            this.servicename = (TextView) itemView.findViewById(R.id.SL_servicename);
+            this.review = (TextView) itemView.findViewById(R.id.SL_reviews);
+            this.cv = (CardView) itemView.findViewById(R.id.Service_List_cardView);
+            this.bgimage = (LinearLayout) itemView.findViewById(R.id.SL_backgroundimage);
+            this.favourite_icon = (ImageButton) itemView.findViewById(R.id.SL_favourite);
+            this.status_icon = (ImageButton) itemView.findViewById(R.id.SL_check);
+            this.stars[0] = (ImageButton) itemView.findViewById(R.id.SL_star_1);
+            this.stars[1] = (ImageButton) itemView.findViewById(R.id.SL_star_2);
+            this.stars[2] = (ImageButton) itemView.findViewById(R.id.SL_star_3);
+            this.stars[3] = (ImageButton) itemView.findViewById(R.id.SL_star_4);
+            this.stars[4] = (ImageButton) itemView.findViewById(R.id.SL_star_5);
+        }
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -127,7 +151,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         } else if (viewType == ORDERU) {
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.order_listing_user_card, viewGroup, false);
 
-            return new CardOrderListSP(v);
+            return new CardOrderListUser(v);
+        } else if (viewType == SERVICELIST) {
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.service_listing_card, viewGroup, false);
+
+            return new CardServiceList(v);
         }
         return null;
     }
@@ -166,6 +194,24 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
             } else if (String.valueOf(listODSU.get(position).accepted).equals("0")) {
                 holder.status.setText("Pending approval");
+                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+            }
+        } else if (viewHolder.getItemViewType() == SERVICELIST) {
+            CardServiceList holder = (CardServiceList) viewHolder;
+            holder.servicename.setText(String.valueOf(listService.get(position).service_name));
+            holder.review.setText(String.valueOf(listService.get(position).total_reviews) + "Reviews");
+
+            String urlThumbnail = listService.get(position).banner_picture;
+            if (!urlThumbnail.equals("")) {
+                loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
+            }
+
+            if (String.valueOf(listODSU.get(position).accepted).equals("1")) {
+
+                holder.status_icon.setImageResource(R.mipmap.ic_check);
+
+            } else if (String.valueOf(listODSU.get(position).accepted).equals("0")) {
+
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }
         }

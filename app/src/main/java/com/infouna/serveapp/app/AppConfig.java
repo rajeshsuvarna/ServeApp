@@ -24,24 +24,30 @@ public class AppConfig {
     public static String URL_REPORT_SERVICE = "http://www.serveapp.com/assets/api/user_report.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // URL_GET_SERVICE_PROFILE
-    public static String URL_GET_SERVICE_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_profile&userid=";
+    public static String URL_GET_SERVICE_PROFILE = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_profile&userid=";
 
     //Add my profile
     public static String URL_ADD_SERVICE = "";
 
     // Order details user
-    public static String ORDER_DETAILS_USER = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=order_details";
+    public static String ORDER_DETAILS_USER = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=order_details";
 
     // Cancel service request
     public static String CANCEL_SERVICE_REQUEST = "http://www.serveapp.com/assets/api/cancle_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // Order listing service provider
-    public static String ORDER_LISTING_SP = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a>&act=sp_orders&spid=";
+    public static String ORDER_LISTING_SP = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_orders&spid=";
 
     // Accept service request
-    public static String ACCEPT_SERVICE_REQUEST = "http://serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+    public static String ACCEPT_SERVICE_REQUEST = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // decline request SP
-    public static String DECLINE_SERVICE_REQUEST_SP = "http://serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+    public static String DECLINE_SERVICE_REQUEST_SP = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    //Service listing URL
+    public static String SERVICE_LISTING_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=search&keyword=";
+
+    //Check favourite service listing
+    public static String CHECK_FAVOURITE = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=check_user_favourites";
 
 }
