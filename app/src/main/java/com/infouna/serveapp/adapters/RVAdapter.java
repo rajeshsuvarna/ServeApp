@@ -20,6 +20,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppController;
 import com.infouna.serveapp.datamodel.HomeCardData;
+import com.infouna.serveapp.datamodel.NotificationCard;
 import com.infouna.serveapp.datamodel.OrderListCardSP;
 import com.infouna.serveapp.datamodel.OrderListCardUser;
 import com.infouna.serveapp.datamodel.ServiceListCard;
@@ -36,12 +37,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     List<OrderListCardSP> listODSP = Collections.emptyList();
     List<OrderListCardUser> listODSU = Collections.emptyList();
     List<ServiceListCard> listService = Collections.emptyList();
+    List<NotificationCard> listNotif = Collections.emptyList();
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     private int mDataSetTypes;
 
-    public static final int HOMECARD = 0, ORDERSP = 1, ORDERU = 2, SERVICELIST = 3;
+    public String type = "";
+
+    public static final int HOMECARD = 0, ORDERSP = 1, ORDERU = 2, SERVICELIST = 3, NOTIFICATION = 4;
 
     public RVAdapter(List data, int mDatasetType) {
         if (mDatasetType == 0) {
@@ -52,6 +56,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.listODSU = (List<OrderListCardUser>) data;
         } else if (mDatasetType == 3) {
             this.listService = (List<ServiceListCard>) data;
+        } else if (mDatasetType == 4) {
+            this.listNotif = (List<NotificationCard>) data;
         }
         this.mDataSetTypes = mDatasetType;
     }
@@ -137,6 +143,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
+    public class CardNotification extends ViewHolder {
+        CardView cv;
+        TextView sname, title, notif_status;
+        public ImageButton status_icon;
+
+        public CardNotification(View v) {
+            super(v);
+            this.sname = (TextView) itemView.findViewById(R.id.notif_text_sname);
+            this.title = (TextView) itemView.findViewById(R.id.notif_title);
+            this.notif_status = (TextView) itemView.findViewById(R.id.notif_status);
+            this.cv = (CardView) itemView.findViewById(R.id.cardViewNotification);
+            this.status_icon = (ImageButton) itemView.findViewById(R.id.notif_status_icon);
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v;
@@ -156,6 +177,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.service_listing_card, viewGroup, false);
 
             return new CardServiceList(v);
+        } else if (viewType == NOTIFICATION) {
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.notification_card, viewGroup, false);
+
+            return new CardNotification(v);
         }
         return null;
     }
@@ -200,6 +225,41 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             CardServiceList holder = (CardServiceList) viewHolder;
             holder.servicename.setText(String.valueOf(listService.get(position).service_name));
             holder.review.setText(String.valueOf(listService.get(position).total_reviews) + "Reviews");
+
+            String urlThumbnail = listService.get(position).banner_picture;
+            if (!urlThumbnail.equals("")) {
+                loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
+            }
+
+            if (String.valueOf(listODSU.get(position).accepted).equals("1")) {
+
+                holder.status_icon.setImageResource(R.mipmap.ic_check);
+
+            } else if (String.valueOf(listODSU.get(position).accepted).equals("0")) {
+
+                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+            }
+        } else if (viewHolder.getItemViewType() == NOTIFICATION) {
+            CardNotification holder = (CardNotification) viewHolder;
+            if (type.equals("user")) {
+                holder.sname.setText(String.valueOf(listNotif.get(position).user_service_name));
+                if (String.valueOf(listNotif.get(position).user_sp_accepted).equals("1")) {
+                    holder.title.setText("Service request accepted");
+                    holder.notif_status.setText("was accepted");
+                    holder.status_icon.setImageResource(R.mipmap.ic_check);
+                } else {
+                    holder.title.setText("Service request declined");
+                    holder.notif_status.setText("was declined");
+                    holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+                }
+
+            } else if (type.equals("sp")) {
+
+                holder.sname.setText(String.valueOf(listNotif.get(position).sp_service_name));
+
+                holder.title.setText("sp");
+                holder.notif_status.setText("sp");
+            }
 
             String urlThumbnail = listService.get(position).banner_picture;
             if (!urlThumbnail.equals("")) {

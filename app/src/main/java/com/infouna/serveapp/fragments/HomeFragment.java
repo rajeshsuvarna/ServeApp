@@ -1,5 +1,6 @@
 package com.infouna.serveapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.ServiceListingActivity;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -35,13 +37,14 @@ public class HomeFragment extends Fragment {
     public static final int ORDERLISTSP = 1;
     public static final int ORDERLISTUSER = 2;
     public static final int SERVICELIST = 3;
+    public static final int NOTIFICATION = 4;
 
-    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST};
+    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     public String tag_json_arry = "json_array_req";
     JsonObjectRequest jsonObjReq;
 
-    public List<HomeCardData> data,d;
+    public List<HomeCardData> data, d;
 
     RVAdapter adapter;
     RecyclerView recyclerView;
@@ -76,14 +79,19 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), ServiceListingActivity.class);
+                i.putExtra("servicename", data.get(position).servicename);
+                startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
 
-                Toast.makeText(getActivity(), "check", Toast.LENGTH_SHORT).show();
-
+                //  Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), ServiceListingActivity.class);
+                i.putExtra("servicename", data.get(position).servicename);
+                startActivity(i);
             }
         }));
 
@@ -118,13 +126,11 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
 
         });
 

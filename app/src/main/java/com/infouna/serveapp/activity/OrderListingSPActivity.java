@@ -45,8 +45,9 @@ public class OrderListingSPActivity extends Activity {
     public static final int ORDERLISTSP = 1;
     public static final int ORDERLISTUSER = 2;
     public static final int SERVICELIST = 3;
+    public static final int NOTIFICATION = 4;
 
-    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST};
+    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     TextView total_orders;
 

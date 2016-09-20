@@ -21,7 +21,7 @@ import com.infouna.serveapp.fragments.AddMyService;
 import com.infouna.serveapp.fragments.FAQ;
 import com.infouna.serveapp.fragments.HomeFragment;
 import com.infouna.serveapp.fragments.MyServiceRequest;
-import com.infouna.serveapp.fragments.Notifications;
+import com.infouna.serveapp.fragments.NotificationsFragment;
 import com.infouna.serveapp.fragments.Support;
 import com.infouna.serveapp.fragments.UserProfile;
 
@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.notifications:
                         ishomeopen = 0;
-                        Notifications notificationsFragment = new Notifications();
+                        NotificationsFragment notificationsFragment = new NotificationsFragment();
                         android.support.v4.app.FragmentTransaction notificationfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         notificationfragmentTransaction.replace(R.id.frame, notificationsFragment);
                         notificationfragmentTransaction.commit();

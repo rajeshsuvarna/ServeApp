@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -44,8 +45,9 @@ public class ServiceListingActivity extends Activity {
     public static final int ORDERLISTSP = 1;
     public static final int ORDERLISTUSER = 2;
     public static final int SERVICELIST = 3;
+    public static final int NOTIFICATION = 4;
 
-    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST};
+    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     TextView total_orders;
 
@@ -55,12 +57,14 @@ public class ServiceListingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_listing);
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
 
         total_orders = (TextView) findViewById(R.id.torders_ODU);
 
-        data = fill_with_data(AppConfig.SERVICE_LISTING_URL, "452408"); // pass spid as 2nd parameter here
+        data = fill_with_data(AppConfig.SERVICE_LISTING_URL, b.getString("servicename")); // pass servicename/keyword as 2nd parameter here
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewODU);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewServiceListing);
 
         adapter = new RVAdapter(data, mDatasetTypes[3]); //array position is [3] coz card card type is SERVICELIST
 
@@ -86,11 +90,11 @@ public class ServiceListingActivity extends Activity {
         }));
     }
 
-    public List<ServiceListCard> fill_with_data(String url, String spid) {
+    public List<ServiceListCard> fill_with_data(String url, String keyword) {
 
         data = new ArrayList<>();
 
-        url += "&spid=" + spid;
+        url += "keyword";
 
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -111,7 +115,6 @@ public class ServiceListingActivity extends Activity {
                         for (int i = 0; i < dash.length(); i++) {
 
                             jsonObject = dash.getJSONObject(i);
-
 
                             fav = check_favourite(jsonObject.getString("userid"), jsonObject.getString("service_name"), AppConfig.CHECK_FAVOURITE);
 
