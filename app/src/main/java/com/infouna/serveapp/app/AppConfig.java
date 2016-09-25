@@ -9,7 +9,10 @@ public class AppConfig {
     public static String URL_LOGIN = "http://www.serveapp.in/assets/api/login.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobile=";
 
     // Server user register url
-    public static String URL_REGISTER = "http://serveapp.in/assets/api/registeruser.php";
+    public static String URL_REGISTER = "http://www.serveapp.in/assets/api/registeruser.php";
+
+    // Server user register url
+    public static String URL_CHECK_NUMBER = "http://www.serveapp.in/assets/api/checknumber.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobileno=";
 
     // Dashboard services / categories home page
     public static String URL_DASHBOARD_SERVICES_HOME = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=dashboard_services";

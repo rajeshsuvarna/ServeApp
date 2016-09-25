@@ -18,24 +18,24 @@ import butterknife.ButterKnife;
 import butterknife.Bind;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
 
+import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "UserRegistration";
 
-    String fname, lname, email, phone, propic, idkey;
+    JsonObjectRequest JsonObjectRequest;
 
     @Bind(R.id.input_fname)
     EditText _fnameText;
@@ -87,12 +87,46 @@ public class UserRegistrationActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String fname = _fnameText.getText().toString();
-        String lname = _lnameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String phone = _phoneNumber.getText().toString();
+
 
         // TODO: Implement your own signup logic here.
+        Toast.makeText(getApplicationContext(), "Respnse", Toast.LENGTH_LONG);
+        JsonObjectRequest = new JsonObjectRequest(Request.Method.POST, AppConfig.URL_CHECK_NUMBER, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        // Result handling
+                        Toast.makeText(getApplicationContext(), "Respnse" + response.toString(), Toast.LENGTH_LONG);
+                        String result= response.toString();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Error handling
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+
+            }
+        });
+      /*
+        if(result == 1)
+        {
+                //user present
+
+        }
+        else
+        {  //register user
+        }
+
+
+        */
+
+// Add the request to the queue
+        // Volley.newRequestQueue(this).add(stringRequest);
+        AppController.getInstance().addToRequestQueue(JsonObjectRequest);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -110,7 +144,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        finish();
+
     }
 
     public void onSignupFailed() {
@@ -122,10 +156,10 @@ public class UserRegistrationActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        fname = _fnameText.getText().toString();
-        lname = _lnameText.getText().toString();
-        email = _emailText.getText().toString();
-        phone = _phoneNumber.getText().toString();
+        String fname = _fnameText.getText().toString();
+        String lname = _lnameText.getText().toString();
+        String email = _emailText.getText().toString();
+        String phone = _phoneNumber.getText().toString();
 
         if (fname.isEmpty()) {
             _fnameText.setError("Oops forgot your first name");
@@ -156,51 +190,10 @@ public class UserRegistrationActivity extends AppCompatActivity {
             valid = false;
         } else {
             _phoneNumber.setError(null);
+
         }
 
         return valid;
-    }
-
-    public void register() {
-        // Tag used to cancel the request
-        String tag_json_obj = "json_obj_req";
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                AppConfig.URL_REGISTER, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("key", AppConfig.KEY);
-
-                params.put("f_name", fname);
-                params.put("l_name", lname);
-                params.put("email", email);
-                params.put("mob", phone);
-                params.put("pro_pic", "pp");
-                params.put("idkey", "ik");
-
-                return params;
-            }
-
-        };
-
-// Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
 }
