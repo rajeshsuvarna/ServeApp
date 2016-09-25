@@ -6,7 +6,7 @@ public class AppConfig {
     public static String KEY = "fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // Server user login url
-    public static String URL_LOGIN = "serveapp.in/assets/api/login.php";
+    public static String URL_LOGIN = "http://www.serveapp.in/assets/api/login.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobile=";
 
     // Server user register url
     public static String URL_REGISTER = "http://serveapp.in/assets/api/registeruser.php";

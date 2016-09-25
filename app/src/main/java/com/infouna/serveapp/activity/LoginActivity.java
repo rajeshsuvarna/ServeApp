@@ -18,11 +18,28 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.app.AppConfig;
+import com.infouna.serveapp.app.AppController;
+import com.infouna.serveapp.datamodel.OrderListCardSP;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+
+
+    JsonObjectRequest jsonObjReq;
+
+
+    public String url = AppConfig.URL_LOGIN, num = "";
 
     @Bind(R.id.input_phone)
     EditText input_phone;
@@ -38,11 +55,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 login();
+                num = input_phone.getText().toString();
             }
         });
 
@@ -57,81 +76,41 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login() {
-        Log.d(TAG, "Login");
 
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
+    public void login() {
 
-        _loginButton.setEnabled(false);
+        url += num;
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.MyMaterialTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
 
-        String phone = input_phone.getText().toString();
+                  //  JSONObject dash = response.getJSONObject("user_details");
+                    Toast.makeText(LoginActivity.this, response.getString("result"), Toast.LENGTH_SHORT).show();
 
-        // TODO: Implement your own authentication logic here.
+                  //  if (response.getString("result").equals("1")) {
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-    }
+//                        Toast.makeText(LoginActivity.this, dash.getString("userid"), Toast.LENGTH_SHORT).show();
+  //                  }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
+
+
     }
 
-    @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
 
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-        // Start the main activity
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(intent);
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-        _loginButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-
-        String phone = input_phone.getText().toString();
-
-
-        if (phone.isEmpty() || phone.length() < 10 || phone.length() > 10) {
-            input_phone.setError("Number not valid");
-            valid = false;
-        } else {
-            input_phone.setError(null);
-        }
-
-        return valid;
-    }
 }
