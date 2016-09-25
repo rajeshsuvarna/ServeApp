@@ -31,7 +31,9 @@ public class OrderDetailsSPActivity extends Activity {
     Button jbtnaccept, jbtncancel, jbtnreport;
     ImageView jstatusicon;
 
-    String accepted;
+    public String accepted, userid = "", spid = "", s_name = "";
+
+    public Bundle b;
 
     String accepted_request_id; // response from accept button click api call
 
@@ -39,6 +41,9 @@ public class OrderDetailsSPActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_sp);
+
+        Intent i = getIntent();
+        b = i.getExtras();
 
         jmax = (TextView) findViewById(R.id.max_budget_ods);
         jloc = (TextView) findViewById(R.id.service_loc_ods);
@@ -55,11 +60,12 @@ public class OrderDetailsSPActivity extends Activity {
 
         jstatusicon = (ImageView) findViewById(R.id.icon_ods);
 
+
         jbtnaccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                accept_request("", "", AppConfig.ACCEPT_SERVICE_REQUEST);
+                accept_request(userid, b.getString("reqid"), AppConfig.ACCEPT_SERVICE_REQUEST);
 
             }
         });
@@ -68,10 +74,10 @@ public class OrderDetailsSPActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(OrderDetailsSPActivity.this, ReportServiceActivity.class);
-                i.putExtra("userid", "");    // pass values here
-                i.putExtra("spid", "");      // pass values here
-                i.putExtra("reqid", "");
-                i.putExtra("s_name", "");
+                i.putExtra("userid", userid);    // pass values here
+                i.putExtra("spid", spid);      // pass values here
+                i.putExtra("reqid", b.getString("reqid"));
+                i.putExtra("s_name", s_name);
                 startActivity(i);
             }
         });
@@ -79,16 +85,17 @@ public class OrderDetailsSPActivity extends Activity {
         jbtncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decline_request("", "", AppConfig.DECLINE_SERVICE_REQUEST_SP); // userid, reqid, url
+                decline_request(userid, b.getString("reqid"), AppConfig.DECLINE_SERVICE_REQUEST_SP); // userid, reqid, url
             }
         });
 
-        load_order_details("", "", AppConfig.ORDER_LISTING_SP); // spid, reqid, url as params
+        load_order_details(b.getString("spid"), b.getString("reqid"), AppConfig.ORDER_DETAILS_SP); // spid, reqid, url as params
+
     }
 
-    private void load_order_details(String spid, String rid, String url) {
+    private void load_order_details(String sid, String rid, String url) {
 
-        url += "&spid=" + spid + "&reqid=" + rid;
+        url += "&spid=" + sid + "&reqid=" + rid;
 
         String tag_json_obj = "json_obj_req";
 
@@ -103,11 +110,15 @@ public class OrderDetailsSPActivity extends Activity {
 
                             JSONObject jsonObject = dash.getJSONObject(0);
 
+                            userid = jsonObject.getString("userid");
+                            spid = jsonObject.getString("spid");
+                            s_name = jsonObject.getString("service_name");
+
                             jmax.setText(jsonObject.getString("max_budget"));
                             jloc.setText(jsonObject.getString("location"));
                             jdate.setText(jsonObject.getString("reqested_date_time"));
                             jdesc.setText(jsonObject.getString("desc"));
-                            jsname.setText(jsonObject.getString("service_name"));
+                            jsname.setText(s_name);
                             jstatusdate.setText(jsonObject.getString("requested_date_time"));
                             jstatustime.setText(jsonObject.getString("requested_date_time"));
 

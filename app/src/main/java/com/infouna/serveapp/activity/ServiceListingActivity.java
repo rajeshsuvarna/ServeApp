@@ -79,13 +79,22 @@ public class ServiceListingActivity extends Activity {
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(ServiceListingActivity.this, recyclerView, new RVAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(ServiceListingActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
+                i.putExtra("servicename", data.get(position).service_name);
+                i.putExtra("fav", data.get(position).favourite);
+                i.putExtra("uid", data.get(position).userid);
+                i.putExtra("picture", data.get(position).banner_picture);
+                startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-
-                Toast.makeText(ServiceListingActivity.this, "check", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
+                i.putExtra("servicename", data.get(position).service_name);
+                i.putExtra("fav", data.get(position).favourite);
+                i.putExtra("uid", data.get(position).userid);
+                i.putExtra("picture", data.get(position).banner_picture);
+                startActivity(i);
             }
         }));
     }
@@ -94,7 +103,7 @@ public class ServiceListingActivity extends Activity {
 
         data = new ArrayList<>();
 
-        url += "keyword";
+        url += keyword;
 
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -146,14 +155,12 @@ public class ServiceListingActivity extends Activity {
 
     public String check_favourite(String uid, String sname, String URL) {
 
-
         URL += "&spid=" + uid + "&s_name=" + sname;
 
         jsonObjReqfav = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
 
                     if (response.getString("result").equals("1")) {
 
@@ -179,7 +186,6 @@ public class ServiceListingActivity extends Activity {
         });
 
         AppController.getInstance().addToRequestQueue(jsonObjReqfav);
-
 
         return result;
     }

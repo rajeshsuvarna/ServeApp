@@ -30,7 +30,7 @@ public class OrderDetailsUserActivity extends Activity {
     Button jbtnreport, jbtncancel, jbtnrate;
     ImageView jstatusicon;
 
-    String accepted;
+    String accepted, reqid = "", sname = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class OrderDetailsUserActivity extends Activity {
                 i.putExtra("userid", "");    // pass values here
                 i.putExtra("spid", "");      // pass values here
                 i.putExtra("reqid", "");
-                i.putExtra("s_name", "");
+                i.putExtra("s_name", sname);
                 startActivity(i);
             }
         });
@@ -77,7 +77,7 @@ public class OrderDetailsUserActivity extends Activity {
                 Intent i = new Intent(OrderDetailsUserActivity.this, RateServiceActivity.class);
                 i.putExtra("userid", "");    // pass values here
                 i.putExtra("spid", "");      // pass values here
-                i.putExtra("s_name", "");
+                i.putExtra("s_name", sname);
                 startActivity(i);
             }
         });
@@ -110,11 +110,14 @@ public class OrderDetailsUserActivity extends Activity {
 
                             JSONObject jsonObject = dash.getJSONObject(0);
 
+                            sname = jsonObject.getString("service_name");
+                            reqid = jsonObject.getString("reqid");
+
                             jmax.setText(jsonObject.getString("max_budget"));
                             jloc.setText(jsonObject.getString("location"));
                             jdate.setText(jsonObject.getString("reqested_date_time"));
                             jdesc.setText(jsonObject.getString("description"));
-                            jsname.setText(jsonObject.getString("service_name"));
+                            jsname.setText(sname);
                             jstatusdate.setText(jsonObject.getString("requested_date_time"));
                             jstatustime.setText(jsonObject.getString("requested_date_time"));
 

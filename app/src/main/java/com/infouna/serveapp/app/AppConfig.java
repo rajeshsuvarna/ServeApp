@@ -29,6 +29,9 @@ public class AppConfig {
     //Add my profile
     public static String URL_ADD_SERVICE = "";
 
+    //URL_ORDER_LISTING_USER
+    public static String ORDER_LISTING_USER = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=myorders&userid= ";
+
     // Order details user
     public static String ORDER_DETAILS_USER = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=order_details";
 
@@ -38,14 +41,20 @@ public class AppConfig {
     // Order listing service provider
     public static String ORDER_LISTING_SP = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_orders&spid=";
 
+    //Order details Service Provider
+    public static String ORDER_DETAILS_SP = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act= sp_orders_details";
+
     // Accept service request
-    public static String ACCEPT_SERVICE_REQUEST = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+    public static String ACCEPT_SERVICE_REQUEST = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // decline request SP
-    public static String DECLINE_SERVICE_REQUEST_SP = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+    public static String DECLINE_SERVICE_REQUEST_SP = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     //Service listing URL
     public static String SERVICE_LISTING_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=search&keyword=";
+
+    //Service details
+    public static String SERVICE_DETAILS_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act= service_details&";
 
     //Check favourite service listing
     public static String CHECK_FAVOURITE = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=check_user_favourites";
@@ -55,4 +64,7 @@ public class AppConfig {
 
     //SP notification
     public static String NOTIFICATION_SP = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_sp_notification&spid=";
+
+    //Request Service
+    public static String SERVICE_REQUEST = "http://www.serveapp.in/assets/api/request_service.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 }

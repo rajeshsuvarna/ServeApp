@@ -1,6 +1,8 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.LabeledIntent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,8 @@ import org.json.JSONObject;
  */
 public class ReportServiceActivity extends Activity {
 
+    Bundle b;
+
     EditText jreportcomment;
     Button jbtnsubmit;
 
@@ -30,6 +34,9 @@ public class ReportServiceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_service);
 
+        Intent i = new Intent();
+        b = i.getExtras();
+
         jreportcomment = (EditText) findViewById(R.id.reportcomment);
         jbtnsubmit = (Button) findViewById(R.id.submitreport);
 
@@ -37,7 +44,7 @@ public class ReportServiceActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                report("566912","562198","123","clean",jreportcomment.getText().toString());
+                report(b.getString("userid"), b.getString("spid"), b.getString("reqid"), b.getString("s_name"), jreportcomment.getText().toString());
 
             }
         });
@@ -59,7 +66,6 @@ public class ReportServiceActivity extends Activity {
                         @Override
                         public void onResponse(JSONObject response) {
 
-
                         }
                     }, new Response.ErrorListener() {
 
@@ -74,7 +80,7 @@ public class ReportServiceActivity extends Activity {
             AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
         } else {
 
-            Toast.makeText(ReportServiceActivity.this, "Comment required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReportServiceActivity.this, " Comment cannot be blank ", Toast.LENGTH_SHORT).show();
 
         }
 

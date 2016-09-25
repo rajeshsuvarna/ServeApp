@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,6 +49,8 @@ public class OrderListingUserActivity extends Activity {
 
     TextView total_orders;
 
+    String reqid = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +58,7 @@ public class OrderListingUserActivity extends Activity {
 
         total_orders = (TextView) findViewById(R.id.torders_ODU);
 
-        data = fill_with_data(AppConfig.ORDER_LISTING_SP, "452408"); // pass spid as 2nd parameter here
+        data = fill_with_data(AppConfig.ORDER_LISTING_USER, ""); // pass userid as 2nd parameter from SHARED PREFERENCE
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewODU);
 
@@ -72,22 +75,28 @@ public class OrderListingUserActivity extends Activity {
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(OrderListingUserActivity.this, recyclerView, new RVAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(OrderListingUserActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(OrderListingUserActivity.this, OrderDetailsUserActivity.class);
+
+                i.putExtra("reqid", reqid);
+                startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
+                Intent i = new Intent(OrderListingUserActivity.this, OrderDetailsUserActivity.class);
 
-                Toast.makeText(OrderListingUserActivity.this, "check", Toast.LENGTH_SHORT).show();
+                i.putExtra("reqid", reqid);
+                startActivity(i);
+
             }
         }));
     }
 
-    public List<OrderListCardUser> fill_with_data(String url, String spid) {
+    public List<OrderListCardUser> fill_with_data(String url, String uid) {
 
         data = new ArrayList<>();
 
-        url += "&spid=" + spid;
+        url += uid;
 
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -108,7 +117,9 @@ public class OrderListingUserActivity extends Activity {
 
                             jsonObject = dash.getJSONObject(i);
 
-                            data.add(new OrderListCardUser(jsonObject.getString("request_id"),
+                            reqid = jsonObject.getString("request_id");
+
+                            data.add(new OrderListCardUser(reqid,
                                     jsonObject.getString("service_name"), jsonObject.getString("location"),
                                     jsonObject.getString("requested_date_time"), jsonObject.getString("accepted")));
                         }

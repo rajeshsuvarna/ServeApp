@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,13 +76,19 @@ public class OrderListingSPActivity extends Activity {
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(OrderListingSPActivity.this, recyclerView, new RVAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(OrderListingSPActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(OrderListingSPActivity.this, OrderDetailsSPActivity.class);
+                i.putExtra("reqid", data.get(position).reqid);
+                i.putExtra("spid", data.get(position).spid);
+                startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
 
-                Toast.makeText(OrderListingSPActivity.this, "check", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(OrderListingSPActivity.this, OrderDetailsSPActivity.class);
+                i.putExtra("reqid", data.get(position).reqid);
+                i.putExtra("spid", data.get(position).spid);
+                startActivity(i);
             }
         }));
     }
@@ -115,7 +122,6 @@ public class OrderListingSPActivity extends Activity {
                                     jsonObject.getString("service_name"), jsonObject.getString("location"),
                                     jsonObject.getString("username"), jsonObject.getString("requested_date_time"),
                                     jsonObject.getString("accepted")));
-
                         }
                     }
                     adapter.notifyDataSetChanged();

@@ -19,6 +19,7 @@
 
             <!--  upper pic section -->
             <LinearLayout
+                android:id="@+id/sd_background"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.70"
@@ -41,6 +42,7 @@
                         android:background="@mipmap/ic_check" />
 
                     <TextView
+                        android:id="@+id/sd_sname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -97,6 +99,7 @@
                             android:onClick="onClick" />
 
                         <TextView
+                            android:id="@+id/sd_reviewcount"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -105,9 +108,7 @@
                             android:textColor="@color/common_google_signin_btn_text_dark"
                             android:textSize="12sp" />
 
-
                     </LinearLayout>
-
 
                 </LinearLayout>
 
@@ -118,7 +119,7 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/favourite"
+                        android:id="@+id/sd_favourite"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentLeft="true"
@@ -126,7 +127,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:background="@mipmap/ic_like_deselected" />
-
 
                 </LinearLayout>
 
@@ -152,6 +152,7 @@
                     android:scaleType="fitCenter" />
 
                 <TextView
+                    android:id="@+id/sd_address"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -165,6 +166,7 @@
         <!--  card ends -->
 
         <Button
+            android:id="@+id/btn_sd_request"
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="5dp"
@@ -193,10 +195,11 @@
             android:textStyle="italic" />
 
         <TextView
+            android:id="@+id/sd_more_details"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_marginBottom="15dp"
+            android:layout_marginLeft="5dp"
             android:padding="6dp"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
             android:textColor="@color/textColorPrimary" />
