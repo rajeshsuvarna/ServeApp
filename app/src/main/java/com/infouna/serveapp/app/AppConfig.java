@@ -9,7 +9,10 @@ public class AppConfig {
     public static String URL_LOGIN = "http://www.serveapp.in/assets/api/login.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobile=";
 
     // Server user register url
-    public static String URL_REGISTER = "http://www.serveapp.in/assets/api/registeruser.php";
+    public static String URL_REGISTER = "http://www.serveapp.in/assets/api/registeruser.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    //verify OTP
+    public static String URL_OTP ="http://www.serveapp.in/assets/api/verifyuser.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&userid=";
 
     // Server user register url
     public static String URL_CHECK_NUMBER = "http://www.serveapp.in/assets/api/checknumber.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobileno=";

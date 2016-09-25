@@ -6,6 +6,7 @@ package com.infouna.serveapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,166 +35,154 @@ import org.json.JSONObject;
 public class UserRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "UserRegistration";
+    public String result = "1";
+    public String fname,lname,email,phone;
 
     JsonObjectRequest JsonObjectRequest;
 
-    @Bind(R.id.input_fname)
-    EditText _fnameText;
-    @Bind(R.id.input_lname)
-    EditText _lnameText;
-    @Bind(R.id.input_email)
-    EditText _emailText;
-    @Bind(R.id.input_reg_phone)
-    EditText _phoneNumber;
-    @Bind(R.id.btn_reg)
-    Button _signupButton;
-    @Bind(R.id.btn_loginAcc)
-    Button _loginLink;
+    private EditText _fnameText;
+    private EditText _lnameText;
+    private EditText _emailText;
+    private EditText _phoneNumber;
+    private Button _signupButton;
+    private Button _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_registration);
-        ButterKnife.bind(this);
+        _fnameText = (EditText) findViewById(R.id.input_fname);
+        _lnameText = (EditText) findViewById(R.id.input_lname);
+        _emailText = (EditText) findViewById(R.id.input_email);
+        _phoneNumber = (EditText) findViewById(R.id.input_reg_phone);
+        _signupButton = (Button) findViewById(R.id.btn_reg);
+        _loginLink = (Button) findViewById(R.id.btn_loginAcc);
+
+
+
+        _loginLink = (Button) findViewById(R.id.btn_login);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+
+                Toast.makeText(getApplicationContext(), "inside click", Toast.LENGTH_LONG).show();
+
+                String fname = _fnameText.getText().toString().trim();
+                String lname = _lnameText.getText().toString().trim();
+                String email = _emailText.getText().toString().trim();
+                String phone = _phoneNumber.getText().toString().trim();
+
+                // Check for empty data in the form
+                if (!fname.isEmpty() && !lname.isEmpty() && !email.isEmpty() && !phone.isEmpty()) {
+                    // login user
+                    // Toast.makeText(getApplicationContext(), phone, Toast.LENGTH_LONG).show();
+                    String response = check_number(phone, AppConfig.URL_CHECK_NUMBER);
+                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                    if(response.equals("0")) {
+                        Toast.makeText(getApplicationContext(), "in if"+response, Toast.LENGTH_LONG).show();
+                        user_register(fname, lname, email, phone, AppConfig.URL_REGISTER);
+
+                    }
+                } else {
+                    // Prompt user to enter credentials
+                    Toast.makeText(getApplicationContext(), "Please enter all details!", Toast.LENGTH_LONG).show();
+                }
             }
-        });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+            private String check_number(String phone, String url) {
+                String tag_json_obj = "json_obj_req";
 
-    public void signup() {
-        Log.d(TAG, "Signup");
+                url += phone;
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d(TAG, "Register Response: " + response.toString());
+                                //hideDialog();
+                                try {
+                                    Toast.makeText(getApplicationContext(), "inside try", Toast.LENGTH_LONG).show();
+                                    String res = response.getString("result");
+                                    //  = response.getJSONArray("user_details");
+                                    if (res.equals("0")) {
+                                        //jsonObject.getString("userid");
+                                        Toast.makeText(getApplicationContext(), "Number Verified", Toast.LENGTH_LONG).show();
+                                        result = "0";
 
-        if (!validate()) {
-            onSignupFailed();
-            return;
-        }
-
-        _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(UserRegistrationActivity.this, R.style.MyMaterialTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
-
-
-
-        // TODO: Implement your own signup logic here.
-        Toast.makeText(getApplicationContext(), "Respnse", Toast.LENGTH_LONG);
-        JsonObjectRequest = new JsonObjectRequest(Request.Method.POST, AppConfig.URL_CHECK_NUMBER, null,
-                new Response.Listener<JSONObject>() {
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Number already registered", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
                     @Override
-                    public void onResponse(JSONObject response) {
-
-                        // Result handling
-                        Toast.makeText(getApplicationContext(), "Respnse" + response.toString(), Toast.LENGTH_LONG);
-                        String result= response.toString();
+                    public void onErrorResponse(VolleyError error) {
+                        // Log.e(TAG, "Login Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        //  hideDialog();
 
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                });
 
-                // Error handling
-                System.out.println("Something went wrong!");
-                error.printStackTrace();
+// Adding request to request queue
+                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+                return  result;
+            }
+
+            private void user_register(String fname, String lname, String email,String phone, String url) {
+                String tag_json_obj = "json_obj_req";
+
+                url += "&f_name=" + fname + "&l_name=" +lname+ "&email" +email+ "&mob" +phone;
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d(TAG, "Register Response: " + response.toString());
+                                //hideDialog();
+                                try {
+                                    Toast.makeText(getApplicationContext(), "inside try", Toast.LENGTH_LONG).show();
+                                    String res = response.getString("result");
+                                    String userid  = response.getString("userid");
+                                    if (res.equals("1")) {
+                                        //jsonObject.getString("userid");
+                                        Toast.makeText(getApplicationContext(), userid.toString(), Toast.LENGTH_LONG).show();
+                                        sucess();
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Log.e(TAG, "Login Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        //  hideDialog();
+                    }
+                });
+
+// Adding request to request queue
+                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+            }
+
+
+            public void sucess() {
+                Intent i =new Intent(UserRegistrationActivity.this,LoginActivity.class);
+                startActivity(i);
 
             }
-        });
-      /*
-        if(result == 1)
-        {
-                //user present
 
+            public void onSignupFailed() {
+                Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+
+                _signupButton.setEnabled(true);
+            }
         }
-        else
-        {  //register user
-        }
-
-
-        */
-
-// Add the request to the queue
-        // Volley.newRequestQueue(this).add(stringRequest);
-        AppController.getInstance().addToRequestQueue(JsonObjectRequest);
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-    }
-
-
-    public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-
-    }
-
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        _signupButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String fname = _fnameText.getText().toString();
-        String lname = _lnameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String phone = _phoneNumber.getText().toString();
-
-        if (fname.isEmpty()) {
-            _fnameText.setError("Oops forgot your first name");
-            valid = false;
-        } else if (fname.length() < 3) {
-            _fnameText.setError("Oh..very short name");
-            valid = false;
-        } else {
-            _fnameText.setError(null);
-        }
-
-        if (lname.isEmpty()) {
-            _lnameText.setError("Oops forgot your surname");
-            valid = false;
-        } else {
-            _lnameText.setError(null);
-        }
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Email address not valid");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-
-        if (phone.isEmpty() || phone.length() < 10 || phone.length() > 10) {
-            _phoneNumber.setError("Number not valid");
-            valid = false;
-        } else {
-            _phoneNumber.setError(null);
-
-        }
-
-        return valid;
-    }
-
+        );}
 }
+

@@ -40,7 +40,7 @@ import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "LoginActivity.txt";
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String user_id = "useridKey";
     public static  final String type = "typeKey";
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private EditText input_phone;
-    Button _loginButton;
+    private Button _loginButton;
     private Button _signupLink;
     private ProgressDialog pDialog;
     private SessionManager session;
@@ -66,6 +66,16 @@ public class LoginActivity extends AppCompatActivity {
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+
+        _signupLink.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i =new Intent(LoginActivity.this,UserRegistrationActivity.class);
+                startActivity(i);
+
+            }
+        });
 
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
