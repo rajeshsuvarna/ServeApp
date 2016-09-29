@@ -2,6 +2,7 @@ package com.infouna.serveapp.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,9 @@ public class UserProfile extends Fragment {
     TextView fname, lname, email, mobile, username;
     String profile_pic;
 
+
+    public static SharedPreferences spf;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,12 +62,14 @@ public class UserProfile extends Fragment {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ctx, RateServiceActivity.class);
-                startActivity(i);
+
             }
         });
 
-        String userid = "566912"; // replace this with proper userid
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        String s = spf.getString("useridKey", "Null String");
+
+        String userid = s; // replace this with proper userid
         fetch_profile(userid);    // call with userid as parameter
 
         return v;

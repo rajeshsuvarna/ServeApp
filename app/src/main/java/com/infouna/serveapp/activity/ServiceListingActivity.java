@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.plus.model.people.Person;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.app.AppConfig;
@@ -60,7 +63,7 @@ public class ServiceListingActivity extends Activity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
 
-        total_orders = (TextView) findViewById(R.id.torders_ODU);
+        total_orders = (TextView) findViewById(R.id.total_service_listing);
 
         data = fill_with_data(AppConfig.SERVICE_LISTING_URL, b.getString("servicename")); // pass servicename/keyword as 2nd parameter here
 
@@ -110,12 +113,14 @@ public class ServiceListingActivity extends Activity {
             public void onResponse(JSONObject response) {
                 try {
 
-                    JSONArray dash = response.getJSONArray("search_listing");
-                    String fav = "";
+                    String res = response.getString("result");
 
-                    total_orders.setText(response.getString("total_services"));
+                    if (res.equals("1")) {
 
-                    if (response.getString("result").equals("1")) {
+                        JSONArray dash = response.getJSONArray("search_listing");
+                        String fav = "";
+
+                        total_orders.setText(response.getString("total_services"));
 
                         JSONObject jsonObject;
 
@@ -133,6 +138,9 @@ public class ServiceListingActivity extends Activity {
                                     jsonObject.getString("service_price"), jsonObject.getString("confirmed"),
                                     jsonObject.getString("total_ratings"), jsonObject.getString("total_reviews"), fav));
                         }
+                    } else if (res.equals("0")) {
+                        total_orders.setText("0");
+                       // Toast.makeText(ServiceListingActivity.this, "else" + response.getString("result"), Toast.LENGTH_SHORT).show();
                     }
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {

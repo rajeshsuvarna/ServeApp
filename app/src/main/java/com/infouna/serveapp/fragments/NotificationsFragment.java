@@ -55,7 +55,7 @@ public class NotificationsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         data = fill_with_data();
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewHome);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewNotif);
 
         adapter = new RVAdapter(data, mDatasetTypes[4]); //array position is [4] coz card card type is NOTIFICATION
 
@@ -71,13 +71,11 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view, int position) {
 
-                Toast.makeText(getActivity(), "check", Toast.LENGTH_SHORT).show();
 
             }
         }));
@@ -103,19 +101,25 @@ public class NotificationsFragment extends Fragment {
 
                         JSONArray dash = response.getJSONArray("user_notification");
 
-                        JSONObject jsonObject;
+                        if(response.getString("result").equals("1")) {
 
-                        data.clear();
+                            JSONObject jsonObject;
 
-                        for (int i = 0; i < dash.length(); i++) {
+                            data.clear();
 
-                            jsonObject = dash.getJSONObject(i);
+                            for (int i = 0; i < dash.length(); i++) {
 
-                            data.add(new NotificationCard(jsonObject.getString("user_message"), jsonObject.getString("generated_datetime"),
-                                    jsonObject.getString("sp_accepted"), jsonObject.getString("service_name"),
-                                    jsonObject.getString("reqid"), jsonObject.getString("userid")));
+                                jsonObject = dash.getJSONObject(i);
+
+                                data.add(new NotificationCard(jsonObject.getString("user_message"), jsonObject.getString("generated_datetime"),
+                                        jsonObject.getString("sp_accepted"), jsonObject.getString("service_name"),
+                                        jsonObject.getString("reqid"), jsonObject.getString("userid")));
+                            }
                         }
-
+                        else
+                        {
+                            
+                        }
                         adapter.notifyDataSetChanged();
 
                     } catch (JSONException e)

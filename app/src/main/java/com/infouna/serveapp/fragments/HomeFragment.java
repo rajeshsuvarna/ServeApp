@@ -3,6 +3,7 @@ package com.infouna.serveapp.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,6 +48,9 @@ public class HomeFragment extends Fragment {
     public String tag_json_arry = "json_array_req";
     JsonObjectRequest jsonObjReq;
 
+    public ScrollView root;
+    public Snackbar snackbar;
+
     public List<HomeCardData> data, d;
 
     RVAdapter adapter;
@@ -61,6 +68,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        //root = (ScrollView) v.findViewById(R.id.rootLayout);
 
         data = fill_with_data();
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewHome);
@@ -109,17 +118,24 @@ public class HomeFragment extends Fragment {
 
                     JSONArray dash = response.getJSONArray("dashboard_services");
 
-                    JSONObject jsonObject;
+                    if (response.getString("result").equals("1")) {
+                        JSONObject jsonObject;
 
-                    data.clear();
+                        data.clear();
 
-                    for (int i = 0; i < dash.length(); i++) {
+                        for (int i = 0; i < dash.length(); i++) {
 
-                        jsonObject = dash.getJSONObject(i);
+                            jsonObject = dash.getJSONObject(i);
 
-                        data.add(new HomeCardData(jsonObject.getInt("service_id"), jsonObject.getString("services"), jsonObject.getString("service_img"), jsonObject.getInt("has_sub_service")));
+                            data.add(new HomeCardData(jsonObject.getInt("service_id"), jsonObject.getString("services"), jsonObject.getString("service_img"), jsonObject.getInt("has_sub_service")));
 
+                        }
+                    } else {
+                        snackbar = Snackbar.make(getView(), "No data found", Snackbar.LENGTH_LONG);
+                        View sbView = snackbar.getView();
+                        snackbar.show();
                     }
+
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();

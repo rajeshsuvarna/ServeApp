@@ -40,8 +40,9 @@ public class AddMyService extends Fragment {
     EditText jservdesc, jminprice, jsaddress, jscity, jpin, jweb;
     Button jregisterservice;
 
-
     Spinner servicespinner, subservicespinner;
+
+    String service, subservice, service_desc, min_price, address, city, pin, web;
 
     @Nullable
     @Override
@@ -85,7 +86,17 @@ public class AddMyService extends Fragment {
         jregisterservice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                regsiter();
+
+                service = servicespinner.getSelectedItem().toString();
+                subservice = subservicespinner.getSelectedItem().toString();
+                service_desc = jservdesc.getText().toString();
+                min_price = jminprice.getText().toString();
+                address = jsaddress.getText().toString();
+                city = jscity.getText().toString();
+                pin = jpin.getText().toString();
+                web = jweb.getText().toString();
+
+                register(service, subservice, service_desc, min_price, address, city, pin, web);
             }
         });
 
@@ -177,7 +188,7 @@ public class AddMyService extends Fragment {
 
     }
 
-    private void regsiter() {
+    private void register(String service, String subservice, String service_desc, String min_price, String address, String city, String pin, String web) {
 
 
     }
