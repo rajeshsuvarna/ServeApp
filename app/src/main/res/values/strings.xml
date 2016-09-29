@@ -29,6 +29,8 @@
     <string name="nav_item_myservice_request">My Service Request</string>
     <string name="nav_item_notification">Notification</string>
     <string name="nav_item_addmy_service">Add My Service</string>
+    <string name="nav_item_myserviceprofile">My Service Profile</string>
+    <string name="nav_item_serviceorders">Service Orders</string>
     <string name="nav_item_about_serveapp">About Serve App</string>
     <string name="nav_item_faq">FAQ</string>
     <string name="nav_item_share_serveapp">Share Serve App</string>
@@ -65,7 +67,6 @@
     <string name="status">Status:</string>
     <string name="activity_order_details_service_request_details">Service Request Details</string>
     <!-- activity favourites end -->
-
 
 
 </resources>

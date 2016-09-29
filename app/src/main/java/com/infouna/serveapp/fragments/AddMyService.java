@@ -1,7 +1,10 @@
 package com.infouna.serveapp.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +32,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.infouna.serveapp.activity.LoginActivity.MyPREFERENCES;
 
 public class AddMyService extends Fragment {
 
@@ -58,6 +63,9 @@ public class AddMyService extends Fragment {
         jscity = (EditText) v.findViewById(R.id.input_servicecity);
         jpin = (EditText) v.findViewById(R.id.input_pincode);
         jweb = (EditText) v.findViewById(R.id.input_website);
+        //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        //String language = settings.getString("language", "");
+
 
         jregisterservice = (Button) v.findViewById(R.id.btn_reg);
 
@@ -102,6 +110,7 @@ public class AddMyService extends Fragment {
 
         return v;
     }
+
 
     private void fill_spinner(String url, final int spin, String servicename) {
 

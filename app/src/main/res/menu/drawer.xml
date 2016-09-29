@@ -34,6 +34,14 @@
             android:id="@+id/addmyservice"
             android:checked="false"
             android:title="@string/nav_item_addmy_service" />
+        <item
+            android:id="@+id/myserviceprofile"
+            android:checked="false"
+            android:title="@string/nav_item_myserviceprofile" />
+        <item
+            android:id="@+id/serviceorders"
+            android:checked="false"
+            android:title="@string/nav_item_serviceorders" />
 
     </group>
 

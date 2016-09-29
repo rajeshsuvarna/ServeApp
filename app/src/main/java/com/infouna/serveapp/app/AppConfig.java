@@ -11,6 +11,9 @@ public class AppConfig {
     // Server user register url
     public static String URL_REGISTER = "http://www.serveapp.in/assets/api/registeruser.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
+    //send otp
+    public static String URL_SEND_OPT = "http://www.serveapp.in/assets/api/sendregisterotp.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&userid=";
+
     //verify OTP
     public static String URL_OTP ="http://www.serveapp.in/assets/api/verifyuser.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&userid=";
 

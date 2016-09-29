@@ -16,12 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.datamodel.ServiceProfile;
 import com.infouna.serveapp.fragments.AboutServeApp;
 import com.infouna.serveapp.fragments.AddMyService;
 import com.infouna.serveapp.fragments.FAQ;
 import com.infouna.serveapp.fragments.HomeFragment;
-import com.infouna.serveapp.fragments.MyServiceRequest;
 import com.infouna.serveapp.fragments.NotificationsFragment;
+import com.infouna.serveapp.fragments.MyServiceRequest;
+import com.infouna.serveapp.fragments.ServiceOrders;
+import com.infouna.serveapp.fragments.ServiceProfileView;
+import com.infouna.serveapp.fragments.ServiceProfileView;
 import com.infouna.serveapp.fragments.Support;
 import com.infouna.serveapp.fragments.UserProfile;
 
@@ -101,6 +105,15 @@ public class HomeActivity extends AppCompatActivity {
                         addMyServefragmentTransaction.replace(R.id.frame, addMyServeFragment);
                         addMyServefragmentTransaction.commit();
                         setTitle("Add My Service");
+                        return true;
+
+                    case R.id.serviceorders:
+                        ishomeopen = 0;
+                        ServiceOrders serviceOrdersFragment = new ServiceOrders();
+                        android.support.v4.app.FragmentTransaction serviceOrderfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        serviceOrderfragmentTransaction.replace(R.id.frame, serviceOrdersFragment);
+                        serviceOrderfragmentTransaction.commit();
+                        setTitle("Service Orders");
                         return true;
                     case R.id.aboutserveapp:
                         ishomeopen = 0;
