@@ -33,7 +33,7 @@
                 android:layout_weight="0.9"
                 android:orientation="vertical">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/SL_check"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
@@ -59,7 +59,7 @@
                     android:orientation="horizontal"
                     android:padding="5dp">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/SL_star_1"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -67,7 +67,7 @@
                         android:background="@mipmap/ic_star_selected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/SL_star_2"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -75,7 +75,7 @@
                         android:background="@mipmap/ic_star_selected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/SL_star_3"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -83,7 +83,7 @@
                         android:background="@mipmap/ic_star_selected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/SL_star_4"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -91,7 +91,7 @@
                         android:background="@mipmap/ic_star_selected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/SL_star_5"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -121,7 +121,7 @@
                 android:layout_weight="0.1"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/SL_favourite"
                     android:layout_width="20dp"
                     android:layout_height="20dp"

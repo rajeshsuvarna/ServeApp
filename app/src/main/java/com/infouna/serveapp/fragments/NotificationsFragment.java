@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.adapters.NotificationAdapter;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -46,7 +47,7 @@ public class NotificationsFragment extends Fragment {
 
     public List<NotificationCard> data;
 
-    RVAdapter adapter;
+    NotificationAdapter adapter;
     RecyclerView recyclerView;
 
     @Nullable
@@ -57,7 +58,7 @@ public class NotificationsFragment extends Fragment {
         data = fill_with_data();
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewNotif);
 
-        adapter = new RVAdapter(data, mDatasetTypes[4]); //array position is [4] coz card card type is NOTIFICATION
+        adapter = new NotificationAdapter(data, mDatasetTypes[0]); //array position is [4] coz card card type is NOTIFICATION
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
 

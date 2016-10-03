@@ -5,18 +5,17 @@ package com.infouna.serveapp.datamodel;
  */
 public class ServiceListCard {
 
-    public String
-            userid,
-            service_providerid,
-            service_name,
-            banner_picture,
-            service_tag,
-            service_location,
-            service_price,
-            confirmed,
-            total_ratings,
-            total_reviews,
-            favourite;
+    public String userid;
+    public String service_providerid;
+    public String service_name;
+    public String banner_picture;
+    public String service_tag;
+    public String service_location;
+    public String service_price;
+    public String confirmed;
+    public String total_ratings;
+    public String total_reviews;
+    public String favourite;
 
     public ServiceListCard(String userid, String service_providerid, String service_name,
                            String banner_picture, String service_tag, String service_location,

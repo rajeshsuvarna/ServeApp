@@ -34,12 +34,13 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity.txt";
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String user_id = "useridKey";
-    public static  final String type = "typeKey";
-    SharedPreferences sharedpreferences;
+    public static final String type = "typeKey";
+    public SharedPreferences sharedpreferences;
 
-    @Bind(R.id.input_phone) EditText input_phone;
+    @Bind(R.id.input_phone)
+    EditText input_phone;
 
     private Button _loginButton;
     private Button _signupLink;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(LoginActivity.this,UserRegistrationActivity.class);
+                Intent i = new Intent(LoginActivity.this, UserRegistrationActivity.class);
                 startActivity(i);
 
             }
@@ -106,20 +107,21 @@ public class LoginActivity extends AppCompatActivity {
 
                                     String res = response.getString("result");
                                     if (res.equals("1")) {
+
                                         JSONObject jsonObject = response.getJSONObject("user_details");
-                                        String res_user_id =  jsonObject.getString("userid");
-                                        String res_type =  jsonObject.getString("user_type");
+                                        String res_user_id = jsonObject.getString("userid");
+                                        String res_type = jsonObject.getString("user_type");
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(user_id, res_user_id);
                                         editor.putString(type, res_type);
                                         editor.commit();
+                                        Toast.makeText(getApplicationContext(), res_user_id, Toast.LENGTH_LONG).show();
                                         hideDialog();
                                         sucess();
-                                    }
-                                    else {
+                                    } else {
                                         input_phone.setError("Number not registered");
-                                       // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();
-                                       hideDialog();
+                                        // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();
+                                        hideDialog();
                                     }
 
                                 } catch (JSONException e) {
@@ -131,8 +133,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                       // Log.e(TAG, "Login Error: " + error.getMessage());
-                        Toast.makeText(getApplicationContext(),"Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();hideDialog();
+                        // Log.e(TAG, "Login Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                        hideDialog();
 
                     }
                 });
@@ -140,9 +143,8 @@ public class LoginActivity extends AppCompatActivity {
                 AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
             }
 
-            private  void  sucess()
-            {
-                Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+            private void sucess() {
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);
             }
 

@@ -47,7 +47,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="40dp"
-                        android:text="Gradient's Photography"
                         android:textColor="@color/common_google_signin_btn_text_dark"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -63,40 +62,36 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@mipmap/ic_star_selected"
-                            android:onClick="onClick" />
+
+                            android:background="@mipmap/ic_star_selected" />
 
                         <ImageButton
                             android:id="@+id/star_2"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@mipmap/ic_star_selected"
-                            android:onClick="onClick" />
+                            android:background="@mipmap/ic_star_selected" />
 
                         <ImageButton
                             android:id="@+id/star_3"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@mipmap/ic_star_selected"
-                            android:onClick="onClick" />
+                            android:background="@mipmap/ic_star_selected" />
 
                         <ImageButton
                             android:id="@+id/star_4"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@mipmap/ic_star_selected"
-                            android:onClick="onClick" />
+                            android:background="@mipmap/ic_star_selected" />
 
                         <ImageButton
                             android:id="@+id/star_5"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@mipmap/ic_star_deselected"
-                            android:onClick="onClick" />
+                            android:background="@mipmap/ic_star_deselected" />
 
                         <TextView
                             android:id="@+id/sd_reviewcount"
@@ -156,7 +151,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="4066 Pooz Street, Spotswood, NJ 0884"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="13sp" />
 
@@ -201,7 +195,6 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="5dp"
             android:padding="6dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
             android:textColor="@color/textColorPrimary" />
 
     </LinearLayout>

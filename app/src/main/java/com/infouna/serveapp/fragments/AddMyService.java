@@ -45,14 +45,20 @@ public class AddMyService extends Fragment {
     EditText jservdesc, jminprice, jsaddress, jscity, jpin, jweb;
     Button jregisterservice;
 
+    public static SharedPreferences spf;
+
     Spinner servicespinner, subservicespinner;
 
-    String service, subservice, service_desc, min_price, address, city, pin, web;
+    String userid, ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, city, pin, web;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_my_service, container, false);
+
+
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "Null String");
 
         servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
         subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
@@ -65,7 +71,6 @@ public class AddMyService extends Fragment {
         jweb = (EditText) v.findViewById(R.id.input_website);
         //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         //String language = settings.getString("language", "");
-
 
         jregisterservice = (Button) v.findViewById(R.id.btn_reg);
 
@@ -104,7 +109,7 @@ public class AddMyService extends Fragment {
                 pin = jpin.getText().toString();
                 web = jweb.getText().toString();
 
-                register(service, subservice, service_desc, min_price, address, city, pin, web);
+                register(userid, service, subservice, "banpic", "shoppic", "location", service_desc, min_price, address, city, pin, web, AppConfig.URL_ADD_SERVICE);
             }
         });
 
@@ -197,8 +202,39 @@ public class AddMyService extends Fragment {
 
     }
 
-    private void register(String service, String subservice, String service_desc, String min_price, String address, String city, String pin, String web) {
+    private void register(String userid, String service, String subservice, String ban_pic, String shop_pic, String loc, String service_desc, String min_price, String address, String city, String pin, String web, String URL) {
 
+        URL += "&userid=" + userid + "&add=" + address + "&ban_pic=" + ban_pic + "&website=" + web + "&shop_pic=" + shop_pic +
+                "&loc=" + loc + "&s_name=" + service + "&s_price=" + min_price + "&s_sub_name=" + subservice +
+                "&s_desc=" + service_desc + "&pin=" + pin;
+
+        String tag_json_obj = "json_obj_req";
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                URL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            String res = response.getString("result");
+                            Toast.makeText(getActivity(), response.getString("spid"), Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 
     }
 

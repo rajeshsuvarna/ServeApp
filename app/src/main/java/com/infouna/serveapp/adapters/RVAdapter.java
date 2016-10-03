@@ -108,7 +108,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public class CardOrderListUser extends ViewHolder {
         CardView cv;
         TextView servicename, date, time, status;
-        ImageButton status_icon;
+        ImageView status_icon;
 
         public CardOrderListUser(View v) {
             super(v);
@@ -117,7 +117,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.date = (TextView) itemView.findViewById(R.id.orderlistingUser_date);
             this.time = (TextView) itemView.findViewById(R.id.orderlistingUser_date);
             this.status = (TextView) itemView.findViewById(R.id.orderlistingUser_status);
-            this.status_icon = (ImageButton) itemView.findViewById(R.id.oduser_status_image);
+            this.status_icon = (ImageView) itemView.findViewById(R.id.oduser_status_image);
         }
     }
 
@@ -125,7 +125,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         CardView cv;
         TextView servicename, review;
         LinearLayout bgimage;
-        public ImageButton status_icon, favourite_icon, stars[] = new ImageButton[5];
+        public ImageView status_icon, favourite_icon, stars[] = new ImageButton[5];
 
         public CardServiceList(View v) {
             super(v);
@@ -133,13 +133,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.review = (TextView) itemView.findViewById(R.id.SL_reviews);
             this.cv = (CardView) itemView.findViewById(R.id.Service_List_cardView);
             this.bgimage = (LinearLayout) itemView.findViewById(R.id.SL_backgroundimage);
-            this.favourite_icon = (ImageButton) itemView.findViewById(R.id.SL_favourite);
-            this.status_icon = (ImageButton) itemView.findViewById(R.id.SL_check);
-            this.stars[0] = (ImageButton) itemView.findViewById(R.id.SL_star_1);
-            this.stars[1] = (ImageButton) itemView.findViewById(R.id.SL_star_2);
-            this.stars[2] = (ImageButton) itemView.findViewById(R.id.SL_star_3);
-            this.stars[3] = (ImageButton) itemView.findViewById(R.id.SL_star_4);
-            this.stars[4] = (ImageButton) itemView.findViewById(R.id.SL_star_5);
+            this.favourite_icon = (ImageView) itemView.findViewById(R.id.SL_favourite);
+            this.status_icon = (ImageView) itemView.findViewById(R.id.SL_check);
+            this.stars[0] = (ImageView) itemView.findViewById(R.id.SL_star_1);
+            this.stars[1] = (ImageView) itemView.findViewById(R.id.SL_star_2);
+            this.stars[2] = (ImageView) itemView.findViewById(R.id.SL_star_3);
+            this.stars[3] = (ImageView) itemView.findViewById(R.id.SL_star_4);
+            this.stars[4] = (ImageView) itemView.findViewById(R.id.SL_star_5);
         }
     }
 
@@ -226,19 +226,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             holder.servicename.setText(String.valueOf(listService.get(position).service_name));
             holder.review.setText(String.valueOf(listService.get(position).total_reviews) + "Reviews");
 
-            String urlThumbnail = listService.get(position).banner_picture;
-            if (!urlThumbnail.equals("")) {
-                loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
-            }
+         //   String urlThumbnail = listService.get(position).banner_picture;
+        //    if (!urlThumbnail.equals("")) {
+              //  loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
+          //  }
 
-            if (String.valueOf(listODSU.get(position).accepted).equals("1")) {
+//            if (String.valueOf(listODSU.get(position).accepted).equals("1")) {
+//
+//                holder.status_icon.setImageResource(R.mipmap.ic_check);
 
-                holder.status_icon.setImageResource(R.mipmap.ic_check);
+//            } else if (String.valueOf(listODSU.get(position).accepted).equals("0")) {
 
-            } else if (String.valueOf(listODSU.get(position).accepted).equals("0")) {
-
-                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
-            }
+//                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+  //          }
         } else if (viewHolder.getItemViewType() == NOTIFICATION) {
             CardNotification holder = (CardNotification) viewHolder;
             if (type.equals("user")) {

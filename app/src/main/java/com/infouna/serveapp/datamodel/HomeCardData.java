@@ -13,10 +13,6 @@ public class HomeCardData {
     public String service_image_url;
     public int has_sub_service;
 
-    public HomeCardData() {
-
-    }
-
     public HomeCardData(int service_id, String servicename, String service_image_url, int has_sub_service) {
         this.service_id = service_id;
         this.servicename = servicename;

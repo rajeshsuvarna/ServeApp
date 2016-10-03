@@ -1,7 +1,9 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,6 +29,7 @@ import org.json.JSONObject;
 /**
  * Created by Darshan on 13-04-2016.
  */
+
 public class ServiceDetailsActivity extends Activity {
 
     TextView servicename, review_count, address;
@@ -33,18 +37,26 @@ public class ServiceDetailsActivity extends Activity {
     ImageButton btnfav, stars[] = new ImageButton[5];
     LinearLayout background;
 
+    public static SharedPreferences spf;
+
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     String fav, ratin;
     int rate;
+
+    String userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_details);
 
+        spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "Null String");
+
         Intent i = getIntent();
         Bundle b = i.getExtras();
+
 
         servicename = (TextView) findViewById(R.id.sd_sname);
         review_count = (TextView) findViewById(R.id.sd_reviewcount);
@@ -65,12 +77,75 @@ public class ServiceDetailsActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-               // requestService();
+                Intent i = new Intent(ServiceDetailsActivity.this, RequestNewServiceActivity.class);
+                i.putExtra("Hint_max", "max");
+                i.putExtra("Hint_loc", "loc");
+                i.putExtra("Hint_date", "date");
+                i.putExtra("Hint_add", "add");
+                i.putExtra("Hint_desc", "desc");
+                startActivityForResult(i, 1);
+
             }
         });
 
+        s_name = b.getString("servicename");
+
         load_order_details(b.getString("uid"), b.getString("servicename"), b.getString("fav"), AppConfig.SERVICE_DETAILS_URL);
-        loadImages(b.getString("picture"));
+        loadImages("http://serveapp.in/imgupload/uploadedimages/123456Hurt.jpg");
+        //  loadImages(b.getString("picture"));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { // this is overriden inorder to recieve data
+        super.onActivityResult(requestCode, resultCode, data);
+
+        try {
+            Bundle b = data.getExtras();
+
+            max_budget = b.getString("max");
+            location = b.getString("loc");
+            req_dt = b.getString("date");
+            add = b.getString("add");
+            desc = b.getString("desc");
+
+            request_service(userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc, AppConfig.SERVICE_REQUEST);
+
+        } catch (Exception ex) {
+            Toast.makeText(ServiceDetailsActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void request_service(String userid, String s, String s_name, String s_sub_name, String max_budget, String location, String req_dt, String add, String desc, String URL) {
+        URL += "&userid=" + userid + "&spid=" + s + "&s_name=" + s_name + "&s_sub_name=" + s_sub_name + "&max_budget=" + max_budget + "&location="
+                + location + "&req_dt=" + req_dt + "&add=" + add + "&desc=" + desc;
+
+        String tag_json_obj = "json_obj_req";
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                URL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            String reqid = response.getString("reqid");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+
     }
 
     private void load_order_details(String uid, final String sname, final String fav, String url) {
@@ -100,9 +175,15 @@ public class ServiceDetailsActivity extends Activity {
                                 review_count.setText("0 reviews");
                             }
 
+                            spid = jsonObject.getString("service_providerid");
+                            Toast.makeText(ServiceDetailsActivity.this, spid, Toast.LENGTH_SHORT).show();
+
+                            s_sub_name = jsonObject.getString("sub_service_name");
+
                             address.setText(jsonObject.getString("location"));
 
-                            rater(Integer.parseInt(jsonObject.getString("total_ratings")));
+                            rater(3);
+                            //rater(Integer.parseInt(jsonObject.getString("total_ratings")));
 
                             if (fav.equals("1")) {
                                 btnfav.setImageResource(R.mipmap.ic_like_selected);
@@ -128,10 +209,10 @@ public class ServiceDetailsActivity extends Activity {
     }
 
     public void rater(int rating) {
-
         clear_rating();
-        for (int i = 0; i < rating; i++)
+        for (int i = 0; i < rating; i++) {
             stars[i].setImageResource(R.mipmap.ic_star_selected);
+        }
     }
 
     public void clear_rating() {

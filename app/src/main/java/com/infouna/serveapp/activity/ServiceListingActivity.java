@@ -3,12 +3,9 @@ package com.infouna.serveapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +14,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.plus.model.people.Person;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.adapters.ServiceListingAdapter;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -37,7 +34,7 @@ import java.util.List;
 
 public class ServiceListingActivity extends Activity {
 
-    RVAdapter adapter;
+    ServiceListingAdapter adapter;
     RecyclerView recyclerView;
 
     JsonObjectRequest jsonObjReq, jsonObjReqfav;
@@ -65,11 +62,13 @@ public class ServiceListingActivity extends Activity {
 
         total_orders = (TextView) findViewById(R.id.total_service_listing);
 
+        //Toast.makeText(ServiceListingActivity.this, b.getString("servicename"), Toast.LENGTH_SHORT).show();
+
         data = fill_with_data(AppConfig.SERVICE_LISTING_URL, b.getString("servicename")); // pass servicename/keyword as 2nd parameter here
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewServiceListing);
 
-        adapter = new RVAdapter(data, mDatasetTypes[3]); //array position is [3] coz card card type is SERVICELIST
+        adapter = new ServiceListingAdapter(data, mDatasetTypes[0]); //array position is [3] coz card card type is SERVICELIST
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
 
@@ -77,7 +76,8 @@ public class ServiceListingActivity extends Activity {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        //   recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(ServiceListingActivity.this));
 
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(ServiceListingActivity.this, recyclerView, new RVAdapter.ClickListener() {
             @Override
@@ -115,12 +115,15 @@ public class ServiceListingActivity extends Activity {
 
                     String res = response.getString("result");
 
+                    JSONArray dash = response.getJSONArray("search_listing");
+
                     if (res.equals("1")) {
 
-                        JSONArray dash = response.getJSONArray("search_listing");
-                        String fav = "";
+                        String fav = "0";
 
-                        total_orders.setText(response.getString("total_services"));
+                        String t = response.getString("total_services");
+
+                        total_orders.setText(t);
 
                         JSONObject jsonObject;
 
@@ -130,19 +133,32 @@ public class ServiceListingActivity extends Activity {
 
                             jsonObject = dash.getJSONObject(i);
 
-                            fav = check_favourite(jsonObject.getString("userid"), jsonObject.getString("service_name"), AppConfig.CHECK_FAVOURITE);
+                            Toast.makeText(ServiceListingActivity.this, jsonObject.getString("banner_picture") + "<-uid", Toast.LENGTH_SHORT).show();
+                            // fav = check_favourite(jsonObject.getString("userid"), jsonObject.getString("service_name"), AppConfig.CHECK_FAVOURITE);
 
-                            data.add(new ServiceListCard(jsonObject.getString("userid"), jsonObject.getString("service_providerid"),
-                                    jsonObject.getString("service_name"), "http://serveapp.in/imgupload/uploadedimages/" + jsonObject.getString("banner_picture"),
-                                    jsonObject.getString("service_tag"), jsonObject.getString("service_location"),
-                                    jsonObject.getString("service_price"), jsonObject.getString("confirmed"),
-                                    jsonObject.getString("total_ratings"), jsonObject.getString("total_reviews"), fav));
+
+                            String a = jsonObject.getString("userid"), b = jsonObject.getString("service_providerid"),
+                                    c = jsonObject.getString("service_name"), d = "http://serveapp.in/imgupload/uploadedimages/" + jsonObject.getString("banner_picture"),
+                                    e = "", f = "",
+                                    g = "", h = jsonObject.getString("confirmed"),
+                                    m = jsonObject.getString("total_ratings"), j = jsonObject.getString("total_reviews");
+
+                            Toast.makeText(ServiceListingActivity.this, "hur", Toast.LENGTH_SHORT).show();
+
+
+                            data.add(new ServiceListCard(a, b,
+                                    c, d,
+                                    e, f,
+                                    g, h,
+                                    m, j, fav));
+
                         }
+                        adapter.notifyDataSetChanged();
                     } else if (res.equals("0")) {
                         total_orders.setText("0");
-                       // Toast.makeText(ServiceListingActivity.this, "else" + response.getString("result"), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(ServiceListingActivity.this, "else" + response.getString("result"), Toast.LENGTH_SHORT).show();
                     }
-                    adapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
