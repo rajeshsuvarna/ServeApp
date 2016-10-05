@@ -1,7 +1,9 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,12 +32,23 @@ public class OrderDetailsUserActivity extends Activity {
     Button jbtnreport, jbtncancel, jbtnrate;
     ImageView jstatusicon;
 
-    String accepted, reqid = "", sname = "";
+    String accepted = "", reqid = "", userid = "", sname = "", spid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_user);
+
+        Bundle b = getIntent().getExtras();
+        userid = b.getString("userid");
+        reqid = b.getString("reqid");
+
+        SharedPreferences spf = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String type = spf.getString("typeKey", "");
+        Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
+        if (type.equals("SP")) {
+            spid = spf.getString("spidKey", "");
+        }
 
         jmax = (TextView) findViewById(R.id.max_budget);
         jloc = (TextView) findViewById(R.id.textview_service_location);
@@ -56,9 +69,9 @@ public class OrderDetailsUserActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(OrderDetailsUserActivity.this, ReportServiceActivity.class);
-                i.putExtra("userid", "");    // pass values here
-                i.putExtra("spid", "");      // pass values here
-                i.putExtra("reqid", "");
+                i.putExtra("userid", userid);    // pass values here
+                i.putExtra("spid", spid);      // pass values here
+                i.putExtra("reqid", reqid);
                 i.putExtra("s_name", sname);
                 startActivity(i);
             }
@@ -67,7 +80,7 @@ public class OrderDetailsUserActivity extends Activity {
         jbtncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancel_request("", "", "", AppConfig.CANCEL_SERVICE_REQUEST);
+                cancel_request(userid, spid, reqid, AppConfig.CANCEL_SERVICE_REQUEST);
             }
         });
 
@@ -75,14 +88,15 @@ public class OrderDetailsUserActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(OrderDetailsUserActivity.this, RateServiceActivity.class);
-                i.putExtra("userid", "");    // pass values here
-                i.putExtra("spid", "");      // pass values here
+                i.putExtra("userid", userid);    // pass values here
+                i.putExtra("spid", spid);      // pass values here
+                i.putExtra("reqid", reqid);
                 i.putExtra("s_name", sname);
                 startActivity(i);
             }
         });
 
-        load_order_details("", "", AppConfig.ORDER_DETAILS_USER);
+        load_order_details(userid, reqid, AppConfig.ORDER_DETAILS_USER);
         if (accepted.equals("1")) {
             jacceptedstatus.setText("Accepted");
             jstatusicon.setImageResource(R.mipmap.ic_check);
@@ -111,7 +125,6 @@ public class OrderDetailsUserActivity extends Activity {
                             JSONObject jsonObject = dash.getJSONObject(0);
 
                             sname = jsonObject.getString("service_name");
-                            reqid = jsonObject.getString("reqid");
 
                             jmax.setText(jsonObject.getString("max_budget"));
                             jloc.setText(jsonObject.getString("location"));

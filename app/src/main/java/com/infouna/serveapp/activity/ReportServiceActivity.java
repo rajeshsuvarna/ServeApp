@@ -29,13 +29,19 @@ public class ReportServiceActivity extends Activity {
     EditText jreportcomment;
     Button jbtnsubmit;
 
+    String userid, spid, reqid, sname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_service);
 
-        Intent i = new Intent();
+        Intent i =getIntent();
         b = i.getExtras();
+
+        userid = b.getString("userid");
+        spid = b.getString("spid");
+        reqid = b.getString("reqid");
 
         jreportcomment = (EditText) findViewById(R.id.reportcomment);
         jbtnsubmit = (Button) findViewById(R.id.submitreport);
@@ -44,7 +50,7 @@ public class ReportServiceActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                report(b.getString("userid"), b.getString("spid"), b.getString("reqid"), b.getString("s_name"), jreportcomment.getText().toString());
+                report(userid, spid, reqid, sname, jreportcomment.getText().toString());
 
             }
         });

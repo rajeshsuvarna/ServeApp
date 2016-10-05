@@ -4,6 +4,7 @@ package com.infouna.serveapp.activity;
  * Created by Rajesh on 3/8/2016.
  */
 
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String user_id = "useridKey";
     public static final String type = "typeKey";
+    public static final String sp_id = "spidKey";
     public SharedPreferences sharedpreferences;
 
     @Bind(R.id.input_phone)
@@ -111,11 +113,19 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONObject jsonObject = response.getJSONObject("user_details");
                                         String res_user_id = jsonObject.getString("userid");
                                         String res_type = jsonObject.getString("user_type");
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                                        SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
                                         editor.putString(user_id, res_user_id);
                                         editor.putString(type, res_type);
+                                        if (res_type.equals("SP")) {
+                                            String res_spid = jsonObject.getString("spid");
+                                            editor.putString(sp_id, res_spid);
+                                        }
                                         editor.commit();
-                                        Toast.makeText(getApplicationContext(), res_user_id, Toast.LENGTH_LONG).show();
+
+                                        sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                        // String userid = sharedpreferences.getString("useridKey", "");
+                                        //Toast.makeText(getApplicationContext(), userid+"hee", Toast.LENGTH_LONG).show();
                                         hideDialog();
                                         sucess();
                                     } else {

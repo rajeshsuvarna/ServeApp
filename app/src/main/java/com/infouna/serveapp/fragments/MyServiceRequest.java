@@ -35,7 +35,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MyServiceRequest extends Fragment {
     MyServiceRequestsAdapter adapter;
     RecyclerView recyclerView;
@@ -55,22 +54,18 @@ public class MyServiceRequest extends Fragment {
     TextView total_orders;
 
     String reqid = "", userid;
-    public static SharedPreferences spf;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_service_request, container, false);
 
-
-        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
-        userid = spf.getString("useridKey", "Null String");
-
-        Toast.makeText(getActivity(), userid + "test", Toast.LENGTH_SHORT).show();
+        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "");
 
         total_orders = (TextView) v.findViewById(R.id.torders_ODU);
 
-        data = fill_with_data(AppConfig.ORDER_LISTING_USER, "353056"); // pass userid as 2nd parameter from SHARED PREFERENCE
+        data = fill_with_data(AppConfig.ORDER_LISTING_USER, userid); // pass userid as 2nd parameter from SHARED PREFERENCE
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewODU);
 
@@ -84,25 +79,25 @@ public class MyServiceRequest extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        Toast.makeText(getActivity(), "uid" + userid, Toast.LENGTH_SHORT).show();
+
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(getActivity(), recyclerView, new RVAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Intent i = new Intent(getActivity(), OrderDetailsUserActivity.class);
-
-                i.putExtra("reqid", "46512");
+                i.putExtra("reqid", data.get(position).reqid);
+                i.putExtra("userid", userid);
                 startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(getActivity(), OrderDetailsUserActivity.class);
-
-                i.putExtra("reqid", reqid);
+                i.putExtra("reqid", data.get(position).reqid);
+                i.putExtra("userid", userid);
                 startActivity(i);
-
             }
         }));
-
 
         return v;
     }
@@ -141,7 +136,7 @@ public class MyServiceRequest extends Fragment {
 
                             data.add(new OrderListCardUser(reqid, b, c, d, e));
 
-                                                  }
+                        }
 
                     }
                     adapter.notifyDataSetChanged();
