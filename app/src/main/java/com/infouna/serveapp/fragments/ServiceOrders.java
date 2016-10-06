@@ -2,6 +2,7 @@ package com.infouna.serveapp.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,12 +53,19 @@ public class ServiceOrders extends Fragment {
 
     TextView total_orders;
 
+    String userid = "", spid = "", type = "";
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_service_orders, container, false);
 
+        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "");
+        type = spf.getString("typeKey", "");
+        spid = spf.getString("spidKey", "");
+
         total_orders = (TextView) v.findViewById(R.id.t_orders);
 
-        data = fill_with_data(AppConfig.ORDER_LISTING_SP, "452408"); // pass spid as 2nd parameter here
+        data = fill_with_data(AppConfig.ORDER_LISTING_SP, spid); // pass spid as 2nd parameter here
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewODSP);
 
@@ -76,7 +84,7 @@ public class ServiceOrders extends Fragment {
             public void onClick(View view, int position) {
                 Intent i = new Intent(getActivity(), OrderDetailsSPActivity.class);
                 i.putExtra("reqid", data.get(position).reqid);
-                i.putExtra("spid", data.get(position).spid);
+                i.putExtra("spid", spid);
                 startActivity(i);
             }
 
@@ -85,7 +93,7 @@ public class ServiceOrders extends Fragment {
 
                 Intent i = new Intent(getActivity(), OrderDetailsSPActivity.class);
                 i.putExtra("reqid", data.get(position).reqid);
-                i.putExtra("spid", data.get(position).spid);
+                i.putExtra("spid", spid);
                 startActivity(i);
             }
         }));
@@ -119,10 +127,12 @@ public class ServiceOrders extends Fragment {
 
                             jsonObject = dash.getJSONObject(i);
 
-                            data.add(new OrderListCardSP(jsonObject.getString("reqid"), jsonObject.getString("spid"),
-                                    jsonObject.getString("service_name"), jsonObject.getString("location"),
-                                    jsonObject.getString("username"), jsonObject.getString("requested_date_time"),
-                                    jsonObject.getString("accepted")));
+                            String a = jsonObject.getString("reqid"), b = jsonObject.getString("spid"),
+                                    c = jsonObject.getString("service_name"), d = jsonObject.getString("location"),
+                                    e = jsonObject.getString("username"), f = jsonObject.getString("requested_date_time"),
+                                    g = jsonObject.getString("accepted");
+
+                            data.add(new OrderListCardSP(a, b, c, d, e, f, g));
                         }
                     }
                     adapter.notifyDataSetChanged();

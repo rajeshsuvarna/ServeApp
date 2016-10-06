@@ -37,7 +37,7 @@ public class MyServiceRequestsAdapter extends RecyclerView.Adapter<MyServiceRequ
 
     public String type = "";
 
-    public static final int HOMECARD = 0, ORDERSP = 1, ORDERU = 2, SERVICELIST = 3, NOTIFICATION = 4;
+    public static final int HOMECARD = 0;
 
     public MyServiceRequestsAdapter(List data, int mDatasetType) {
         if (mDatasetType == 0) {

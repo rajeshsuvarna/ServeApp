@@ -59,7 +59,7 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
         CardView cv;
         TextView servicename, review;
         LinearLayout bgimage;
-        public ImageView status_icon, favourite_icon, stars[] = new ImageButton[5];
+        public ImageView status_icon, favourite_icon, stars[] = new ImageView[5];
 
         public CardServiceList(View v) {
             super(v);
@@ -91,24 +91,24 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-       if (viewHolder.getItemViewType() == HOMECARD) {
+        if (viewHolder.getItemViewType() == HOMECARD) {
             CardServiceList holder = (CardServiceList) viewHolder;
             holder.servicename.setText(String.valueOf(list.get(position).service_name));
             holder.review.setText(String.valueOf(list.get(position).total_reviews) + "Reviews");
 
-              String urlThumbnail = list.get(position).banner_picture;
+            String urlThumbnail = list.get(position).banner_picture;
             //    if (!urlThumbnail.equals("")) {
-              loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
+            // loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
             //  }
 
-//            if (String.valueOf(listODSU.get(position).accepted).equals("1")) {
-//
-//                holder.status_icon.setImageResource(R.mipmap.ic_check);
+            if (String.valueOf(list.get(position).confirmed).equals("1")) {
 
-//            } else if (String.valueOf(listODSU.get(position).accepted).equals("0")) {
+                holder.status_icon.setImageResource(R.mipmap.ic_check);
 
-//                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
-            //          }
+            } else if (String.valueOf(list.get(position).confirmed).equals("0")) {
+
+                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+            }
         }
     }
 

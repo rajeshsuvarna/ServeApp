@@ -1,7 +1,9 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Darshan on 14-04-2016.
  */
@@ -31,7 +37,7 @@ public class OrderDetailsSPActivity extends Activity {
     Button jbtnaccept, jbtncancel, jbtnreport;
     ImageView jstatusicon;
 
-    public String accepted, userid = "", spid = "", s_name = "";
+    public String accepted, userid = "", spid = "", type = "", s_name = "";
 
     public Bundle b;
 
@@ -41,6 +47,11 @@ public class OrderDetailsSPActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_sp);
+
+        SharedPreferences spf = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "");
+        type = spf.getString("typeKey", "");
+        spid = spf.getString("spidKey", "");
 
         Intent i = getIntent();
         b = i.getExtras();
@@ -89,7 +100,7 @@ public class OrderDetailsSPActivity extends Activity {
             }
         });
 
-        load_order_details(b.getString("spid"), b.getString("reqid"), AppConfig.ORDER_DETAILS_SP); // spid, reqid, url as params
+        load_order_details(spid, b.getString("reqid"), AppConfig.ORDER_DETAILS_SP); // spid, reqid, url as params
 
     }
 
@@ -105,13 +116,11 @@ public class OrderDetailsSPActivity extends Activity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-
+                            Toast.makeText(OrderDetailsSPActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                             JSONArray dash = response.getJSONArray("sp_orders_details");
 
                             JSONObject jsonObject = dash.getJSONObject(0);
 
-                            userid = jsonObject.getString("userid");
-                            spid = jsonObject.getString("spid");
                             s_name = jsonObject.getString("service_name");
 
                             jmax.setText(jsonObject.getString("max_budget"));

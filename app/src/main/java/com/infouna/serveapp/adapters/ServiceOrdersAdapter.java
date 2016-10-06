@@ -48,7 +48,6 @@ public class ServiceOrdersAdapter extends RecyclerView.Adapter<ServiceOrdersAdap
         }
     }
 
-
     public class CardOrderListSP extends ViewHolder {
         CardView cv;
         TextView username, date, time, status;
@@ -64,7 +63,6 @@ public class ServiceOrdersAdapter extends RecyclerView.Adapter<ServiceOrdersAdap
             this.status_icon = (ImageView) itemView.findViewById(R.id.odsp_status_image);
         }
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -95,7 +93,6 @@ public class ServiceOrdersAdapter extends RecyclerView.Adapter<ServiceOrdersAdap
             }
         }
     }
-
 
     @Override
     public int getItemCount() {
