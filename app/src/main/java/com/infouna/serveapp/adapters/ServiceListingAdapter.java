@@ -77,7 +77,6 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
         }
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v;

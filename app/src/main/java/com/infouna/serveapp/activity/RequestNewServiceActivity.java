@@ -22,7 +22,6 @@ public class RequestNewServiceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_new_service);
 
-
         max = (EditText) findViewById(R.id.RNS_maxbudget);
         loc = (EditText) findViewById(R.id.RNS_location);
         date = (EditText) findViewById(R.id.RNS_date);

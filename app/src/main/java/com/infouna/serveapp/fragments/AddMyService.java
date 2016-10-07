@@ -56,9 +56,11 @@ public class AddMyService extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_my_service, container, false);
 
-
-        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "Null String");
+
+        Toast.makeText(getActivity(),userid, Toast.LENGTH_SHORT).show();
+
 
         servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
         subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
@@ -69,8 +71,6 @@ public class AddMyService extends Fragment {
         jscity = (EditText) v.findViewById(R.id.input_servicecity);
         jpin = (EditText) v.findViewById(R.id.input_pincode);
         jweb = (EditText) v.findViewById(R.id.input_website);
-        //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        //String language = settings.getString("language", "");
 
         jregisterservice = (Button) v.findViewById(R.id.btn_reg);
 
@@ -138,8 +138,9 @@ public class AddMyService extends Fragment {
                         for (int i = 0; i < dash.length(); i++) {
 
                             jsonObject = dash.getJSONObject(i);
+                            String a = jsonObject.getString("services");
 
-                            list1.add(jsonObject.getString("services"));
+                            list1.add(a);
                         }
 
                     } else if (spin == 2) {
@@ -153,7 +154,9 @@ public class AddMyService extends Fragment {
 
                                 jsonObject = dash.getJSONObject(i);
 
-                                list2.add(jsonObject.getString("sub_service_name"));
+                                String a = jsonObject.getString("sub_service_name");
+
+                                list2.add(a);
                             }
                         } else {
                             Toast.makeText(getActivity(), "No subservices", Toast.LENGTH_SHORT).show();
@@ -210,15 +213,15 @@ public class AddMyService extends Fragment {
 
         String tag_json_obj = "json_obj_req";
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
 
-                            String res = response.getString("result");
-                            Toast.makeText(getActivity(), response.getString("spid"), Toast.LENGTH_SHORT).show();
+                            String res = response.getString("spid");
+                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -235,7 +238,6 @@ public class AddMyService extends Fragment {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-
     }
 
 

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.activity.RateServiceActivity;
@@ -33,17 +35,19 @@ import java.util.Map;
 
 /**
  * Created by infouna
- */
+ **/
+
 public class UserProfile extends Fragment {
 
     Context ctx;
+
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
 
     TextView fname, lname, email, mobile, username;
     String profile_pic;
     private ProgressDialog pDialog;
-
 
     public static SharedPreferences spf;
 
@@ -96,7 +100,6 @@ public class UserProfile extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
 
-
                             JSONArray dash = response.getJSONArray("user_profile");
 
                             JSONObject jsonObject = dash.getJSONObject(0);
@@ -107,6 +110,9 @@ public class UserProfile extends Fragment {
                             email.setText(jsonObject.getString("email"));
                             mobile.setText(jsonObject.getString("mobile"));
                             profile_pic = jsonObject.getString("profile_pic");
+
+                            loadImages(profile_pic);
+
                             hideDialog();
 
                         } catch (JSONException e) {
@@ -119,7 +125,8 @@ public class UserProfile extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideDialog();
-                Toast.makeText(ctx,"Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();hideDialog();
+                Toast.makeText(ctx, "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                hideDialog();
 
 
             }
@@ -129,6 +136,7 @@ public class UserProfile extends Fragment {
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
+
     private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
@@ -138,4 +146,23 @@ public class UserProfile extends Fragment {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+    private void loadImages(String urlThumbnail) {
+
+        if (!urlThumbnail.equals("NA")) {
+            imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
+
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                  //  bgimage.setBackground(new BitmapDrawable(response.getBitmap()));
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
+    }
+
 }

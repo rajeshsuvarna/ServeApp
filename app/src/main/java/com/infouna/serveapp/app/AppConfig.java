@@ -11,6 +11,9 @@ public class AppConfig {
     // Server user register url
     public static String URL_REGISTER = "http://www.serveapp.in/assets/api/registeruser.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
+    // ADVERTISEMENT url
+    public static String URL_ADVERTISEMENT = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=dashboard_ads";
+
     //send otp
     public static String URL_SEND_OPT = "http://www.serveapp.in/assets/api/sendregisterotp.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&userid=";
 
@@ -66,13 +69,13 @@ public class AppConfig {
     public static String SERVICE_DETAILS_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=service_details&";
 
     //Check favourite service listing
-    public static String CHECK_FAVOURITE = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=check_user_favourites";
+    public static String CHECK_FAVOURITE = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=check_user_favourites";
 
     //User notification
-    public static String NOTIFICATION_USER = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_user_notification&userid=";
+    public static String NOTIFICATION_USER = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_user_notification&userid=";
 
     //SP notification
-    public static String NOTIFICATION_SP = "http://www.serveapp.in/assets/api/ accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_sp_notification&spid=";
+    public static String NOTIFICATION_SP = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_sp_notification&spid=";
 
     //Request Service
     public static String SERVICE_REQUEST = "http://www.serveapp.in/assets/api/request_service.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";

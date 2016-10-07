@@ -1,6 +1,7 @@
 package com.infouna.serveapp.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
@@ -29,10 +31,24 @@ public class MyServiceProfileView extends Fragment {
     TextView jyourservice, jsubservice, jservicedesc, jminprice, jaddress, jweb;
     Button jedit;
 
+    String userid = "", spid = "", type = "";
+
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_service_profile_view, container, false);
+
+        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "");
+        type = spf.getString("typeKey", "");
+
+        if (type.equals("SP")) {
+            fetch_profile(userid);
+        } else if (type.equals("USER")) {
+            Toast.makeText(getActivity(), "Oops! You are not a Service Provider", Toast.LENGTH_SHORT).show();
+        }
 
         jyourservice = (TextView) v.findViewById(R.id.textview_your_service);
         jsubservice = (TextView) v.findViewById(R.id.textview_sub_service);
@@ -49,8 +65,6 @@ public class MyServiceProfileView extends Fragment {
 
             }
         });
-
-        fetch_profile("188254");
 
         return v;
     }
@@ -78,14 +92,22 @@ public class MyServiceProfileView extends Fragment {
 
                                 JSONObject jsonObject = dash.getJSONObject(0);
 
+                                String a = jsonObject.getString("first_name"), b = jsonObject.getString("last_name"),
+                                        c = jsonObject.getString("email"), d = jsonObject.getString("profile_pic"),
+                                        e = jsonObject.getString("address"), f = jsonObject.getString("logo_path"),
+                                        g = jsonObject.getString("shop_photos"), h = jsonObject.getString("website"),
+                                        i = jsonObject.getString("location"), j = jsonObject.getString("service_id"),
+                                        k = jsonObject.getString("service_name"), l = jsonObject.getString("sub_service_name"),
+                                        m = jsonObject.getString("tags"), n = jsonObject.getString("service_price");
+
                                 ServiceProfile sp = new ServiceProfile(
-                                        jsonObject.getString("first_name"), jsonObject.getString("last_name"),
-                                        jsonObject.getString("email"), jsonObject.getString("profile_pic"),
-                                        jsonObject.getString("address"), jsonObject.getString("logo_path"),
-                                        jsonObject.getString("shop_photos"), jsonObject.getString("website"),
-                                        jsonObject.getString("location"), jsonObject.getString("service_id"),
-                                        jsonObject.getString("service_name"), jsonObject.getString("sub_service_name"),
-                                        jsonObject.getString("tags"), jsonObject.getString("service_price"));
+                                        a, b,
+                                        c, d,
+                                        e, f,
+                                        g, h,
+                                        i, j,
+                                        k, l,
+                                        m, n);
 
                                 jyourservice.setText(sp.service_name);
                                 jsubservice.setText(sp.sub_service_name);
@@ -93,18 +115,17 @@ public class MyServiceProfileView extends Fragment {
                                 jminprice.setText(sp.service_price);
                                 jaddress.setText(sp.address);
                                 jweb.setText(sp.website);
+
+                                loadImages(d);
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
 
-                , new Response.ErrorListener()
-
-        {
+                , new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -114,12 +135,28 @@ public class MyServiceProfileView extends Fragment {
 
         );
 
-
 // Adding request to request queue
-        AppController.getInstance().
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 
-                addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
 
+    private void loadImages(String urlThumbnail) {
+
+        if (!urlThumbnail.equals("NA")) {
+            imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
+
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+
+                    // bgimage.setBackground(new BitmapDrawable(response.getBitmap()));
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
     }
 
 }

@@ -35,12 +35,14 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-    public static final String MyPREFERENCES = "MyPrefs.txt" ;
+    public static final String MyPREFERENCES = "MyPrefs.txt";
     public static final String user_id = "useridKey";
-    public static  final String type = "typeKey";
+    public static final String type = "typeKey";
+    public static final String spid = "spidKey";
     SharedPreferences sharedpreferences;
 
-    @Bind(R.id.input_phone) EditText input_phone;
+    @Bind(R.id.input_phone)
+    EditText input_phone;
 
     private Button _loginButton;
     private Button _signupLink;
@@ -76,13 +78,11 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(LoginActivity.this,UserRegistrationActivity.class);
+                Intent i = new Intent(LoginActivity.this, UserRegistrationActivity.class);
                 startActivity(i);
 
             }
         });
-
-
 
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -125,19 +125,22 @@ public class LoginActivity extends AppCompatActivity {
                                         // Create login session
                                         session.setLogin(true);
                                         JSONObject jsonObject = response.getJSONObject("user_details");
-                                        String res_user_id =  jsonObject.getString("userid");
-                                        String res_type =  jsonObject.getString("user_type");
+                                        String res_user_id = jsonObject.getString("userid");
+                                        String res_type = jsonObject.getString("user_type");
+                                        String res_spid = jsonObject.getString("spid");
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(user_id, res_user_id);
                                         editor.putString(type, res_type);
+                                        if (type.equals("SP")) {
+                                            editor.putString(spid, res_spid);
+                                        }
                                         editor.commit();
-                                       // hideDialog();
+                                        // hideDialog();
                                         sucess();
-                                    }
-                                    else {
+                                    } else {
                                         input_phone.setError("Number not registered");
-                                       // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();
-                                       hideDialog();
+                                        // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();
+                                        hideDialog();
                                     }
 
                                 } catch (JSONException e) {
@@ -149,8 +152,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                       // Log.e(TAG, "Login Error: " + error.getMessage());
-                        Toast.makeText(getApplicationContext(),"Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();hideDialog();
+                        // Log.e(TAG, "Login Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                        hideDialog();
 
                     }
                 });
@@ -158,9 +162,8 @@ public class LoginActivity extends AppCompatActivity {
                 AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
             }
 
-            private  void  sucess()
-            {
-                Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+            private void sucess() {
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);
             }
 

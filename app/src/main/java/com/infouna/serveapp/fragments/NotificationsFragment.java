@@ -1,5 +1,7 @@
 package com.infouna.serveapp.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,22 +32,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 public class NotificationsFragment extends Fragment {
 
     public static final int HOME = 0;
-    public static final int ORDERLISTSP = 1;
-    public static final int ORDERLISTUSER = 2;
-    public static final int SERVICELIST = 3;
-    public static final int NOTIFICATION = 4;
 
-    public String type = "";
-
-    private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
+    private int mDatasetTypes[] = {HOME};
 
     JsonObjectRequest jsonObjReq;
 
     public List<NotificationCard> data;
+
+    String userid = "", type = "", spid = "";
 
     NotificationAdapter adapter;
     RecyclerView recyclerView;
@@ -55,7 +52,15 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        data = fill_with_data();
+        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        userid = spf.getString("useridKey", "");
+        type = spf.getString("typeKey", "");
+        if (type.equals("SP")) {
+            spid = spf.getString("spidKey", "");
+        }
+
+        data = fill_with_data(AppConfig.NOTIFICATION_USER, AppConfig.NOTIFICATION_SP);
+
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewNotif);
 
         adapter = new NotificationAdapter(data, mDatasetTypes[0]); //array position is [4] coz card card type is NOTIFICATION
@@ -77,32 +82,26 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) {
 
-
             }
         }));
 
         return v;
-
-        // Code to Add an item with default animation
-        //((MyRecyclerViewAdapter) mAdapter).addItem(obj, index);
-
-        // Code to remove an item with default animation
-        //((MyRecyclerViewAdapter) mAdapter).deleteItem(index)
     }
 
-    public List<NotificationCard> fill_with_data() {
+    public List<NotificationCard> fill_with_data(String user_url, String sp_url) {
 
         data = new ArrayList<>();
-        if (type.equals("user")) {
+        if (type.equals("USER")) {
+            user_url += userid;
 
-            jsonObjReq = new JsonObjectRequest(Request.Method.GET, AppConfig.NOTIFICATION_USER, null, new Response.Listener<JSONObject>() {
+            jsonObjReq = new JsonObjectRequest(Request.Method.GET, user_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
 
                         JSONArray dash = response.getJSONArray("user_notification");
 
-                        if(response.getString("result").equals("1")) {
+                        if (response.getString("result").equals("1")) {
 
                             JSONObject jsonObject;
 
@@ -112,14 +111,14 @@ public class NotificationsFragment extends Fragment {
 
                                 jsonObject = dash.getJSONObject(i);
 
-                                data.add(new NotificationCard(jsonObject.getString("user_message"), jsonObject.getString("generated_datetime"),
-                                        jsonObject.getString("sp_accepted"), jsonObject.getString("service_name"),
-                                        jsonObject.getString("reqid"), jsonObject.getString("userid")));
+                                String a = jsonObject.getString("user_message"), b = jsonObject.getString("generated_datetime"),
+                                        c = jsonObject.getString("sp_accepted"), d = jsonObject.getString("service_name"),
+                                        e = jsonObject.getString("reqid"), f = jsonObject.getString("userid");
+
+                                data.add(new NotificationCard(a, b, c, d, e, f));
                             }
-                        }
-                        else
-                        {
-                            
+                        } else {
+
                         }
                         adapter.notifyDataSetChanged();
 
@@ -140,8 +139,9 @@ public class NotificationsFragment extends Fragment {
 
             AppController.getInstance().addToRequestQueue(jsonObjReq);
 
-        } else if (type.equals("sp")) {
-            jsonObjReq = new JsonObjectRequest(Request.Method.GET, AppConfig.NOTIFICATION_SP, null, new Response.Listener<JSONObject>() {
+        } else if (type.equals("SP")) {
+            sp_url += spid;
+            jsonObjReq = new JsonObjectRequest(Request.Method.GET, sp_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
@@ -156,9 +156,13 @@ public class NotificationsFragment extends Fragment {
 
                             jsonObject = dash.getJSONObject(i);
 
-                            data.add(new NotificationCard(jsonObject.getString("sp_message"), jsonObject.getString("generated_datetime"),
-                                    jsonObject.getString("request_from"), jsonObject.getString("service_name"),
-                                    jsonObject.getString("spid"), jsonObject.getString("reqid"), 0));
+                            String a = jsonObject.getString("sp_message"), b = jsonObject.getString("generated_datetime"),
+                                    c = jsonObject.getString("request_from"), d = jsonObject.getString("service_name"),
+                                    e = jsonObject.getString("spid"), f = jsonObject.getString("reqid");
+
+                            data.add(new NotificationCard(a, b,
+                                    c, d,
+                                    e, f, 0));
                             // last parameter is 0, it is used to distinguish sp notif from user notif
                         }
 
