@@ -4,7 +4,6 @@ package com.infouna.serveapp.activity;
  * Created by Rajesh on 3/8/2016.
  */
 
-import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
+import com.infouna.serveapp.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,19 +34,18 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "LoginActivity.txt";
-    public static final String MyPREFERENCES = "MyPrefs";
+    private static final String TAG = "LoginActivity";
+    public static final String MyPREFERENCES = "MyPrefs.txt" ;
     public static final String user_id = "useridKey";
-    public static final String type = "typeKey";
-    public static final String sp_id = "spidKey";
-    public SharedPreferences sharedpreferences;
+    public static  final String type = "typeKey";
+    SharedPreferences sharedpreferences;
 
-    @Bind(R.id.input_phone)
-    EditText input_phone;
+    @Bind(R.id.input_phone) EditText input_phone;
 
     private Button _loginButton;
     private Button _signupLink;
     private ProgressDialog pDialog;
+    private SessionManager session;
 
 
     @Override
@@ -57,6 +56,18 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton = (Button) findViewById(R.id.btn_login);
         _signupLink = (Button) findViewById(R.id.btn_register);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Check if user is already logged in or not
+        if (session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -65,11 +76,13 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, UserRegistrationActivity.class);
+                Intent i =new Intent(LoginActivity.this,UserRegistrationActivity.class);
                 startActivity(i);
 
             }
         });
+
+
 
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -109,29 +122,22 @@ public class LoginActivity extends AppCompatActivity {
 
                                     String res = response.getString("result");
                                     if (res.equals("1")) {
-
+                                        // Create login session
+                                        session.setLogin(true);
                                         JSONObject jsonObject = response.getJSONObject("user_details");
-                                        String res_user_id = jsonObject.getString("userid");
-                                        String res_type = jsonObject.getString("user_type");
-
-                                        SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
+                                        String res_user_id =  jsonObject.getString("userid");
+                                        String res_type =  jsonObject.getString("user_type");
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(user_id, res_user_id);
                                         editor.putString(type, res_type);
-                                        if (res_type.equals("SP")) {
-                                            String res_spid = jsonObject.getString("spid");
-                                            editor.putString(sp_id, res_spid);
-                                        }
                                         editor.commit();
-
-                                        sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                                        // String userid = sharedpreferences.getString("useridKey", "");
-                                        //Toast.makeText(getApplicationContext(), userid+"hee", Toast.LENGTH_LONG).show();
-                                        hideDialog();
+                                       // hideDialog();
                                         sucess();
-                                    } else {
+                                    }
+                                    else {
                                         input_phone.setError("Number not registered");
-                                        // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();
-                                        hideDialog();
+                                       // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();
+                                       hideDialog();
                                     }
 
                                 } catch (JSONException e) {
@@ -143,9 +149,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Log.e(TAG, "Login Error: " + error.getMessage());
-                        Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
-                        hideDialog();
+                       // Log.e(TAG, "Login Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(),"Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();hideDialog();
 
                     }
                 });
@@ -153,8 +158,9 @@ public class LoginActivity extends AppCompatActivity {
                 AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
             }
 
-            private void sucess() {
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+            private  void  sucess()
+            {
+                Intent i = new Intent(LoginActivity.this,HomeActivity.class);
                 startActivity(i);
             }
 

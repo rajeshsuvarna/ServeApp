@@ -16,16 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.infouna.serveapp.R;
-import com.infouna.serveapp.datamodel.ServiceProfile;
 import com.infouna.serveapp.fragments.AboutServeApp;
 import com.infouna.serveapp.fragments.AddMyService;
 import com.infouna.serveapp.fragments.FAQ;
 import com.infouna.serveapp.fragments.HomeFragment;
+import com.infouna.serveapp.fragments.MyServiceProfileView;
 import com.infouna.serveapp.fragments.NotificationsFragment;
 import com.infouna.serveapp.fragments.MyServiceRequest;
 import com.infouna.serveapp.fragments.ServiceOrders;
-import com.infouna.serveapp.fragments.ServiceProfileView;
-import com.infouna.serveapp.fragments.ServiceProfileView;
 import com.infouna.serveapp.fragments.Support;
 import com.infouna.serveapp.fragments.UserProfile;
 
@@ -48,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         home();
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        //drawerLayout.requestDisallowInterceptTouchEvent(true);
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -107,6 +106,15 @@ public class HomeActivity extends AppCompatActivity {
                         setTitle("Add My Service");
                         return true;
 
+                    case R.id.myserviceprofile:
+                        ishomeopen = 0;
+                        MyServiceProfileView myServiceProfileViewFragment = new MyServiceProfileView();
+                        android.support.v4.app.FragmentTransaction myServiceProfileViewfragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        myServiceProfileViewfragmentTransaction.replace(R.id.frame, myServiceProfileViewFragment);
+                        myServiceProfileViewfragmentTransaction.commit();
+                        setTitle("My Service Profile");
+                        return true;
+
                     case R.id.serviceorders:
                         ishomeopen = 0;
                         ServiceOrders serviceOrdersFragment = new ServiceOrders();
@@ -115,6 +123,7 @@ public class HomeActivity extends AppCompatActivity {
                         serviceOrderfragmentTransaction.commit();
                         setTitle("Service Orders");
                         return true;
+
                     case R.id.aboutserveapp:
                         ishomeopen = 0;
                         AboutServeApp aboutServeAppFragment = new AboutServeApp();

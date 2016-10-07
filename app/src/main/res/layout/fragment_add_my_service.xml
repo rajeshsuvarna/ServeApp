@@ -88,7 +88,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Minimum Service Price"
-                    android:inputType="text" />
+                    android:inputType="phone"
+                    android:maxLength="7"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -130,7 +131,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter PIN Code"
-                    android:inputType="text" />
+                    android:inputType="phone"
+                    android:maxLength="6"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

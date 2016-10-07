@@ -29,7 +29,7 @@ public class AboutServeApp extends Fragment {
 
 
         mWebView = (WebView) v.findViewById(R.id.webviewAbout);
-        mWebView.loadUrl("https://www.serveapp.in/static_pages/about-us.html");
+        mWebView.loadUrl("https://www.serveapp.in/static_pages/");
 
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();
