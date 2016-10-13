@@ -40,11 +40,12 @@ public class MyServiceProfileView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_service_profile_view, container, false);
 
-        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         type = spf.getString("typeKey", "");
 
         if (type.equals("SP")) {
+            Toast.makeText(getActivity(), "Loading data", Toast.LENGTH_SHORT).show();
             fetch_profile(userid);
         } else if (type.equals("USER")) {
             Toast.makeText(getActivity(), "Oops! You are not a Service Provider", Toast.LENGTH_SHORT).show();
@@ -75,6 +76,7 @@ public class MyServiceProfileView extends Fragment {
         String url = AppConfig.URL_GET_SERVICE_PROFILE;
 
         url += userid;
+        Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
@@ -84,13 +86,24 @@ public class MyServiceProfileView extends Fragment {
                         try {
 
                             String res = response.getString("result");
+                         //   Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
+
+
 
                             if (res.equals("0")) {
                                 Toast.makeText(getActivity(), "Data not found", Toast.LENGTH_SHORT).show();
                             } else {
                                 JSONArray dash = response.getJSONArray("sp_profile");
+                              //  Toast.makeText(getActivity(), dash.toString(), Toast.LENGTH_SHORT).show();
 
                                 JSONObject jsonObject = dash.getJSONObject(0);
+
+                                jyourservice.setText(jsonObject.getString("service_name"));
+                                jsubservice.setText(jsonObject.getString("sub_service_name"));
+                                jminprice.setText(jsonObject.getString("service_price"));
+                                jaddress.setText(jsonObject.getString("address"));
+                                jweb.setText(jsonObject.getString("website"));
+
 
                                 String a = jsonObject.getString("first_name"), b = jsonObject.getString("last_name"),
                                         c = jsonObject.getString("email"), d = jsonObject.getString("profile_pic"),
@@ -109,7 +122,9 @@ public class MyServiceProfileView extends Fragment {
                                         k, l,
                                         m, n);
 
-                                jyourservice.setText(sp.service_name);
+
+
+                               jyourservice.setText(sp.service_name);
                                 jsubservice.setText(sp.sub_service_name);
                                 jservicedesc.setText("");     // nothing in URL
                                 jminprice.setText(sp.service_price);

@@ -13,12 +13,13 @@
         android:src="@drawable/ic_profile"
         android:layout_marginLeft="24dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rajesh"
+        android:text="name"
         android:textSize="14sp"
         android:textColor="#FFF"
         android:textStyle="bold"
@@ -27,7 +28,9 @@
         android:id="@+id/username"
         android:layout_marginStart="33dp"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/profile_image" />
+        android:layout_toEndOf="@+id/profile_image"
+        android:layout_marginLeft="33dp"
+        android:layout_toRightOf="@+id/profile_image" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,6 +41,7 @@
         android:textSize="14sp"
         android:textColor="#fff"
         android:layout_alignBottom="@+id/profile_image"
-        android:layout_alignStart="@+id/username" />
+        android:layout_alignStart="@+id/username"
+        android:layout_alignLeft="@+id/username" />
 
 </RelativeLayout>

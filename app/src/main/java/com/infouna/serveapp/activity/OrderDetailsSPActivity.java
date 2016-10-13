@@ -48,7 +48,7 @@ public class OrderDetailsSPActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_sp);
 
-        SharedPreferences spf = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         type = spf.getString("typeKey", "");
         spid = spf.getString("spidKey", "");

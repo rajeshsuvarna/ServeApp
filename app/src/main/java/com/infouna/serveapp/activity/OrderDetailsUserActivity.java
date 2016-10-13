@@ -43,7 +43,7 @@ public class OrderDetailsUserActivity extends Activity {
         userid = b.getString("userid");
         reqid = b.getString("reqid");
 
-        SharedPreferences spf = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", MODE_PRIVATE);
         String type = spf.getString("typeKey", "");
         Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("SP")) {

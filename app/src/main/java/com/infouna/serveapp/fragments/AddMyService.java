@@ -56,7 +56,7 @@ public class AddMyService extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_my_service, container, false);
 
-        spf = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "Null String");
 
         Toast.makeText(getActivity(),userid, Toast.LENGTH_SHORT).show();
@@ -210,6 +210,7 @@ public class AddMyService extends Fragment {
         URL += "&userid=" + userid + "&add=" + address + "&ban_pic=" + ban_pic + "&website=" + web + "&shop_pic=" + shop_pic +
                 "&loc=" + loc + "&s_name=" + service + "&s_price=" + min_price + "&s_sub_name=" + subservice +
                 "&s_desc=" + service_desc + "&pin=" + pin;
+        Toast.makeText(getActivity(), URL, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -225,6 +226,7 @@ public class AddMyService extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(getActivity(),  e.toString(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -232,6 +234,7 @@ public class AddMyService extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(),  error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });

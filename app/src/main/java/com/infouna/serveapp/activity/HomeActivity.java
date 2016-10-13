@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.fragments.AboutServeApp;
@@ -35,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     int ishomeopen = 1;
 
+    TextView name,location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,9 @@ public class HomeActivity extends AppCompatActivity {
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         //drawerLayout.requestDisallowInterceptTouchEvent(true);
+
+        name = (TextView) findViewById(R.id.username);
+        location = (TextView) findViewById(R.id.location);
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

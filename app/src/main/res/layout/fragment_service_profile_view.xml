@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:padding="7dp"
-                android:text="Adam"
+                android:text=""
                 android:textColor="@color/textColorPrimary" />
 
         </LinearLayout>
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:padding="7dp"
-                android:text="Hansen"
+                android:text=""
                 android:textColor="@color/textColorPrimary" />
 
         </LinearLayout>
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:padding="7dp"
-                android:text="xyz@gmail.com"
+                android:text=""
                 android:textColor="@color/textColorPrimary" />
 
         </LinearLayout>
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:padding="7dp"
-                android:text="1234567890"
+                android:text=""
                 android:textColor="@color/textColorPrimary" />
 
 
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
 
                     android:padding="7dp"
-                    android:text="3200 Jail Drive Culver City, CA 90232"
+                    android:text=""
                     android:textColor="@color/textColorPrimary" />
             </RelativeLayout>
 
@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:padding="7dp"
-                android:text="www.infouna.com"
+                android:text=""
                 android:textColor="@color/textColorPrimary" />
 
         </LinearLayout>
