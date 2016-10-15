@@ -127,11 +127,11 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONObject jsonObject = response.getJSONObject("user_details");
                                         String res_user_id = jsonObject.getString("userid");
                                         String res_type = jsonObject.getString("user_type");
-                                        String res_spid = jsonObject.getString("spid");
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(user_id, res_user_id);
                                         editor.putString(type, res_type);
                                         if (type.equals("SP")) {
+                                            String res_spid = jsonObject.getString("spid");
                                             editor.putString(spid, res_spid);
                                         }
                                         editor.commit();
@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "Unexpected Error, please try again later", Toast.LENGTH_LONG).show();
                                 }
 
                             }

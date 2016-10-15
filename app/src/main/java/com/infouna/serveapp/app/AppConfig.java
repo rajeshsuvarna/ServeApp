@@ -23,6 +23,9 @@ public class AppConfig {
     // Server user register url
     public static String URL_CHECK_NUMBER = "http://www.serveapp.in/assets/api/checknumber.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobileno=";
 
+    //user profile
+    public String URL_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
+
     // Dashboard services / categories home page
     public static String URL_DASHBOARD_SERVICES_HOME = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=dashboard_services";
 

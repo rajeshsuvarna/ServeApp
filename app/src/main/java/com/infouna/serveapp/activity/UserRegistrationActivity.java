@@ -207,7 +207,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
                                                                                         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
                                                                                             }
-                                                                                        }, 5000);
+                                                                                        }, 3000);
                                                                                     }
 
 

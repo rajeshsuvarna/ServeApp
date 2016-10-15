@@ -1,9 +1,11 @@
 package com.infouna.serveapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,12 +15,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.HomeActivity;
+import com.infouna.serveapp.activity.LoginActivity;
+import com.infouna.serveapp.activity.UserRegistrationActivity;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
 import com.infouna.serveapp.datamodel.ServiceProfile;
@@ -49,6 +59,21 @@ public class MyServiceProfileView extends Fragment {
             fetch_profile(userid);
         } else if (type.equals("USER")) {
             Toast.makeText(getActivity(), "Oops! You are not a Service Provider", Toast.LENGTH_SHORT).show();
+            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+            builder.setTitle("You are not Service Provider");
+            builder .setDescription("Please add your service to continue... ");
+            builder.withDialogAnimation(true, Duration.SLOW);
+            builder.setStyle(Style.HEADER_WITH_TITLE);
+            builder.setPositiveText("OK");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    Intent i =new Intent(getActivity(),HomeActivity.class);
+                    startActivity(i);
+                    builder.autoDismiss(true);
+                }
+            });
+            builder.show();
         }
 
         jyourservice = (TextView) v.findViewById(R.id.textview_your_service);
