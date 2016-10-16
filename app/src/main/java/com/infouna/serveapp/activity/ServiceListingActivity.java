@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ public class ServiceListingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_listing);
+
+
         Intent i = getIntent();
         Bundle b = i.getExtras();
 
@@ -212,5 +215,12 @@ public class ServiceListingActivity extends Activity {
         AppController.getInstance().addToRequestQueue(jsonObjReqfav);
 
         return result;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i =new Intent(this,HomeActivity.class);
+        startActivity(i);
+        finish();
     }
 }

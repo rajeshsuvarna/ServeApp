@@ -74,16 +74,33 @@ public class UserProfile extends Fragment {
             }
         });
 
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading...");
+        showDialog();
+
         spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         String s = spf.getString("useridKey", "Null String");
+        String sfname = spf.getString("fnameKey", "Null String");
+        Toast.makeText(ctx, sfname, Toast.LENGTH_LONG).show();
+        String slname = spf.getString("lnameKey", "Null String");
+        String semail = spf.getString("emailKey", "Null String");
+        String sphone = spf.getString("phoneKey", "Null String");
+
+        username.setText(sfname +" "+ slname);
+        fname.setText(sfname);
+        lname.setText(slname);
+        email.setText(semail);
+        mobile.setText(sphone);
+
+        hideDialog();
 
         String userid = s; // replace this with proper userid
-        fetch_profile(userid);    // call with userid as parameter
+       // fetch_profile(userid);    // call with userid as parameter
 
         return v;
     }
 
-    public void fetch_profile(final String userid) {
+    /*public void fetch_profile(final String userid) {
 
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Loading...");
@@ -135,7 +152,7 @@ public class UserProfile extends Fragment {
 
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-    }
+    }*/
 
     private void showDialog() {
         if (!pDialog.isShowing())

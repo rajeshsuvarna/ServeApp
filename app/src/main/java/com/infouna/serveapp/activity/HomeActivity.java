@@ -53,9 +53,12 @@ public class HomeActivity extends AppCompatActivity {
 
     public static SharedPreferences spf;
 
-    public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
+    public static final String fname = "fnameKey";
+    public static final String lname = "lnameKey";
+    public static final String email = "emailKey";
+    public static final String phone = "phoneKey";
 
-    private ProgressDialog pDialog;
+    public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
 
     TextView name,location;
 
@@ -72,12 +75,13 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         //drawerLayout.requestDisallowInterceptTouchEvent(true);
 
-        name = (TextView) navigationView.findViewById(R.id.username);
-        location = (TextView) findViewById(R.id.location);
+        View header = navigationView.getHeaderView(0);
+
+        name = (TextView) header.findViewById(R.id.username);
+        //location = (TextView) findViewById(R.id.location);
 
         spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         String s = spf.getString("useridKey", "Null String");
-        Toast.makeText(HomeActivity.this, s, Toast.LENGTH_LONG).show();
 
         String userid = s; // replace this with proper userid
         fetch_profile(userid);    // call with userid as parameter
@@ -241,7 +245,6 @@ public class HomeActivity extends AppCompatActivity {
         String url = URL_GET_USER_PROFILE;
 
         url += userid;
-        Toast.makeText(HomeActivity.this, url, Toast.LENGTH_LONG).show();
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
@@ -249,15 +252,20 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-
-                            Toast.makeText(HomeActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-
                             JSONArray dash = response.getJSONArray("user_profile");
-
                             JSONObject jsonObject = dash.getJSONObject(0);
-                            String a = jsonObject.getString("first_name");
-
-                          //  name.setText(a);
+                            String fn = jsonObject.getString("first_name");
+                            String ln = jsonObject.getString("last_name");
+                            String mail = jsonObject.getString("email");
+                            String mob = jsonObject.getString("mobile");
+                            String pic = jsonObject.getString("profile_pic");
+                            SharedPreferences.Editor editor = spf.edit();
+                            editor.putString(fname, fn);
+                            editor.putString(lname, ln);
+                            editor.putString(email,mail);
+                            editor.putString(phone, mob);
+                            editor.commit();
+                            name.setText(fn +" "+ ln);
 
 
                           //  loadImages(profile_pic);
@@ -285,17 +293,6 @@ public class HomeActivity extends AppCompatActivity {
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-
-
-   /* private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }*/
 
     public void home()
     {

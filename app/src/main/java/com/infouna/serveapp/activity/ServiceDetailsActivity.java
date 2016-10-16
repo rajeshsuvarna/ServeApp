@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,12 +32,14 @@ import org.json.JSONObject;
  * Created by Darshan on 13-04-2016.
  */
 
-public class ServiceDetailsActivity extends Activity {
+public class ServiceDetailsActivity extends AppCompatActivity {
 
     TextView servicename, review_count, address;
     Button request;
     ImageButton btnfav, stars[] = new ImageButton[5];
     LinearLayout background;
+
+    private Toolbar toolbar;
 
     public static SharedPreferences spf;
 
@@ -51,8 +55,13 @@ public class ServiceDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_details);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Service Listing");
+
         spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "Null String");
+
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
