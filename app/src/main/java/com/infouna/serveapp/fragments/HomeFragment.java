@@ -12,6 +12,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -53,6 +54,8 @@ public class HomeFragment extends Fragment {
 
     public List<HomeCardData> data, d;
 
+    Button all;
+
     RVAdapter adapter;
     RecyclerView recyclerView;
 
@@ -75,6 +78,17 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewHome);
 
         adapter = new RVAdapter(data, mDatasetTypes[0]); //array position is [0] coz card card type is HOME
+
+        all = (Button) v.findViewById(R.id.search_all);
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), ServiceListingActivity.class);
+                i.putExtra("servicename", "all");
+                startActivity(i);
+            }
+        });
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
 

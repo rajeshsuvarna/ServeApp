@@ -32,21 +32,21 @@
                 android:layout_weight="0.9"
                 android:orientation="vertical">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/check"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="10dp"
-                    android:background="@mipmap/ic_check" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="60dp"
-                    android:text="Wedding Photography"
+                    android:text=""
                     android:textColor="@color/common_google_signin_btn_text_dark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -57,39 +57,39 @@
                     android:orientation="horizontal"
                     android:padding="5dp">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/star_1"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginLeft="8dp"
-                        android:background="@mipmap/ic_star_selected"
+                        android:background="@mipmap/ic_star_deselected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/star_2"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginLeft="8dp"
-                        android:background="@mipmap/ic_star_selected"
+                        android:background="@mipmap/ic_star_deselected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/star_3"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginLeft="8dp"
-                        android:background="@mipmap/ic_star_selected"
+                        android:background="@mipmap/ic_star_deselected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/star_4"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginLeft="8dp"
-                        android:background="@mipmap/ic_star_selected"
+                        android:background="@mipmap/ic_star_deselected"
                         android:onClick="onClick" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/star_5"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:padding="1dp"
-                        android:text="23 Reviews"
+                        android:text=""
                         android:textColor="@color/common_google_signin_btn_text_dark"
                         android:textSize="12sp" />
 
@@ -118,7 +118,7 @@
                 android:layout_weight="0.1"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/favourite"
                     android:layout_width="20dp"
                     android:layout_height="20dp"

@@ -26,7 +26,7 @@ public class FAQ extends Fragment {
         View v = inflater.inflate(R.layout.fragment_faq,container,false);
 
         mWebView = (WebView) v.findViewById(R.id.webviewFaq);
-        mWebView.loadUrl("https://www.serveapp.in/static_pages/faq.html");
+        mWebView.loadUrl("http://www.serveapp.in/static_pages/faq.html");
 
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();

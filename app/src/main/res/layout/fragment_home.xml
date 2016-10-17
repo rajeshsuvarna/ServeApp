@@ -27,6 +27,12 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/search_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search All" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewHome"
             android:layout_width="match_parent"

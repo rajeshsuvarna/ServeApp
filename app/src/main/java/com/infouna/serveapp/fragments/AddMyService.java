@@ -49,20 +49,23 @@ public class AddMyService extends Fragment {
 
     public static final String MyPREFERENCES = "MyPrefs.txt";
 
-    @Bind(R.id.input_yourservicedescription) EditText jservdesc;
-    @Bind(R.id.input_minserviceprice) EditText jminprice;
-    @Bind(R.id.input_serviceaddress) EditText jsaddress;
-    @Bind(R.id.input_servicecity) EditText jscity;
-    @Bind(R.id.input_pincode) EditText jpin;
-    @Bind(R.id.input_website) EditText jweb;
+/*
+    @Bind(R.id.input_add_yourservicedescription) EditText jservdesc;
+    @Bind(R.id.input_add_minserviceprice) EditText jminprice;
+    @Bind(R.id.input_add_serviceaddress) EditText jsaddress;
+    @Bind(R.id.input_add_servicecity) EditText jscity;
+    @Bind(R.id.input_add_pincode) EditText jpin;
+    @Bind(R.id.input_add_website) EditText jweb;
 
-   // EditText jservdesc, jminprice, jsaddress, jscity, jpin, jweb;
+*/
+
+    EditText jservice, jsubservice, jservdesc, jminprice, jsaddress, jscity, jpin, jweb;
     Button jregisterservice;
     private ProgressDialog pDialog;
 
     public static SharedPreferences spf;
 
-    Spinner servicespinner, subservicespinner;
+    // Spinner servicespinner, subservicespinner;
 
     String userid, ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, city, pin, web;
 
@@ -71,21 +74,27 @@ public class AddMyService extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_my_service, container, false);
 
-        ButterKnife.bind(this.getActivity(),v);
+        ButterKnife.bind(this.getActivity(), v);
 
         spf = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "Null String");
 
-        Toast.makeText(getActivity(),userid, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), userid + "test", Toast.LENGTH_SHORT).show();
 
+        //servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
+        //subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
 
-        servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
-        subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
+        jservice = (EditText) v.findViewById(R.id.input_add_service);
+        jsubservice = (EditText) v.findViewById(R.id.input_add_sub_service);
+        jservdesc = (EditText) v.findViewById(R.id.input_add_yourservicedescription);
+        jsaddress = (EditText) v.findViewById(R.id.input_add_serviceaddress);
+        jminprice = (EditText) v.findViewById(R.id.input_add_minserviceprice);
+        jpin = (EditText) v.findViewById(R.id.input_add_pincode);
+        jscity = (EditText) v.findViewById(R.id.input_add_servicecity);
+        jweb = (EditText) v.findViewById(R.id.input_add_website);
+        jregisterservice = (Button) v.findViewById(R.id.btn_reg_add);
 
-
-        jregisterservice = (Button) v.findViewById(R.id.btn_reg);
-
-        fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, ""); // fill service spinner 1
+      /*  fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, ""); // fill service spinner 1
         setAdapter(1);
 
         servicespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -97,7 +106,7 @@ public class AddMyService extends Fragment {
                 adapterTWO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 subservicespinner.setAdapter(adapterTWO);
 
-                fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
+               fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
                 setAdapter(2);
             }
 
@@ -107,13 +116,14 @@ public class AddMyService extends Fragment {
             }
         });
 
+*/
         jregisterservice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                service = servicespinner.getSelectedItem().toString();
-                subservice = subservicespinner.getSelectedItem().toString();
-                service_desc = jservdesc.getText().toString().trim();
+                service = jservice.getText().toString();
+                subservice = jsubservice.getText().toString();
+                service_desc = jservdesc.getText().toString();
                 min_price = jminprice.getText().toString();
                 int foo_price = Integer.parseInt(min_price);
                 address = jsaddress.getText().toString();
@@ -121,6 +131,8 @@ public class AddMyService extends Fragment {
                 pin = jpin.getText().toString();
                 int foo_pin = Integer.parseInt(pin);
                 web = jweb.getText().toString();
+
+                /*
 
                 if(service_desc.isEmpty())
                 {
@@ -164,8 +176,8 @@ public class AddMyService extends Fragment {
                                                     jweb.setError("Please provide your proper website");
                                                 }
                                                 else
-
-                                                    register(userid, service, subservice, "banpic", "shoppic", "location", service_desc, min_price, address, city, pin, web, AppConfig.URL_ADD_SERVICE);
+                */
+                register(userid, service, subservice, "banpic", "shoppic", "location", service_desc, min_price, address, city, pin, web, AppConfig.URL_ADD_SERVICE);
             }
         });
 
@@ -244,9 +256,9 @@ public class AddMyService extends Fragment {
                     adapterONE = new ArrayAdapter<String>(getContext(),
                             android.R.layout.simple_spinner_item, list1);
                     adapterONE.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    servicespinner.setAdapter(adapterONE);
+                   // servicespinner.setAdapter(adapterONE);
 
-                    fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, (String) servicespinner.getSelectedItem());//servicespinner.getSelectedItem().toString());
+                 //   fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, (String) servicespinner.getSelectedItem());//servicespinner.getSelectedItem().toString());
                     setAdapter(2);
 
                 } else if (spinner == 2) {
@@ -254,7 +266,7 @@ public class AddMyService extends Fragment {
                     adapterTWO = new ArrayAdapter<String>(getContext(),
                             android.R.layout.simple_spinner_item, list2);
                     adapterTWO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    subservicespinner.setAdapter(adapterTWO);
+                 //   subservicespinner.setAdapter(adapterTWO);
                 }
             }
         }, 2000);
@@ -263,8 +275,8 @@ public class AddMyService extends Fragment {
 
     private void register(String userid, String service, String subservice, String ban_pic, String shop_pic, String loc, String service_desc, String min_price, String address, String city, String pin, String web, String URL) {
 
-        pDialog.setMessage("Registering Service Provider......");
-        showDialog();
+//        pDialog.setMessage("Registering Service Provider......");
+        //      showDialog();
 
         URL += "&userid=" + userid + "&add=" + address + "&ban_pic=" + ban_pic + "&website=" + web + "&shop_pic=" + shop_pic +
                 "&loc=" + loc + "&s_name=" + service + "&s_price=" + min_price + "&s_sub_name=" + subservice +
@@ -285,7 +297,7 @@ public class AddMyService extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getActivity(),  e.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -293,7 +305,7 @@ public class AddMyService extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(),  error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });

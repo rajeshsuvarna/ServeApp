@@ -27,20 +27,20 @@
             android:orientation="horizontal"
             android:layout_marginTop="12dp">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/notif_status_icon"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
-                android:background="@mipmap/ic_warning_notification" />
+                 />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Service Request Accepted"
+                android:text=""
                 android:textColor="@color/textColorPrimary"
                 android:textSize="17sp"
                 android:id="@+id/notif_title" />

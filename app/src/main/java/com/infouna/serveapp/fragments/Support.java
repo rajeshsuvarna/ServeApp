@@ -23,7 +23,7 @@ public class Support extends Fragment {
         View v = inflater.inflate(R.layout.fragment_support,container,false);
 
         mWebView = (WebView) v.findViewById(R.id.webviewSupport);
-        mWebView.loadUrl("https://www.serveapp.in/static_pages/faq.html");
+        mWebView.loadUrl("http://www.serveapp.in/static_pages/faq.html");
 
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();

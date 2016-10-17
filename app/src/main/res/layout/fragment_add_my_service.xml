@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
-
+<!--
             <Spinner
                 android:id="@+id/servicespinner"
                 android:layout_width="match_parent"
@@ -58,10 +58,23 @@
                 android:id="@+id/subservicespinner"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-
                 android:layout_marginTop="20dp"
                 android:spinnerMode="dialog"
                 android:textColor="@color/colorPrimaryDark" />
+-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/input_add_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Service Name"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -70,7 +83,22 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/input_yourservicedescription"
+                    android:id="@+id/input_add_sub_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Sub Service Name"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/input_add_yourservicedescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Your Service Description"
@@ -84,7 +112,7 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/input_minserviceprice"
+                    android:id="@+id/input_add_minserviceprice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Minimum Service Price"
@@ -99,7 +127,7 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/input_serviceaddress"
+                    android:id="@+id/input_add_serviceaddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Service Address"
@@ -113,7 +141,7 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/input_servicecity"
+                    android:id="@+id/input_add_servicecity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Service City"
@@ -127,7 +155,7 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/input_pincode"
+                    android:id="@+id/input_add_pincode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter PIN Code"
@@ -142,7 +170,7 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/input_website"
+                    android:id="@+id/input_add_website"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Your Website"
@@ -150,7 +178,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_reg"
+                android:id="@+id/btn_reg_add"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"

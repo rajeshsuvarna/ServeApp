@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
     TextView servicename, review_count, address;
     Button request;
-    ImageButton btnfav, stars[] = new ImageButton[5];
+    ImageView btnfav, stars[] = new ImageView[5];
     LinearLayout background;
 
     private Toolbar toolbar;
@@ -74,13 +75,13 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
         request = (Button) findViewById(R.id.btn_sd_request);
 
-        btnfav = (ImageButton) findViewById(R.id.sd_favourite);
+        btnfav = (ImageView) findViewById(R.id.sd_favourite);
 
-        stars[0] = (ImageButton) findViewById(R.id.star_1);
-        stars[1] = (ImageButton) findViewById(R.id.star_2);
-        stars[2] = (ImageButton) findViewById(R.id.star_3);
-        stars[3] = (ImageButton) findViewById(R.id.star_4);
-        stars[4] = (ImageButton) findViewById(R.id.star_5);
+        stars[0] = (ImageView) findViewById(R.id.star_1);
+        stars[1] = (ImageView) findViewById(R.id.star_2);
+        stars[2] = (ImageView) findViewById(R.id.star_3);
+        stars[3] = (ImageView) findViewById(R.id.star_4);
+        stars[4] = (ImageView) findViewById(R.id.star_5);
 
         request.setOnClickListener(new View.OnClickListener() {
             @Override
