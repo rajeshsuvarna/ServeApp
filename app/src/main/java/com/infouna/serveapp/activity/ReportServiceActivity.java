@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +24,11 @@ import org.json.JSONObject;
 /**
  * Created by Darshan on 31-03-2016.
  */
-public class ReportServiceActivity extends Activity {
+public class ReportServiceActivity extends AppCompatActivity {
 
     Bundle b;
+
+    Toolbar toolbar;
 
     EditText jreportcomment;
     Button jbtnsubmit;
@@ -35,6 +39,24 @@ public class ReportServiceActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_service);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Report Service");
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+        }
+        });
+
 
         Intent i =getIntent();
         b = i.getExtras();
@@ -90,5 +112,12 @@ public class ReportServiceActivity extends Activity {
 
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent back = new Intent(this,OrderDetailsUserActivity.class);
+        startActivity(back);
+        finish();
     }
 }

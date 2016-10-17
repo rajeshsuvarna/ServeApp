@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
+import com.infouna.serveapp.fragments.MyServiceRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,11 +29,13 @@ import org.json.JSONObject;
 /**
  * Created by Darshan on 15-04-2016.
  */
-public class OrderDetailsUserActivity extends Activity {
+public class OrderDetailsUserActivity extends AppCompatActivity {
 
     TextView jmax, jloc, jdate, jdesc, jsname, jstatusdate, jstatustime, jacceptedstatus;
     Button jbtnreport, jbtncancel, jbtnrate;
     ImageView jstatusicon;
+
+    Toolbar toolbar;
 
     String accepted = "", reqid = "", userid = "", sname = "", spid = "";
 
@@ -38,6 +43,25 @@ public class OrderDetailsUserActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_user);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Order Details");
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
 
         Bundle b = getIntent().getExtras();
         userid = b.getString("userid");
@@ -178,4 +202,10 @@ public class OrderDetailsUserActivity extends Activity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent back = new Intent(this,MyServiceRequest.class);
+        startActivity(back);
+        finish();
+    }
 }

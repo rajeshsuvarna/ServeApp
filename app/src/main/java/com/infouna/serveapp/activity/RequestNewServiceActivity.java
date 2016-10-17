@@ -3,6 +3,8 @@ package com.infouna.serveapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,15 +14,33 @@ import com.infouna.serveapp.R;
 /**
  * Created by Darshan on 03-10-2016.
  */
-public class RequestNewServiceActivity extends Activity {
+public class RequestNewServiceActivity extends AppCompatActivity {
 
     EditText max, loc, date, add, desc;
     Button confirm;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_new_service);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Service Details");
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         max = (EditText) findViewById(R.id.RNS_maxbudget);
         loc = (EditText) findViewById(R.id.RNS_location);
@@ -45,5 +65,12 @@ public class RequestNewServiceActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent back = new Intent(this,ServiceDetailsActivity.class);
+        startActivity(back);
+        finish();
     }
 }

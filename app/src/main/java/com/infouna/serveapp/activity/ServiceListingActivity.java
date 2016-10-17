@@ -3,6 +3,7 @@ package com.infouna.serveapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +34,7 @@ import java.util.List;
  * Created by Darshan on 22-08-2016.
  */
 
-public class ServiceListingActivity extends Activity {
+public class ServiceListingActivity extends AppCompatActivity {
 
     ServiceListingAdapter adapter;
     RecyclerView recyclerView;
@@ -48,6 +49,8 @@ public class ServiceListingActivity extends Activity {
     public static final int SERVICELIST = 3;
     public static final int NOTIFICATION = 4;
 
+    private Toolbar toolbar;
+
     private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     TextView total_orders;
@@ -58,6 +61,26 @@ public class ServiceListingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_listing);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Service Listing");
+
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
 
 
         Intent i = getIntent();

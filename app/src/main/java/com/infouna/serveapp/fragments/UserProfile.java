@@ -81,7 +81,6 @@ public class UserProfile extends Fragment {
         spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         String s = spf.getString("useridKey", "Null String");
         String sfname = spf.getString("fnameKey", "Null String");
-        Toast.makeText(ctx, sfname, Toast.LENGTH_LONG).show();
         String slname = spf.getString("lnameKey", "Null String");
         String semail = spf.getString("emailKey", "Null String");
         String sphone = spf.getString("phoneKey", "Null String");

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,11 +17,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.HomeActivity;
 import com.infouna.serveapp.activity.OrderDetailsUserActivity;
 import com.infouna.serveapp.adapters.MyServiceRequestsAdapter;
 import com.infouna.serveapp.adapters.RVAdapter;
@@ -114,10 +121,29 @@ public class MyServiceRequest extends Fragment {
                 try {
                     String res = response.getString("result");
 
-                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     JSONArray dash = response.getJSONArray("orders");
 
-                    if (res.equals("1")) {
+                    Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
+
+                    if (res.equals("0")) {
+
+                        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+                        builder.setTitle("You have not requested any service");
+                        builder.setDescription("Please use one of the service to continue... ");
+                        builder.withDialogAnimation(true, Duration.SLOW);
+                        builder.setStyle(Style.HEADER_WITH_TITLE);
+                        builder.setPositiveText("OK");
+                        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent i = new Intent(getActivity(), HomeActivity.class);
+                                startActivity(i);
+                                builder.autoDismiss(true);
+                            }
+                        });
+                        builder.show();
+                    }
+                    else {
 
                         JSONObject jsonObject;
 

@@ -367,8 +367,17 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+
+            Toast.makeText(this, "Bye..!! See you soon", Toast.LENGTH_SHORT).show();
+
+            spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = spf.edit();
+            editor.clear();
+            editor.commit();
+            Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(i);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

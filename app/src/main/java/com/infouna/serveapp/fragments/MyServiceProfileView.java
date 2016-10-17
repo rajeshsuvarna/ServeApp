@@ -1,5 +1,6 @@
 package com.infouna.serveapp.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +44,8 @@ public class MyServiceProfileView extends Fragment {
 
     String userid = "", spid = "", type = "";
 
+    private ProgressDialog pDialog;
+
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     @Nullable
@@ -50,12 +53,16 @@ public class MyServiceProfileView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_service_profile_view, container, false);
 
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setCancelable(false);
+
         SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         type = spf.getString("typeKey", "");
 
         if (type.equals("SP")) {
             Toast.makeText(getActivity(), "Loading data", Toast.LENGTH_SHORT).show();
+
             fetch_profile(userid);
         } else if (type.equals("USER")) {
             Toast.makeText(getActivity(), "Oops! You are not a Service Provider", Toast.LENGTH_SHORT).show();
@@ -96,12 +103,15 @@ public class MyServiceProfileView extends Fragment {
     }
 
     public void fetch_profile(String userid) {
+
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading...");
+        showDialog();
         String tag_json_obj = "json_obj_req";
 
         String url = AppConfig.URL_GET_SERVICE_PROFILE;
 
         url += userid;
-        Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT).show();
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
@@ -117,6 +127,7 @@ public class MyServiceProfileView extends Fragment {
 
                             if (res.equals("0")) {
                                 Toast.makeText(getActivity(), "Data not found", Toast.LENGTH_SHORT).show();
+                                hideDialog();
                             } else {
                                 JSONArray dash = response.getJSONArray("sp_profile");
                               //  Toast.makeText(getActivity(), dash.toString(), Toast.LENGTH_SHORT).show();
@@ -157,10 +168,13 @@ public class MyServiceProfileView extends Fragment {
                                 jweb.setText(sp.website);
 
                                 loadImages(d);
+                                hideDialog();
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                            hideDialog();
                         }
                     }
                 }
@@ -169,6 +183,8 @@ public class MyServiceProfileView extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
+                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
 
             }
         }
@@ -178,6 +194,16 @@ public class MyServiceProfileView extends Fragment {
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 
     private void loadImages(String urlThumbnail) {

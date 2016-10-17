@@ -1,9 +1,12 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,9 +30,12 @@ import butterknife.Bind;
 /**
  * Created by Darshan on 31-03-2016.
  */
-public class RateServiceActivity extends Activity {
+public class RateServiceActivity extends AppCompatActivity {
 
     ImageButton stars[] = new ImageButton[5];
+
+    Toolbar toolbar;
+
 
     int rate;
 
@@ -40,6 +46,25 @@ public class RateServiceActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_service);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Rate Service");
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
 
         stars[0] = (ImageButton) findViewById(R.id.star_1);
         stars[1] = (ImageButton) findViewById(R.id.star_2);
@@ -138,4 +163,10 @@ public class RateServiceActivity extends Activity {
             stars[i].setImageResource(R.mipmap.ic_star_deselected);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent back = new Intent(this,OrderDetailsUserActivity.class);
+        startActivity(back);
+        finish();
+    }
 }

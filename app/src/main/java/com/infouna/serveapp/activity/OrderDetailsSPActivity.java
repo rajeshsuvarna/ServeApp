@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +33,7 @@ import java.util.List;
  * Created by Darshan on 14-04-2016.
  */
 
-public class OrderDetailsSPActivity extends Activity {
+public class OrderDetailsSPActivity extends AppCompatActivity {
 
     TextView jmax, jloc, jdate, jdesc, jsname, jstatusdate, jstatustime, jacceptedstatus;
     Button jbtnaccept, jbtncancel, jbtnreport;
@@ -41,12 +43,32 @@ public class OrderDetailsSPActivity extends Activity {
 
     public Bundle b;
 
+    Toolbar toolbar;
+
     String accepted_request_id; // response from accept button click api call
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details_sp);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Order Details");
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
         SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
@@ -201,5 +223,12 @@ public class OrderDetailsSPActivity extends Activity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i =new Intent(this,HomeActivity.class);
+        startActivity(i);
+        finish();
     }
 }
