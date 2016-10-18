@@ -63,12 +63,15 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
 
 
-        Bundle b = getIntent().getExtras();
-        userid = b.getString("userid");
-        reqid = b.getString("reqid");
+       // Bundle b = getIntent().getExtras();
+       // userid = b.getString("userid");
+       // reqid = b.getString("reqid");
 
         SharedPreferences spf = getSharedPreferences("MyPrefs.txt", MODE_PRIVATE);
         String type = spf.getString("typeKey", "");
+         userid = spf.getString("useridKey", "");
+         reqid = spf.getString("reqidKey","");
+
         Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("SP")) {
             spid = spf.getString("spidKey", "");
@@ -204,7 +207,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent back = new Intent(this,MyServiceRequest.class);
+        Intent back = new Intent(this,HomeActivity.class);
         startActivity(back);
         finish();
     }

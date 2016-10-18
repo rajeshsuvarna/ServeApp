@@ -46,6 +46,8 @@ public class MyServiceRequest extends Fragment {
     MyServiceRequestsAdapter adapter;
     RecyclerView recyclerView;
 
+    public static final String req_id = "reqidKey";
+
     JsonObjectRequest jsonObjReq;
 
     public List<OrderListCardUser> data;
@@ -55,6 +57,8 @@ public class MyServiceRequest extends Fragment {
     public static final int ORDERLISTUSER = 2;
     public static final int SERVICELIST = 3;
     public static final int NOTIFICATION = 4;
+
+    public static SharedPreferences spf;
 
     private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
@@ -67,7 +71,7 @@ public class MyServiceRequest extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_service_request, container, false);
 
-        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+       spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
 
         total_orders = (TextView) v.findViewById(R.id.torders_ODU);
@@ -92,16 +96,25 @@ public class MyServiceRequest extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Intent i = new Intent(getActivity(), OrderDetailsUserActivity.class);
-                i.putExtra("reqid", data.get(position).reqid);
-                i.putExtra("userid", userid);
+
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(req_id, data.get(position).reqid);
+                editor.commit();
+
+               // i.putExtra("reqid", data.get(position).reqid);
+               // i.putExtra("userid", userid);
                 startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(getActivity(), OrderDetailsUserActivity.class);
-                i.putExtra("reqid", data.get(position).reqid);
-                i.putExtra("userid", userid);
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(req_id, data.get(position).reqid);
+                editor.commit();
+
+               // i.putExtra("reqid", data.get(position).reqid);
+               // i.putExtra("userid", userid);
                 startActivity(i);
             }
         }));
@@ -115,35 +128,23 @@ public class MyServiceRequest extends Fragment {
 
         url += uid;
 
+        Toast.makeText(getActivity(),url,Toast.LENGTH_LONG).show();
+
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     String res = response.getString("result");
 
-                    JSONArray dash = response.getJSONArray("orders");
+                    Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
+
+
 
                     Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
 
-                    if (res.equals("0")) {
+                    if (res.equals("1")) {
 
-                        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
-                        builder.setTitle("You have not requested any service");
-                        builder.setDescription("Please use one of the service to continue... ");
-                        builder.withDialogAnimation(true, Duration.SLOW);
-                        builder.setStyle(Style.HEADER_WITH_TITLE);
-                        builder.setPositiveText("OK");
-                        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                Intent i = new Intent(getActivity(), HomeActivity.class);
-                                startActivity(i);
-                                builder.autoDismiss(true);
-                            }
-                        });
-                        builder.show();
-                    }
-                    else {
+                        JSONArray dash = response.getJSONArray("orders");
 
                         JSONObject jsonObject;
 
@@ -163,6 +164,28 @@ public class MyServiceRequest extends Fragment {
                             data.add(new OrderListCardUser(reqid, b, c, d, e));
 
                         }
+
+
+                    }
+                    else {
+
+                        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+                        builder.setTitle("You have not requested any service");
+                        builder.setDescription("Please use one of the service to continue... ");
+                        builder.withDialogAnimation(true, Duration.SLOW);
+                        builder.setStyle(Style.HEADER_WITH_TITLE);
+                        builder.setPositiveText("OK");
+                        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent i = new Intent(getActivity(), HomeActivity.class);
+                                startActivity(i);
+                                builder.autoDismiss(true);
+                            }
+                        });
+                        builder.show();
+
+
 
                     }
                     adapter.notifyDataSetChanged();
