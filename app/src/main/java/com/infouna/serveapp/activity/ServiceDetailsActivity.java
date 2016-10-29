@@ -56,6 +56,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_details);
 
+
+        spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Service Details");
@@ -77,8 +80,8 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         userid = spf.getString("useridKey", "Null String");
 
 
-        Intent i = getIntent();
-        Bundle b = i.getExtras();
+  //      Intent i = getIntent();
+    //    Bundle b = i.getExtras();
 
 
         servicename = (TextView) findViewById(R.id.sd_sname);
@@ -111,9 +114,13 @@ public class ServiceDetailsActivity extends AppCompatActivity {
             }
         });
 
-        s_name = b.getString("servicename");
+        String s_name = spf.getString("servicenameKey", "Null String");
+        String s_user_id = spf.getString("ser_uid_Key", "Null String");
+        String fav = spf.getString("favKey", "Null String");
 
-        load_order_details(b.getString("uid"), b.getString("servicename"), b.getString("fav"), AppConfig.SERVICE_DETAILS_URL);
+       // s_name = b.getString("servicename");
+
+        load_order_details(s_name,s_user_id, fav, AppConfig.SERVICE_DETAILS_URL);
         loadImages("http://serveapp.in/imgupload/uploadedimages/123456Hurt.jpg");
         //  loadImages(b.getString("picture"));
     }

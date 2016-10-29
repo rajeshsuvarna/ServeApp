@@ -1,6 +1,8 @@
 package com.infouna.serveapp.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -44,6 +46,11 @@ public class HomeFragment extends Fragment {
     public static final int SERVICELIST = 3;
     public static final int NOTIFICATION = 4;
 
+    public static SharedPreferences spf;
+
+    public static final String servicename = "servicenameKey";
+
+
     private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     public String tag_json_arry = "json_array_req";
@@ -74,6 +81,8 @@ public class HomeFragment extends Fragment {
 
         //root = (ScrollView) v.findViewById(R.id.rootLayout);
 
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+
         data = fill_with_data();
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewHome);
 
@@ -85,7 +94,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), ServiceListingActivity.class);
-                i.putExtra("servicename", "all");
+
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(servicename, "all");
+                editor.commit();
                 startActivity(i);
             }
         });
@@ -104,7 +116,12 @@ public class HomeFragment extends Fragment {
 
                 //   Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getContext(), ServiceListingActivity.class);
-                i.putExtra("servicename", data.get(position).servicename);
+
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(servicename, data.get(position).servicename);
+                editor.commit();
+
+                //i.putExtra("servicename", data.get(position).servicename);
                 startActivity(i);
             }
 
@@ -113,7 +130,12 @@ public class HomeFragment extends Fragment {
 
                 //  Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getContext(), ServiceListingActivity.class);
-                i.putExtra("servicename", data.get(position).servicename);
+
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(servicename, data.get(position).servicename);
+                editor.commit();
+
+               // i.putExtra("servicename", data.get(position).servicename);
                 startActivity(i);
             }
         }));

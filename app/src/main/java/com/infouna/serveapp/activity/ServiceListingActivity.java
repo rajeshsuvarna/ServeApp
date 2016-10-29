@@ -1,7 +1,9 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -41,6 +43,10 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     JsonObjectRequest jsonObjReq, jsonObjReqfav;
 
+    public static final String fav = "favKey";
+    public static final String ser_prov_user_id = "ser_uid_Key";
+    public static final String ser_prov_ban_pic= "ser_prov_ban_pic_Key";
+
     public List<ServiceListCard> data;
 
     public static final int HOME = 0;
@@ -57,10 +63,15 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     public String result = "";
 
+    public static SharedPreferences spf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_listing);
+
+        spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,14 +94,16 @@ public class ServiceListingActivity extends AppCompatActivity {
 
 
 
-        Intent i = getIntent();
-        Bundle b = i.getExtras();
+        //Intent i = getIntent();
+      //  Bundle b = i.getExtras();
+
+        final String servicename = spf.getString("servicenameKey", "Null String");
 
         total_orders = (TextView) findViewById(R.id.total_service_listing);
 
         //Toast.makeText(ServiceListingActivity.this, b.getString("servicename"), Toast.LENGTH_SHORT).show();
 
-        data = fill_with_data(AppConfig.SERVICE_LISTING_URL, b.getString("servicename")); // pass servicename/keyword as 2nd parameter here
+        data = fill_with_data(AppConfig.SERVICE_LISTING_URL,servicename); // pass servicename/keyword as 2nd parameter here
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewServiceListing);
 
@@ -109,20 +122,36 @@ public class ServiceListingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
-                i.putExtra("servicename", data.get(position).service_name);
-                i.putExtra("fav", data.get(position).favourite);
-                i.putExtra("uid", data.get(position).userid);
-                i.putExtra("picture", data.get(position).banner_picture);
+
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(servicename,  data.get(position).service_name);
+                editor.putString(fav, data.get(position).favourite);
+                editor.putString(ser_prov_user_id, data.get(position).userid);
+                editor.putString(ser_prov_ban_pic,  data.get(position).banner_picture);
+                editor.commit();
+
+              //  i.putExtra("servicename", data.get(position).service_name);
+            //    i.putExtra("fav", data.get(position).favourite);
+             //   i.putExtra("uid", data.get(position).userid);
+             //   i.putExtra("picture", data.get(position).banner_picture);
                 startActivity(i);
             }
 
             @Override
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString(servicename,  data.get(position).service_name);
+                editor.putString(fav, data.get(position).favourite);
+                editor.putString(ser_prov_user_id, data.get(position).userid);
+                editor.putString(ser_prov_ban_pic,  data.get(position).banner_picture);
+                editor.commit();
+
+                /*
                 i.putExtra("servicename", data.get(position).service_name);
                 i.putExtra("fav", data.get(position).favourite);
                 i.putExtra("uid", data.get(position).userid);
-                i.putExtra("picture", data.get(position).banner_picture);
+                i.putExtra("picture", data.get(position).banner_picture);*/
                 startActivity(i);
             }
         }));
