@@ -2,12 +2,21 @@ package com.infouna.serveapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +25,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +50,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.app.Activity.RESULT_OK;
 import static com.infouna.serveapp.activity.LoginActivity.MyPREFERENCES;
 
 public class AddMyService extends Fragment {
@@ -56,23 +69,29 @@ public class AddMyService extends Fragment {
     @Bind(R.id.input_add_servicecity) EditText jscity;
     @Bind(R.id.input_add_pincode) EditText jpin;
     @Bind(R.id.input_add_website) EditText jweb;
-
 */
 
     EditText jservice, jsubservice, jservdesc, jminprice, jsaddress, jscity, jpin, jweb;
     Button jregisterservice;
+
+    public View v;
+
+    LinearLayout chooseImage, imageHolder;
+
     private ProgressDialog pDialog;
 
     public static SharedPreferences spf;
 
-    // Spinner servicespinner, subservicespinner;
+    Spinner servicespinner, subservicespinner;
 
     String userid, ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, city, pin, web;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_add_my_service, container, false);
+        v = inflater.inflate(R.layout.fragment_add_my_service, container, false);
 
         ButterKnife.bind(this.getActivity(), v);
 
@@ -81,11 +100,11 @@ public class AddMyService extends Fragment {
 
         Toast.makeText(getActivity(), userid + "test", Toast.LENGTH_SHORT).show();
 
-        //servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
-        //subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
+        servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
+        subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
 
-        jservice = (EditText) v.findViewById(R.id.input_add_service);
-        jsubservice = (EditText) v.findViewById(R.id.input_add_sub_service);
+        // jservice = (EditText) v.findViewById(R.id.input_add_service);
+        // jsubservice = (EditText) v.findViewById(R.id.input_add_sub_service);
         jservdesc = (EditText) v.findViewById(R.id.input_add_yourservicedescription);
         jsaddress = (EditText) v.findViewById(R.id.input_add_serviceaddress);
         jminprice = (EditText) v.findViewById(R.id.input_add_minserviceprice);
@@ -94,7 +113,10 @@ public class AddMyService extends Fragment {
         jweb = (EditText) v.findViewById(R.id.input_add_website);
         jregisterservice = (Button) v.findViewById(R.id.btn_reg_add);
 
-      /*  fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, ""); // fill service spinner 1
+        chooseImage = (LinearLayout) v.findViewById(R.id.chooseImage);
+        imageHolder = (LinearLayout) v.findViewById(R.id.AMSimageholder);
+
+        fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, "all"); // fill service spinner 1
         setAdapter(1);
 
         servicespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,7 +128,7 @@ public class AddMyService extends Fragment {
                 adapterTWO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 subservicespinner.setAdapter(adapterTWO);
 
-               fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
+                fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
                 setAdapter(2);
             }
 
@@ -116,13 +138,12 @@ public class AddMyService extends Fragment {
             }
         });
 
-*/
         jregisterservice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                service = jservice.getText().toString();
-                subservice = jsubservice.getText().toString();
+                service = servicespinner.getSelectedItem().toString(); //jservice.getText().toString();
+                subservice = subservicespinner.getSelectedItem().toString(); //jsubservice.getText().toString();
                 service_desc = jservdesc.getText().toString();
                 min_price = jminprice.getText().toString();
                 int foo_price = Integer.parseInt(min_price);
@@ -131,6 +152,8 @@ public class AddMyService extends Fragment {
                 pin = jpin.getText().toString();
                 int foo_pin = Integer.parseInt(pin);
                 web = jweb.getText().toString();
+
+                Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
 
                 /*
 
@@ -177,13 +200,41 @@ public class AddMyService extends Fragment {
                                                 }
                                                 else
                 */
-                register(userid, service, subservice, "banpic", "shoppic", "location", service_desc, min_price, address, city, pin, web, AppConfig.URL_ADD_SERVICE);
+                register(userid, service, subservice, ban_pic, "shoppic", "location", service_desc, min_price, address, city, pin, web, AppConfig.URL_ADD_SERVICE);
             }
         });
 
+
+        chooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+               startActivityForResult(i, 1);
+
+            }
+        });
+
+
         return v;
+
     }
 
+
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+        //Toast.makeText(AmslerTest.this, encodedImage, Toast.LENGTH_LONG).show();
+
+        return encodedImage;
+    }
 
     private void fill_spinner(String url, final int spin, String servicename) {
 
@@ -256,9 +307,9 @@ public class AddMyService extends Fragment {
                     adapterONE = new ArrayAdapter<String>(getContext(),
                             android.R.layout.simple_spinner_item, list1);
                     adapterONE.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                   // servicespinner.setAdapter(adapterONE);
+                    servicespinner.setAdapter(adapterONE);
 
-                 //   fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, (String) servicespinner.getSelectedItem());//servicespinner.getSelectedItem().toString());
+                    fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, (String) servicespinner.getSelectedItem());//servicespinner.getSelectedItem().toString());
                     setAdapter(2);
 
                 } else if (spinner == 2) {
@@ -266,7 +317,7 @@ public class AddMyService extends Fragment {
                     adapterTWO = new ArrayAdapter<String>(getContext(),
                             android.R.layout.simple_spinner_item, list2);
                     adapterTWO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                 //   subservicespinner.setAdapter(adapterTWO);
+                    subservicespinner.setAdapter(adapterTWO);
                 }
             }
         }, 2000);
@@ -277,6 +328,9 @@ public class AddMyService extends Fragment {
 
 //        pDialog.setMessage("Registering Service Provider......");
         //      showDialog();
+
+        String[] split = subservice.split("\\s+");
+        subservice = split[0] + split[1];
 
         URL += "&userid=" + userid + "&add=" + address + "&ban_pic=" + ban_pic + "&website=" + web + "&shop_pic=" + shop_pic +
                 "&loc=" + loc + "&s_name=" + service + "&s_price=" + min_price + "&s_sub_name=" + subservice +

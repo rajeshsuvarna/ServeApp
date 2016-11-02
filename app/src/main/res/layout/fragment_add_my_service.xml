@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/AMSimageholder"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:background="@drawable/self_shot"
@@ -16,6 +17,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/chooseImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.8"
@@ -46,7 +48,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
-<!--
+
             <Spinner
                 android:id="@+id/servicespinner"
                 android:layout_width="match_parent"
@@ -61,35 +63,36 @@
                 android:layout_marginTop="20dp"
                 android:spinnerMode="dialog"
                 android:textColor="@color/colorPrimaryDark" />
--->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="10dp">
 
-                <EditText
-                    android:id="@+id/input_add_service"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Service Name"
-                    android:inputType="text" />
-            </android.support.design.widget.TextInputLayout>
+            <!--
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="10dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="10dp">
+                            <EditText
+                                android:id="@+id/input_add_service"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Service Name"
+                                android:inputType="text" />
+                        </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/input_add_sub_service"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Sub Service Name"
-                    android:inputType="text" />
-            </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="10dp">
 
+                            <EditText
+                                android:id="@+id/input_add_sub_service"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Sub Service Name"
+                                android:inputType="text" />
+                        </android.support.design.widget.TextInputLayout>
+            -->
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -117,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Minimum Service Price"
                     android:inputType="phone"
-                    android:maxLength="7"/>
+                    android:maxLength="7" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -160,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter PIN Code"
                     android:inputType="phone"
-                    android:maxLength="6"/>
+                    android:maxLength="6" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

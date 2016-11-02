@@ -7,6 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -60,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
 
-    TextView name,location;
+    TextView name, location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +93,6 @@ public class HomeActivity extends AppCompatActivity {
         fetch_profile(userid);    // call with userid as parameter
 
 
-
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -110,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                     //Replacing the main content with ContentFragment Which is our home View;
                     case R.id.home:
                         ishomeopen = 1;
-                       home();
+                        home();
                         return true;
 
                     case R.id.myprofile:
@@ -123,7 +128,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.myservicerequest:
                         ishomeopen = 0;
-                        MyServiceRequest myServiceRequestfragment = new  MyServiceRequest();
+                        MyServiceRequest myServiceRequestfragment = new MyServiceRequest();
                         android.support.v4.app.FragmentTransaction myServiceRequestfragmentTransaction = getSupportFragmentManager().beginTransaction();
                         myServiceRequestfragmentTransaction.replace(R.id.frame, myServiceRequestfragment);
                         myServiceRequestfragmentTransaction.commit();
@@ -139,7 +144,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.addmyservice:
                         ishomeopen = 0;
-                        AddMyService addMyServeFragment = new AddMyService() ;
+                        AddMyService addMyServeFragment = new AddMyService();
                         android.support.v4.app.FragmentTransaction addMyServefragmentTransaction = getSupportFragmentManager().beginTransaction();
                         addMyServefragmentTransaction.replace(R.id.frame, addMyServeFragment);
                         addMyServefragmentTransaction.commit();
@@ -208,7 +213,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open, R.string.drawer_close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -234,12 +239,11 @@ public class HomeActivity extends AppCompatActivity {
 
     public void fetch_profile(final String userid) {
 
-       // pDialog.setIndeterminate(true);
+        // pDialog.setIndeterminate(true);
         //pDialog.setMessage("Loading...");
         //showDialog();
 
         String tag_json_obj = "json_obj_req";
-
 
 
         String url = URL_GET_USER_PROFILE;
@@ -262,15 +266,15 @@ public class HomeActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = spf.edit();
                             editor.putString(fname, fn);
                             editor.putString(lname, ln);
-                            editor.putString(email,mail);
+                            editor.putString(email, mail);
                             editor.putString(phone, mob);
                             editor.commit();
-                            name.setText(fn +" "+ ln);
+                            name.setText(fn + " " + ln);
 
 
-                          //  loadImages(profile_pic);
+                            //  loadImages(profile_pic);
 
-                           // hideDialog();
+                            // hideDialog();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -281,9 +285,9 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-               // hideDialog();
+                // hideDialog();
                 Toast.makeText(HomeActivity.this, "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
-               // hideDialog();
+                // hideDialog();
 
 
             }
@@ -294,60 +298,54 @@ public class HomeActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
-    public void home()
-    {
-        HomeFragment homeFragment =  new HomeFragment();
+    public void home() {
+        HomeFragment homeFragment = new HomeFragment();
         android.support.v4.app.FragmentTransaction homeFragmentTransaction = getSupportFragmentManager().beginTransaction();
         homeFragmentTransaction.replace(R.id.frame, homeFragment);
         homeFragmentTransaction.commit();
         setTitle("Home");
     }
 
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
 
-        if (ishomeopen != 1)
-        {
+        if (ishomeopen != 1) {
             openhome();
-        }
-        else
-        {
+        } else {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
             drawer.closeDrawer(GravityCompat.START);
             closeExit();
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    public void closeExit()
-    {
+    }
+
+    public void closeExit() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Exit Application");
-        alertDialogBuilder.setCancelable(false).setNegativeButton("No", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
+        alertDialogBuilder.setCancelable(false).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
-        }).setPositiveButton("Yes", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
+        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 AppExit();
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-    public void AppExit()
-    {
+
+    public void AppExit() {
         finish();
     }
 
-    public void openhome()
-    {
-        ishomeopen=1;
-        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+    public void openhome() {
+        ishomeopen = 1;
+        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(i);
         setTitle("Serve App");
     }
@@ -375,7 +373,7 @@ public class HomeActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = spf.edit();
             editor.clear();
             editor.commit();
-            Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
             finish();
         }
