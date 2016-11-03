@@ -40,4 +40,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.2.0'
     compile 'com.github.javiersantos:MaterialStyledDialogs:2.0'
     testCompile 'junit:junit:4.12'
+
 }

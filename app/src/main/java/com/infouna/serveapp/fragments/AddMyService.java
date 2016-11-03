@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,7 +88,6 @@ public class AddMyService extends Fragment {
     Spinner servicespinner, subservicespinner;
 
     String userid, ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, city, pin, web;
-
 
 
     @Nullable
@@ -213,28 +215,55 @@ public class AddMyService extends Fragment {
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-               startActivityForResult(i, 1);
+                startActivityForResult(i, 1);
 
             }
         });
 
-
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Resources res = getResources();
+            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
+
+            imageHolder.setBackground(bd);
+
+            String[] split = picturePath.split("/");
+
+            ban_pic = split[split.length - 1];
+          //  Toast.makeText(getActivity(), ban_pic, Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 
-
-
+    /*
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        //Toast.makeText(AmslerTest.this, encodedImage, Toast.LENGTH_LONG).show();
-
         return encodedImage;
     }
+*/
 
     private void fill_spinner(String url, final int spin, String servicename) {
 
@@ -377,6 +406,5 @@ public class AddMyService extends Fragment {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-
 
 }

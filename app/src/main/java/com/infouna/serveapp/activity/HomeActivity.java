@@ -317,11 +317,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
 
     public void closeExit() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
