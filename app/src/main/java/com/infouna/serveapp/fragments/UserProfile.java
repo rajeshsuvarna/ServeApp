@@ -22,6 +22,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.EditUserProfileActivity;
 import com.infouna.serveapp.activity.RateServiceActivity;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -49,6 +50,7 @@ public class UserProfile extends Fragment {
     String profile_pic;
     private ProgressDialog pDialog;
 
+
     public static SharedPreferences spf;
 
     @Nullable
@@ -70,7 +72,8 @@ public class UserProfile extends Fragment {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getActivity(), EditUserProfileActivity.class);
+                startActivity(i);
             }
         });
 
@@ -85,7 +88,7 @@ public class UserProfile extends Fragment {
         String semail = spf.getString("emailKey", "Null String");
         String sphone = spf.getString("phoneKey", "Null String");
 
-        username.setText(sfname +" "+ slname);
+        username.setText(sfname + " " + slname);
         fname.setText(sfname);
         lname.setText(slname);
         email.setText(semail);
@@ -94,7 +97,7 @@ public class UserProfile extends Fragment {
         hideDialog();
 
         String userid = s; // replace this with proper userid
-       // fetch_profile(userid);    // call with userid as parameter
+        // fetch_profile(userid);    // call with userid as parameter
 
         return v;
     }
@@ -170,7 +173,7 @@ public class UserProfile extends Fragment {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                  //  bgimage.setBackground(new BitmapDrawable(response.getBitmap()));
+                    //  bgimage.setBackground(new BitmapDrawable(response.getBitmap()));
                 }
 
                 @Override
