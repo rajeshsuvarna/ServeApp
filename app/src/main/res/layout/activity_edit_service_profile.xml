@@ -12,13 +12,57 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ES_ban_pic"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/noimageavailable"
+                    android:elevation="5dp" />
+
+                <ImageView
+                    android:id="@+id/ES_shop_pic"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/noimageavailable"
+                    android:elevation="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Select ^ Banner photo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Select ^ Shop photo" />
+            </LinearLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -27,10 +71,10 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/RNS_maxbudget"
+                    android:id="@+id/ES_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="MAX BUDGET"
+                    android:hint="Address"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -41,10 +85,10 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/RNS_location"
+                    android:id="@+id/ES_web"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="LOCATION"
+                    android:hint="Website"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -55,10 +99,10 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/RNS_date"
+                    android:id="@+id/ES_loc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="REQUIRED DATE"
+                    android:hint="Location"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -69,10 +113,10 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/RNS_add"
+                    android:id="@+id/ES_sname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ADDRESS"
+                    android:hint="Service Name"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -83,21 +127,63 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/RNS_desc"
+                    android:id="@+id/ES_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="DESCRIPTION"
+                    android:hint="Price"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ES_subservice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Sub Service"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ES_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tags"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ES_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_confirm_req"
+                android:id="@+id/ES_update"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/green"
-                android:text="CONFIRM REQUEST"
+                android:text="UPDATE"
                 android:textColor="@color/icons" />
 
         </LinearLayout>

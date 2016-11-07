@@ -27,6 +27,8 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.EditServiceProfileActivity;
+import com.infouna.serveapp.activity.EditUserProfileActivity;
 import com.infouna.serveapp.activity.HomeActivity;
 import com.infouna.serveapp.activity.LoginActivity;
 import com.infouna.serveapp.activity.UserRegistrationActivity;
@@ -95,7 +97,8 @@ public class MyServiceProfileView extends Fragment {
         jedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getActivity(), EditServiceProfileActivity.class);
+                startActivity(i);
             }
         });
 

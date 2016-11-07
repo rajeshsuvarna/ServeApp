@@ -27,8 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Darshan on 15-04-2016.
- */
+ ** Created by Darshan on 15-04-2016.
+ **/
+
 public class OrderDetailsUserActivity extends AppCompatActivity {
 
     TextView jmax, jloc, jdate, jdesc, jsname, jstatusdate, jstatustime, jacceptedstatus;
@@ -49,7 +50,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         setTitle("Order Details");
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -61,16 +62,10 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
             }
         });
 
-
-
-       // Bundle b = getIntent().getExtras();
-       // userid = b.getString("userid");
-       // reqid = b.getString("reqid");
-
         SharedPreferences spf = getSharedPreferences("MyPrefs.txt", MODE_PRIVATE);
         String type = spf.getString("typeKey", "");
-         userid = spf.getString("useridKey", "");
-         reqid = spf.getString("reqidKey","");
+        userid = spf.getString("useridKey", "");
+        reqid = spf.getString("reqidKey", "");
 
         Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("SP")) {
@@ -127,7 +122,10 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         if (accepted.equals("1")) {
             jacceptedstatus.setText("Accepted");
             jstatusicon.setImageResource(R.mipmap.ic_check);
-        } else if (accepted.equals("0")) {
+        } else if (accepted.equals("0") | accepted.equals("null")) {
+            jacceptedstatus.setText("Pending Approval from Service Provider");
+            jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+        } else {
             jacceptedstatus.setText("Pending Approval from Service Provider");
             jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
         }
@@ -146,6 +144,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            // Toast.makeText(OrderDetailsUserActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
                             JSONArray dash = response.getJSONArray("orders_details");
 
@@ -158,8 +157,9 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                             jdate.setText(jsonObject.getString("reqested_date_time"));
                             jdesc.setText(jsonObject.getString("description"));
                             jsname.setText(sname);
-                            jstatusdate.setText(jsonObject.getString("requested_date_time"));
-                            jstatustime.setText(jsonObject.getString("requested_date_time"));
+                            String[] dt = jsonObject.getString("reqested_date_time").split(" ");
+                            jstatusdate.setText(dt[0]);
+                            jstatustime.setText(dt[1]);
 
                             accepted = jsonObject.getString("accepted");
 
@@ -207,7 +207,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent back = new Intent(this,HomeActivity.class);
+        Intent back = new Intent(this, HomeActivity.class);
         startActivity(back);
         finish();
     }

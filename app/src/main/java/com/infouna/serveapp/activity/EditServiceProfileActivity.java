@@ -1,6 +1,5 @@
 package com.infouna.serveapp.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -24,78 +22,70 @@ import com.infouna.serveapp.R;
 
 import java.io.ByteArrayOutputStream;
 
-/**
- * Created by Darshan on 04-11-2016.
- */
 
-public class EditUserProfileActivity extends AppCompatActivity {
+public class EditServiceProfileActivity extends AppCompatActivity {
 
-    EditText fname, lname, mob, e_mail;
-    ImageView iv;
+    EditText add, web, loc, sname, ssname, sprice, tag, desc;
+    String shop_pic, ban_pic;
+    int i;
+    ImageView iv_ban, iv_shop;
     Button update;
 
-    String profilepic;
-    public static SharedPreferences spf;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_user_profile);
+        setContentView(R.layout.activity_edit_service_profile);
 
-        fname = (EditText) findViewById(R.id.EU_fname);
-        lname = (EditText) findViewById(R.id.EU_lname);
-        mob = (EditText) findViewById(R.id.EU_mob);
-        e_mail = (EditText) findViewById(R.id.EU_email);
+        add = (EditText) findViewById(R.id.ES_address);
+        web = (EditText) findViewById(R.id.ES_web);
+        loc = (EditText) findViewById(R.id.ES_loc);
+        sname = (EditText) findViewById(R.id.ES_sname);
+        ssname = (EditText) findViewById(R.id.ES_subservice);
+        sprice = (EditText) findViewById(R.id.ES_price);
+        tag = (EditText) findViewById(R.id.ES_tag);
+        desc = (EditText) findViewById(R.id.ES_desc);
 
-        iv = (ImageView) findViewById(R.id.EU_profilepic);
+        iv_ban = (ImageView) findViewById(R.id.ES_ban_pic);
+        iv_shop = (ImageView) findViewById(R.id.ES_shop_pic);
 
-        update = (Button) findViewById(R.id.EU_update);
+        update = (Button) findViewById(R.id.ES_update);
 
-        String f, l, e, p;
-
-        spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
-        f = spf.getString("edit_fname", "Null String");
-        l = spf.getString("edit_lname", "Null String");
-        e = spf.getString("edit_email", "Null String");
-        p = spf.getString("edit_phone", "Null String");
-
-        fname.setText(f);
-        lname.setText(l);
-        e_mail.setText(e);
-        mob.setText(p);
-
-        iv.setOnClickListener(new View.OnClickListener() {
+        iv_ban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                i = 0;
+
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, 1);
             }
         });
 
+        iv_shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i = 1;
+
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, 1);
+            }
+        });
+
+
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = getIntent();
 
-                String f = fname.getText().toString();
-                String l = fname.getText().toString();
-                String e = fname.getText().toString();
-                String w = fname.getText().toString();
 
-                SharedPreferences.Editor editor = spf.edit();
-                editor.putString("edit_fname", f);
-                editor.putString("edit_lname", l);
-                editor.putString("edit_email", e);
-                editor.putString("edit_phone", w);
-                editor.commit();
 
-                setResult(1);
-                finish();
             }
         });
 
@@ -105,12 +95,12 @@ public class EditUserProfileActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -121,15 +111,20 @@ public class EditUserProfileActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath); // Use this bitmap to convert to Base64
             BitmapDrawable bd = new BitmapDrawable(res, bitmap); // The received bitmap converted to drawable to attach it to imageview
 
-            iv.setBackground(bd);
-
             String[] split = picturePath.split("/");
 
-            profilepic = split[split.length - 1]; // the actual name of file Example: image.jpg
-            //  Toast.makeText(getActivity(), ban_pic, Toast.LENGTH_SHORT).show();
+            if (i == 0) {
+                iv_ban.setBackground(bd);
+                ban_pic = split[split.length - 1]; // the actual name of file Example: image.jpg
+                //  Toast.makeText(getActivity(), ban_pic, Toast.LENGTH_SHORT).show();
 
+            } else if (i == 1) {
+                iv_shop.setBackground(bd);
+                shop_pic = split[split.length - 1]; // the actual name of file Example: image.jpg
+                //  Toast.makeText(getActivity(), ban_pic, Toast.LENGTH_SHORT).show();
+
+            }
         }
-
     }
 
     // call the below method to convert the bitmap to string

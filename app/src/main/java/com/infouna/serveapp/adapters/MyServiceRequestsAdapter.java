@@ -64,7 +64,7 @@ public class MyServiceRequestsAdapter extends RecyclerView.Adapter<MyServiceRequ
             this.cv = (CardView) itemView.findViewById(R.id.cardorderlistinguser);
             this.servicename = (TextView) itemView.findViewById(R.id.orderlistinguser_servicename);
             this.date = (TextView) itemView.findViewById(R.id.orderlistingUser_date);
-            this.time = (TextView) itemView.findViewById(R.id.orderlistingUser_date);
+            this.time = (TextView) itemView.findViewById(R.id.orderlistingUser_time);
             this.status = (TextView) itemView.findViewById(R.id.orderlistingUser_status);
             this.status_icon = (ImageView) itemView.findViewById(R.id.oduser_status_image);
         }
@@ -87,14 +87,17 @@ public class MyServiceRequestsAdapter extends RecyclerView.Adapter<MyServiceRequ
         if (viewHolder.getItemViewType() == HOMECARD) {
             CardOrderListUser holder = (CardOrderListUser) viewHolder;
             holder.servicename.setText(String.valueOf(list.get(position).service_name));
-            holder.date.setText(String.valueOf(list.get(position).requested_date_time));
-            holder.time.setText(String.valueOf(list.get(position).requested_date_time));
 
-            if (String.valueOf(list.get(position).accepted).equals("null")) {
+            String[] split = list.get(position).requested_date_time.split(" ");
+
+            holder.date.setText(split[0]);
+            holder.time.setText(split[1]);
+
+            if (String.valueOf(list.get(position).accepted).equals("1")) {
                 holder.status.setText("Service accepted");
                 holder.status_icon.setImageResource(R.mipmap.ic_check);
 
-            } else if (String.valueOf(list.get(position).accepted).equals("0")) {
+            } else if (String.valueOf(list.get(position).accepted).equals("null")) {
                 holder.status.setText("Pending approval");
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }

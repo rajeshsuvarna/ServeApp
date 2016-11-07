@@ -4,8 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,7 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by infouna
+ * Created by
  **/
 
 public class UserProfile extends Fragment {
@@ -46,10 +52,11 @@ public class UserProfile extends Fragment {
 
     public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
 
-    TextView fname, lname, email, mobile, username;
+    TextView txt_fname, txt_lname, txt_email, txt_mobile, txt_username;
     String profile_pic;
     private ProgressDialog pDialog;
 
+    String u, sfname, slname, semail, sphone;
 
     public static SharedPreferences spf;
 
@@ -63,17 +70,24 @@ public class UserProfile extends Fragment {
         pDialog = new ProgressDialog(ctx);
         pDialog.setCancelable(false);
 
-        username = (TextView) v.findViewById(R.id.username);
-        fname = (TextView) v.findViewById(R.id.textview_firstname);
-        lname = (TextView) v.findViewById(R.id.textview_lastname);
-        email = (TextView) v.findViewById(R.id.textview_email);
-        mobile = (TextView) v.findViewById(R.id.textview_mobile);
+        txt_username = (TextView) v.findViewById(R.id.username);
+        txt_fname = (TextView) v.findViewById(R.id.textview_firstname);
+        txt_lname = (TextView) v.findViewById(R.id.textview_lastname);
+        txt_email = (TextView) v.findViewById(R.id.textview_email);
+        txt_mobile = (TextView) v.findViewById(R.id.textview_mobile);
 
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), EditUserProfileActivity.class);
-                startActivity(i);
+
+                SharedPreferences.Editor editor = spf.edit();
+                editor.putString("edit_fname", sfname);
+                editor.putString("edit_lname", slname);
+                editor.putString("edit_email", semail);
+                editor.putString("edit_phone", sphone);
+                editor.commit();
+                startActivityForResult(i, 1);
             }
         });
 
@@ -82,24 +96,32 @@ public class UserProfile extends Fragment {
         showDialog();
 
         spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
-        String s = spf.getString("useridKey", "Null String");
-        String sfname = spf.getString("fnameKey", "Null String");
-        String slname = spf.getString("lnameKey", "Null String");
-        String semail = spf.getString("emailKey", "Null String");
-        String sphone = spf.getString("phoneKey", "Null String");
+        u = spf.getString("useridKey", "Null String");
+        sfname = spf.getString("fnameKey", "Null String");
+        slname = spf.getString("lnameKey", "Null String");
+        semail = spf.getString("emailKey", "Null String");
+        sphone = spf.getString("phoneKey", "Null String");
 
-        username.setText(sfname + " " + slname);
-        fname.setText(sfname);
-        lname.setText(slname);
-        email.setText(semail);
-        mobile.setText(sphone);
+        txt_username.setText(sfname + " " + slname);
+        txt_fname.setText(sfname);
+        txt_lname.setText(slname);
+        txt_email.setText(semail);
+        txt_mobile.setText(sphone);
 
         hideDialog();
 
-        String userid = s; // replace this with proper userid
+        String userid = u; // replace this with proper userid
         // fetch_profile(userid);    // call with userid as parameter
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Toast.makeText(getActivity(), "back", Toast.LENGTH_SHORT).show();
+
     }
 
     /*public void fetch_profile(final String userid) {
@@ -146,8 +168,6 @@ public class UserProfile extends Fragment {
                 hideDialog();
                 Toast.makeText(ctx, "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
                 hideDialog();
-
-
             }
         });
 

@@ -45,7 +45,7 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     public static final String fav = "favKey";
     public static final String ser_prov_user_id = "ser_uid_Key";
-    public static final String ser_prov_ban_pic= "ser_prov_ban_pic_Key";
+    public static final String ser_prov_ban_pic = "ser_prov_ban_pic_Key";
 
     public List<ServiceListCard> data;
 
@@ -79,7 +79,7 @@ public class ServiceListingActivity extends AppCompatActivity {
 
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -92,10 +92,8 @@ public class ServiceListingActivity extends AppCompatActivity {
         });
 
 
-
-
         //Intent i = getIntent();
-      //  Bundle b = i.getExtras();
+        //  Bundle b = i.getExtras();
 
         final String servicename = spf.getString("servicenameKey", "Null String");
 
@@ -103,7 +101,7 @@ public class ServiceListingActivity extends AppCompatActivity {
 
         //Toast.makeText(ServiceListingActivity.this, b.getString("servicename"), Toast.LENGTH_SHORT).show();
 
-        data = fill_with_data(AppConfig.SERVICE_LISTING_URL,servicename); // pass servicename/keyword as 2nd parameter here
+        data = fill_with_data(AppConfig.SERVICE_LISTING_URL, servicename); // pass servicename/keyword as 2nd parameter here
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewServiceListing);
 
@@ -124,16 +122,16 @@ public class ServiceListingActivity extends AppCompatActivity {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
 
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(servicename,  data.get(position).service_name);
+                editor.putString(servicename, data.get(position).service_name);
                 editor.putString(fav, data.get(position).favourite);
                 editor.putString(ser_prov_user_id, data.get(position).userid);
-                editor.putString(ser_prov_ban_pic,  data.get(position).banner_picture);
+                editor.putString(ser_prov_ban_pic, data.get(position).banner_picture);
                 editor.commit();
 
-              //  i.putExtra("servicename", data.get(position).service_name);
-            //    i.putExtra("fav", data.get(position).favourite);
-             //   i.putExtra("uid", data.get(position).userid);
-             //   i.putExtra("picture", data.get(position).banner_picture);
+                //  i.putExtra("servicename", data.get(position).service_name);
+                //    i.putExtra("fav", data.get(position).favourite);
+                //   i.putExtra("uid", data.get(position).userid);
+                //   i.putExtra("picture", data.get(position).banner_picture);
                 startActivity(i);
             }
 
@@ -141,10 +139,10 @@ public class ServiceListingActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(servicename,  data.get(position).service_name);
+                editor.putString(servicename, data.get(position).service_name);
                 editor.putString(fav, data.get(position).favourite);
                 editor.putString(ser_prov_user_id, data.get(position).userid);
-                editor.putString(ser_prov_ban_pic,  data.get(position).banner_picture);
+                editor.putString(ser_prov_ban_pic, data.get(position).banner_picture);
                 editor.commit();
 
                 /*
@@ -188,18 +186,13 @@ public class ServiceListingActivity extends AppCompatActivity {
 
                             jsonObject = dash.getJSONObject(i);
 
-                            Toast.makeText(ServiceListingActivity.this, jsonObject.getString("banner_picture") + "<-uid", Toast.LENGTH_SHORT).show();
-                            // fav = check_favourite(jsonObject.getString("userid"), jsonObject.getString("service_name"), AppConfig.CHECK_FAVOURITE);
-
-
                             String a = jsonObject.getString("userid"), b = jsonObject.getString("service_providerid"),
-                                    c = jsonObject.getString("service_name"), d = "http://serveapp.in/imgupload/uploadedimages/" + jsonObject.getString("banner_picture"),
+                                    c = jsonObject.getString("service_name"), d = jsonObject.getString("banner_picture"),
                                     e = "", f = "",
                                     g = "", h = jsonObject.getString("confirmed"),
                                     m = jsonObject.getString("total_ratings"), j = jsonObject.getString("total_reviews");
 
-                            Toast.makeText(ServiceListingActivity.this, "hur", Toast.LENGTH_SHORT).show();
-
+                            fav = check_favourite(a, c, AppConfig.CHECK_FAVOURITE);
 
                             data.add(new ServiceListCard(a, b,
                                     c, d,
@@ -271,7 +264,7 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i =new Intent(this,HomeActivity.class);
+        Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
         finish();
     }

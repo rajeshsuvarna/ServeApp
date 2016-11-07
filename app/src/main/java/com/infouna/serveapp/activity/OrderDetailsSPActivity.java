@@ -149,9 +149,11 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                             jloc.setText(jsonObject.getString("location"));
                             jdate.setText(jsonObject.getString("reqested_date_time"));
                             jdesc.setText(jsonObject.getString("desc"));
+
                             jsname.setText(s_name);
-                            jstatusdate.setText(jsonObject.getString("requested_date_time"));
-                            jstatustime.setText(jsonObject.getString("requested_date_time"));
+                            String[] dt = jsonObject.getString("requested_date_time").split(" ");
+                            jstatusdate.setText(dt[0]);
+                            jstatustime.setText(dt[1]);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -34,7 +34,6 @@
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"></activity>
-
         <activity
             android:name=".activity.RateServiceActivity"
             android:label="@string/app_name"></activity>
@@ -59,8 +58,9 @@
         <activity
             android:name=".activity.EditUserProfileActivity"
             android:label="@string/app_name"></activity>
-
-
+        <activity
+            android:name=".activity.EditServiceProfileActivity"
+            android:label="@string/app_name"></activity>
     </application>
 
 </manifest>
