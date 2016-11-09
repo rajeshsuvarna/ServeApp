@@ -1,6 +1,7 @@
 package com.infouna.serveapp.adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -51,7 +52,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public class CardNotification extends ViewHolder {
         CardView cv;
         TextView sname, title, notif_status;
-        public ImageButton status_icon;
+        public ImageView status_icon;
 
         public CardNotification(View v) {
             super(v);
@@ -59,7 +60,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.title = (TextView) itemView.findViewById(R.id.notif_title);
             this.notif_status = (TextView) itemView.findViewById(R.id.notif_status);
             this.cv = (CardView) itemView.findViewById(R.id.cardViewNotification);
-            this.status_icon = (ImageButton) itemView.findViewById(R.id.notif_status_icon);
+            this.status_icon = (ImageView) itemView.findViewById(R.id.notif_status_icon);
         }
     }
 

@@ -248,7 +248,7 @@ public class AddMyService extends Fragment {
             String[] split = picturePath.split("/");
 
             ban_pic = split[split.length - 1];
-          //  Toast.makeText(getActivity(), ban_pic, Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(getActivity(), ban_pic, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -376,6 +376,10 @@ public class AddMyService extends Fragment {
                         try {
 
                             String res = response.getString("spid");
+                            SharedPreferences.Editor editor = spf.edit();
+                            editor.putString("spidKey", res);
+                            editor.commit();
+
                             Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {

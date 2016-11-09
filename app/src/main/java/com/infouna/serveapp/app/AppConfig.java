@@ -75,10 +75,10 @@ public class AppConfig {
     public static String CHECK_FAVOURITE = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=check_user_favourites";
 
     //User notification
-    public static String NOTIFICATION_USER = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_user_notification&userid=";
+    public static String NOTIFICATION_USER = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_user_notification&userid=";
 
     //SP notification
-    public static String NOTIFICATION_SP = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_sp_notification&spid=";
+    public static String NOTIFICATION_SP = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=get_sp_notification&spid=";
 
     //Request Service
     public static String SERVICE_REQUEST = "http://www.serveapp.in/assets/api/request_service.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";

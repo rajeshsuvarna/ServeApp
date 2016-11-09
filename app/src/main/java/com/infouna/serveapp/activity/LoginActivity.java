@@ -130,9 +130,12 @@ public class LoginActivity extends AppCompatActivity {
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(user_id, res_user_id);
                                         editor.putString(type, res_type);
-                                        if (type.equals("SP")) {
+
+                                        if (res_type.equals("SP")) {
                                             String res_spid = jsonObject.getString("spid");
+
                                             editor.putString(spid, res_spid);
+                                            editor.commit();
                                         }
                                         editor.commit();
                                         // hideDialog();

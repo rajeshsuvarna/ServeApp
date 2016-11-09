@@ -59,6 +59,7 @@ public class NotificationsFragment extends Fragment {
             spid = spf.getString("spidKey", "");
         }
 
+        Toast.makeText(getActivity(), spid, Toast.LENGTH_SHORT).show();
         data = fill_with_data(AppConfig.NOTIFICATION_USER, AppConfig.NOTIFICATION_SP);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewNotif);
@@ -90,18 +91,23 @@ public class NotificationsFragment extends Fragment {
 
     public List<NotificationCard> fill_with_data(String user_url, String sp_url) {
 
+
         data = new ArrayList<>();
         if (type.equals("USER")) {
             user_url += userid;
 
-            jsonObjReq = new JsonObjectRequest(Request.Method.GET, user_url, null, new Response.Listener<JSONObject>() {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST, user_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
 
+
                         JSONArray dash = response.getJSONArray("user_notification");
 
-                        if (response.getString("result").equals("1")) {
+                        String r = response.getString("result");
+
+                        if (r.equals("1")) {
 
                             JSONObject jsonObject;
 
@@ -119,6 +125,7 @@ public class NotificationsFragment extends Fragment {
                             }
                         } else {
 
+                            Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
                         }
                         adapter.notifyDataSetChanged();
 
@@ -140,35 +147,49 @@ public class NotificationsFragment extends Fragment {
             AppController.getInstance().addToRequestQueue(jsonObjReq);
 
         } else if (type.equals("SP")) {
+
+
             sp_url += spid;
-            jsonObjReq = new JsonObjectRequest(Request.Method.GET, sp_url, null, new Response.Listener<JSONObject>() {
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST, sp_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
 
+                        Toast.makeText(getActivity(), response.toString() + "sp - request", Toast.LENGTH_SHORT).show();
+
                         JSONArray dash = response.getJSONArray("sp_notification");
+                        String r = response.getString("result");
+                        if (r.equals("1")) {
 
-                        JSONObject jsonObject;
+                            JSONObject jsonObject;
 
-                        data.clear();
+                            data.clear();
 
-                        for (int i = 0; i < dash.length(); i++) {
+                            for (int i = 0; i < dash.length(); i++) {
 
-                            jsonObject = dash.getJSONObject(i);
+                                jsonObject = dash.getJSONObject(i);
 
-                            String a = jsonObject.getString("sp_message"), b = jsonObject.getString("generated_datetime"),
-                                    c = jsonObject.getString("request_from"), d = jsonObject.getString("service_name"),
-                                    e = jsonObject.getString("spid"), f = jsonObject.getString("reqid");
+                                String a = jsonObject.getString("sp_message"), b = jsonObject.getString("generated_datetime"),
+                                        c = jsonObject.getString("request_from"), d = jsonObject.getString("service_name"),
+                                        e = jsonObject.getString("spid"), f = jsonObject.getString("reqid");
 
-                            data.add(new NotificationCard(a, b,
-                                    c, d,
-                                    e, f, 0));
-                            // last parameter is 0, it is used to distinguish sp notif from user notif
+                                data.add(new NotificationCard(a, b,
+                                        c, d,
+                                        e, f, 0));
+                                // last parameter is 0, it is used to distinguish sp notif from user notif
+                            }
+                        } else {
+
+                            Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
                         }
 
                         adapter.notifyDataSetChanged();
 
-                    } catch (JSONException e) {
+                    } catch (
+                            JSONException e
+                            )
+
+                    {
                         e.printStackTrace();
                     }
                 }
