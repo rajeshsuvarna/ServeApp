@@ -144,8 +144,7 @@ public class MyServiceProfileView extends Fragment {
                                 jweb.setText(jsonObject.getString("website"));
 
 
-                                String a = jsonObject.getString("first_name"), b = jsonObject.getString("last_name"),
-                                        c = jsonObject.getString("email"), d = jsonObject.getString("profile_pic"),
+                                String  c = jsonObject.getString("email"), d = jsonObject.getString("profile_pic"),
                                         e = jsonObject.getString("address"), f = jsonObject.getString("logo_path"),
                                         g = jsonObject.getString("shop_photos"), h = jsonObject.getString("website"),
                                         i = jsonObject.getString("location"), j = jsonObject.getString("service_id"),
@@ -153,7 +152,7 @@ public class MyServiceProfileView extends Fragment {
                                         m = jsonObject.getString("tags"), n = jsonObject.getString("service_price");
 
                                 ServiceProfile sp = new ServiceProfile(
-                                        a, b,
+
                                         c, d,
                                         e, f,
                                         g, h,

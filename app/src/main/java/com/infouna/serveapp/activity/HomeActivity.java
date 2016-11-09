@@ -304,6 +304,10 @@ public class HomeActivity extends AppCompatActivity {
         homeFragmentTransaction.replace(R.id.frame, homeFragment);
         homeFragmentTransaction.commit();
         setTitle("Home");
+
+
+
+
     }
 
     public void onBackPressed() {

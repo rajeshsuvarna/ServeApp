@@ -101,7 +101,7 @@ public class RateServiceActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                Toast.makeText(RateServiceActivity.this, response.toString(), Toast.LENGTH_SHORT).show(); // replace with assignment statement
+                               // Toast.makeText(RateServiceActivity.this, response.toString(), Toast.LENGTH_SHORT).show(); // replace with assignment statement
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -67,7 +67,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         userid = spf.getString("useridKey", "");
         reqid = spf.getString("reqidKey", "");
 
-        Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("SP")) {
             spid = spf.getString("spidKey", "");
         }

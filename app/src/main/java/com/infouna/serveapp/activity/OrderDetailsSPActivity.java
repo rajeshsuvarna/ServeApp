@@ -138,7 +138,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Toast.makeText(OrderDetailsSPActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(OrderDetailsSPActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                             JSONArray dash = response.getJSONArray("sp_orders_details");
 
                             JSONObject jsonObject = dash.getJSONObject(0);

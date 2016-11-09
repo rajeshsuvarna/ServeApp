@@ -141,7 +141,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
             request_service(userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc, AppConfig.SERVICE_REQUEST);
 
         } catch (Exception ex) {
-            Toast.makeText(ServiceDetailsActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ServiceDetailsActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -206,7 +206,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                             }
 
                             spid = jsonObject.getString("service_providerid");
-                            Toast.makeText(ServiceDetailsActivity.this, spid, Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(ServiceDetailsActivity.this, spid, Toast.LENGTH_SHORT).show();
 
                             s_sub_name = jsonObject.getString("sub_service_name");
 
