@@ -41,12 +41,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MyServiceProfileView extends Fragment {
-    TextView jyourservice, jsubservice, jservicedesc, jminprice, jaddress, jweb;
+    TextView jtitle, jyourservice, jsubservice, jservicedesc, jminprice, jaddress, jweb, jdesc;
     Button jedit;
 
     String userid = "", spid = "", type = "";
 
     private ProgressDialog pDialog;
+
+    public SharedPreferences spf;
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
@@ -58,7 +60,7 @@ public class MyServiceProfileView extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
 
-        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         type = spf.getString("typeKey", "");
 
@@ -70,14 +72,14 @@ public class MyServiceProfileView extends Fragment {
             Toast.makeText(getActivity(), "Oops! You are not a Service Provider", Toast.LENGTH_SHORT).show();
             final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
             builder.setTitle("You are not Service Provider");
-            builder .setDescription("Please add your service to continue... ");
+            builder.setDescription("Please add your service to continue... ");
             builder.withDialogAnimation(true, Duration.SLOW);
             builder.setStyle(Style.HEADER_WITH_TITLE);
             builder.setPositiveText("OK");
             builder.onPositive(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    Intent i =new Intent(getActivity(),HomeActivity.class);
+                    Intent i = new Intent(getActivity(), HomeActivity.class);
                     startActivity(i);
                     builder.autoDismiss(true);
                 }
@@ -85,12 +87,14 @@ public class MyServiceProfileView extends Fragment {
             builder.show();
         }
 
+        jtitle = (TextView) v.findViewById(R.id.textview_your_service_title);
         jyourservice = (TextView) v.findViewById(R.id.textview_your_service);
         jsubservice = (TextView) v.findViewById(R.id.textview_sub_service);
         jservicedesc = (TextView) v.findViewById(R.id.textview_service_desc);
         jminprice = (TextView) v.findViewById(R.id.textview_min_service_price);
         jaddress = (TextView) v.findViewById(R.id.textview_address);
         jweb = (TextView) v.findViewById(R.id.textview_your_website);
+        jdesc = (TextView) v.findViewById(R.id.textview_service_desc);
 
         jedit = (Button) v.findViewById(R.id.button_edit_my_service_profile);
 
@@ -98,7 +102,8 @@ public class MyServiceProfileView extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), EditServiceProfileActivity.class);
-                startActivity(i);
+
+                startActivityForResult(i, 1);
             }
         });
 
@@ -124,8 +129,7 @@ public class MyServiceProfileView extends Fragment {
                         try {
 
                             String res = response.getString("result");
-                         //   Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
-
+                            //   Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
 
 
                             if (res.equals("0")) {
@@ -133,36 +137,49 @@ public class MyServiceProfileView extends Fragment {
                                 hideDialog();
                             } else {
                                 JSONArray dash = response.getJSONArray("sp_profile");
-                              //  Toast.makeText(getActivity(), dash.toString(), Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(getActivity(), dash.toString(), Toast.LENGTH_SHORT).show();
 
                                 JSONObject jsonObject = dash.getJSONObject(0);
 
+                                jtitle.setText(jsonObject.getString("service_title"));
                                 jyourservice.setText(jsonObject.getString("service_name"));
                                 jsubservice.setText(jsonObject.getString("sub_service_name"));
                                 jminprice.setText(jsonObject.getString("service_price"));
                                 jaddress.setText(jsonObject.getString("address"));
                                 jweb.setText(jsonObject.getString("website"));
+                                jdesc.setText(jsonObject.getString("service_desc"));
 
 
-                                String  c = jsonObject.getString("email"), d = jsonObject.getString("profile_pic"),
-                                        e = jsonObject.getString("address"), f = jsonObject.getString("logo_path"),
-                                        g = jsonObject.getString("shop_photos"), h = jsonObject.getString("website"),
+                                String c = "", d = "",
+                                        e = jsonObject.getString("address"), f = "",
+                                        g = "", h = jsonObject.getString("website"),
                                         i = jsonObject.getString("location"), j = jsonObject.getString("service_id"),
                                         k = jsonObject.getString("service_name"), l = jsonObject.getString("sub_service_name"),
-                                        m = jsonObject.getString("tags"), n = jsonObject.getString("service_price");
+                                        m = jsonObject.getString("tags"), n = jsonObject.getString("service_price"),
+                                        o = jsonObject.getString("service_title"), p = jsonObject.getString("service_desc");
 
                                 ServiceProfile sp = new ServiceProfile(
-
                                         c, d,
                                         e, f,
                                         g, h,
                                         i, j,
                                         k, l,
-                                        m, n);
+                                        m, n,
+                                        o, p);
 
+                                SharedPreferences.Editor editor = spf.edit();
+                                editor.putString("ES_title", o);
+                                editor.putString("ES_address", e);
+                                editor.putString("ES_web", h);
+                                editor.putString("ES_loc", i);
+                                editor.putString("ES_sname", k);
+                                editor.putString("ES_price", n);
+                                editor.putString("ES_subservice", l);
+                                editor.putString("ES_tag", m);
+                                editor.putString("ES_desc", p);
+                                editor.commit();
 
-
-                               jyourservice.setText(sp.service_name);
+                                jyourservice.setText(sp.service_name);
                                 jsubservice.setText(sp.sub_service_name);
                                 jservicedesc.setText("");     // nothing in URL
                                 jminprice.setText(sp.service_price);

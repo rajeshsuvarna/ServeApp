@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
@@ -57,16 +58,21 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     int ishomeopen = 1;
 
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
     public static SharedPreferences spf;
 
     public static final String fname = "fnameKey";
     public static final String lname = "lnameKey";
     public static final String email = "emailKey";
     public static final String phone = "phoneKey";
+    public static final String profile = "profilepicKey";
 
     public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
 
     TextView name, location;
+    de.hdodenhof.circleimageview.CircleImageView Picholder;
+    String pp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +93,17 @@ public class HomeActivity extends AppCompatActivity {
         //location = (TextView) findViewById(R.id.location);
 
         spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
-        String s = spf.getString("useridKey", "Null String");
+        String u = spf.getString("useridKey", "Null String");
 
-        String userid = s; // replace this with proper userid
+        String userid = u; // replace this with proper userid
         fetch_profile(userid);    // call with userid as parameter
 
+        Picholder = (de.hdodenhof.circleimageview.CircleImageView) header.findViewById(R.id.drawer_image);
+
+        pp = spf.getString(profile, "Null String");
+        if (pp.contains("serveapp")) {
+            loadImages(pp);
+        }
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -205,7 +217,6 @@ public class HomeActivity extends AppCompatActivity {
                     default:
                         Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
                         return true;
-
                 }
             }
         });
@@ -224,7 +235,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
+                pp = spf.getString(profile, "Null String");
+                if (pp.contains("serveapp")) {
+                    loadImages(pp);
+                }
+                name.setText(spf.getString(fname, "Null String") + " " + spf.getString(lname, "Null String"));
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -268,11 +283,14 @@ public class HomeActivity extends AppCompatActivity {
                             editor.putString(lname, ln);
                             editor.putString(email, mail);
                             editor.putString(phone, mob);
+                            editor.putString(profile, pic);
                             editor.commit();
                             name.setText(fn + " " + ln);
 
-
-                            //  loadImages(profile_pic);
+                            pp = spf.getString(profile, "Null String");
+                            if (pp.contains("serveapp")) {
+                                loadImages(pp);
+                            }
 
                             // hideDialog();
 
@@ -288,11 +306,8 @@ public class HomeActivity extends AppCompatActivity {
                 // hideDialog();
                 Toast.makeText(HomeActivity.this, "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
                 // hideDialog();
-
-
             }
         });
-
 
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
@@ -304,10 +319,6 @@ public class HomeActivity extends AppCompatActivity {
         homeFragmentTransaction.replace(R.id.frame, homeFragment);
         homeFragmentTransaction.commit();
         setTitle("Home");
-
-
-
-
     }
 
     public void onBackPressed() {
@@ -378,5 +389,26 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadImages(String urlThumbnail) {
+
+        Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
+
+        if (!urlThumbnail.equals("NA")) {
+            imageLoader.get("http://serveapp.in/imgupload/uploadedimages/Screenshot_20161102-085627.png", new ImageLoader.ImageListener() {
+
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    Picholder.setImageResource(0); // to clear the static background
+                    Picholder.setBackground(new BitmapDrawable(response.getBitmap()));
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
     }
 }

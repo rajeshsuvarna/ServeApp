@@ -92,7 +92,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public class CardOrderListSP extends ViewHolder {
         CardView cv;
         TextView username, date, time, status;
-        ImageButton status_icon;
+        ImageView status_icon;
 
         public CardOrderListSP(View v) {
             super(v);
@@ -101,7 +101,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.date = (TextView) itemView.findViewById(R.id.orderlistingSP_date);
             this.time = (TextView) itemView.findViewById(R.id.orderlistingSP_time);
             this.status = (TextView) itemView.findViewById(R.id.orderlistingSP_status);
-            this.status_icon = (ImageButton) itemView.findViewById(R.id.odsp_status_image);
+            this.status_icon = (ImageView) itemView.findViewById(R.id.odsp_status_image);
         }
     }
 
@@ -146,7 +146,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public class CardNotification extends ViewHolder {
         CardView cv;
         TextView sname, title, notif_status;
-        public ImageButton status_icon;
+        public ImageView status_icon;
 
         public CardNotification(View v) {
             super(v);
@@ -154,7 +154,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             this.title = (TextView) itemView.findViewById(R.id.notif_title);
             this.notif_status = (TextView) itemView.findViewById(R.id.notif_status);
             this.cv = (CardView) itemView.findViewById(R.id.cardViewNotification);
-            this.status_icon = (ImageButton) itemView.findViewById(R.id.notif_status_icon);
+            this.status_icon = (ImageView) itemView.findViewById(R.id.notif_status_icon);
         }
     }
 

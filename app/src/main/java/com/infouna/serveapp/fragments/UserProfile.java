@@ -29,6 +29,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.activity.EditUserProfileActivity;
+import com.infouna.serveapp.activity.HomeActivity;
 import com.infouna.serveapp.activity.RateServiceActivity;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -56,9 +57,17 @@ public class UserProfile extends Fragment {
     String profile_pic;
     private ProgressDialog pDialog;
 
-    String u, sfname, slname, semail, sphone;
+    de.hdodenhof.circleimageview.CircleImageView Picholder;
+
+    String u, sfname, slname, semail, sphone, spic;
 
     public static SharedPreferences spf;
+
+    public static final String fname = "fnameKey";
+    public static final String lname = "lnameKey";
+    public static final String email = "emailKey";
+    public static final String phone = "phoneKey";
+    public static final String profile = "profilepicKey";
 
     @Nullable
     @Override
@@ -76,17 +85,13 @@ public class UserProfile extends Fragment {
         txt_email = (TextView) v.findViewById(R.id.textview_email);
         txt_mobile = (TextView) v.findViewById(R.id.textview_mobile);
 
+        Picholder = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.profile_image);
+
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), EditUserProfileActivity.class);
 
-                SharedPreferences.Editor editor = spf.edit();
-                editor.putString("edit_fname", sfname);
-                editor.putString("edit_lname", slname);
-                editor.putString("edit_email", semail);
-                editor.putString("edit_phone", sphone);
-                editor.commit();
                 startActivityForResult(i, 1);
             }
         });
@@ -97,16 +102,21 @@ public class UserProfile extends Fragment {
 
         spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         u = spf.getString("useridKey", "Null String");
-        sfname = spf.getString("fnameKey", "Null String");
-        slname = spf.getString("lnameKey", "Null String");
-        semail = spf.getString("emailKey", "Null String");
-        sphone = spf.getString("phoneKey", "Null String");
+        sfname = spf.getString(fname, "Null String");
+        slname = spf.getString(lname, "Null String");
+        semail = spf.getString(email, "Null String");
+        sphone = spf.getString(phone, "Null String");
+        profile_pic = spf.getString(profile, "Null String");
 
         txt_username.setText(sfname + " " + slname);
         txt_fname.setText(sfname);
         txt_lname.setText(slname);
         txt_email.setText(semail);
         txt_mobile.setText(sphone);
+
+        if (profile_pic.contains("serveapp")) {
+            loadImages(profile_pic);
+        }
 
         hideDialog();
 
@@ -120,41 +130,55 @@ public class UserProfile extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Toast.makeText(getActivity(), "back", Toast.LENGTH_SHORT).show();
+        fetch_profile(u);
 
     }
 
-    /*public void fetch_profile(final String userid) {
+    public void fetch_profile(final String userid) {
 
-        pDialog.setIndeterminate(true);
-        pDialog.setMessage("Loading...");
-        showDialog();
+        // pDialog.setIndeterminate(true);
+        //pDialog.setMessage("Loading...");
+        //showDialog();
 
         String tag_json_obj = "json_obj_req";
 
-        URL_GET_USER_PROFILE += userid;
+        String url = URL_GET_USER_PROFILE;
+
+        url += userid;
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                URL_GET_USER_PROFILE, null,
+                url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-
                             JSONArray dash = response.getJSONArray("user_profile");
-
                             JSONObject jsonObject = dash.getJSONObject(0);
-
-                            username.setText(jsonObject.getString("first_name"));
-                            fname.setText(jsonObject.getString("first_name"));
-                            lname.setText(jsonObject.getString("last_name"));
-                            email.setText(jsonObject.getString("email"));
-                            mobile.setText(jsonObject.getString("mobile"));
+                            String fn = jsonObject.getString("first_name");
+                            String ln = jsonObject.getString("last_name");
+                            String mail = jsonObject.getString("email");
+                            String mob = jsonObject.getString("mobile");
                             profile_pic = jsonObject.getString("profile_pic");
 
-                            loadImages(profile_pic);
+                            SharedPreferences.Editor editor = spf.edit();
+                            editor.putString(fname, fn);
+                            editor.putString(lname, ln);
+                            editor.putString(email, mail);
+                            editor.putString(phone, mob);
+                            editor.putString(profile, profile_pic);
+                            editor.commit();
 
-                            hideDialog();
+                            txt_username.setText(spf.getString(fname, "Null String") + " " + spf.getString(lname, "Null String"));
+                            txt_fname.setText(spf.getString(fname, "Null String"));
+                            txt_lname.setText(spf.getString(lname, "Null String"));
+                            txt_email.setText(spf.getString(email, "Null String"));
+                            txt_mobile.setText(spf.getString(phone, "Null String"));
+
+                            if (profile_pic.contains("serveapp")) {
+                                loadImages(profile_pic);
+                            }
+
+                            // hideDialog();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -165,16 +189,15 @@ public class UserProfile extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                hideDialog();
-                Toast.makeText(ctx, "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
-                hideDialog();
+                // hideDialog();
+                Toast.makeText(getActivity(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                // hideDialog();
             }
         });
 
-
-// Adding request to request queue
+        // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-    }*/
+    }
 
     private void showDialog() {
         if (!pDialog.isShowing())
@@ -188,12 +211,15 @@ public class UserProfile extends Fragment {
 
     private void loadImages(String urlThumbnail) {
 
+        Toast.makeText(getActivity(), urlThumbnail, Toast.LENGTH_SHORT).show();
+
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    //  bgimage.setBackground(new BitmapDrawable(response.getBitmap()));
+                    Picholder.setImageResource(0); // to clear the static background
+                    Picholder.setBackground(new BitmapDrawable(response.getBitmap()));
                 }
 
                 @Override
@@ -203,5 +229,4 @@ public class UserProfile extends Fragment {
             });
         }
     }
-
 }

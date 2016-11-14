@@ -6,13 +6,14 @@ package com.infouna.serveapp.datamodel;
 public class ServiceProfile {
 
     public String first_name, last_name, email, profile_pic, address, logo_path,
-            shop_photos, website, location, service_id, service_name, sub_service_name, tags, service_price;
+            shop_photos, website, location, service_id, service_title, service_name, sub_service_name, tags,
+            service_price, service_desc;
 
-    public ServiceProfile( String email,
+    public ServiceProfile(String email,
                           String profile_pic, String address, String logo_path,
                           String shop_photos, String website, String location,
                           String service_id, String service_name, String sub_service_name,
-                          String tags, String service_price) {
+                          String tags, String service_price, String service_title, String service_desc) {
 
         this.email = email;
         this.profile_pic = profile_pic;
@@ -26,6 +27,7 @@ public class ServiceProfile {
         this.sub_service_name = sub_service_name;
         this.tags = tags;
         this.service_price = service_price;
+        this.service_title = service_title;
+        this.service_desc = service_desc;
     }
-
 }

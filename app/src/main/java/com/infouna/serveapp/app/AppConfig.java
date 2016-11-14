@@ -41,6 +41,12 @@ public class AppConfig {
     // URL_GET_SERVICE_PROFILE
     public static String URL_GET_SERVICE_PROFILE = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_profile&userid=";
 
+    //EDIT User Profile
+    public static String URL_UPDATE_USER_PROFILE = "http://www.serveapp.in/assets/api/update_user_profile.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&userid=";
+
+    //EDIT Service Profile
+    public static String URL_UPDATE_SERVICE_PROFILE = "http://serveapp.in/assets/api/updateSP_profile.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
     //Add my profile
     public static String URL_ADD_SERVICE = "http://www.serveapp.in/assets/api/registerSP.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
