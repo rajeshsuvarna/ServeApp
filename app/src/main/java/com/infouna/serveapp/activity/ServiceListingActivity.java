@@ -190,7 +190,8 @@ public class ServiceListingActivity extends AppCompatActivity {
                                     c = jsonObject.getString("service_name"), d = jsonObject.getString("banner_picture"),
                                     e = "", f = "",
                                     g = "", h = jsonObject.getString("confirmed"),
-                                    m = jsonObject.getString("total_ratings"), j = jsonObject.getString("total_reviews");
+                                    m = jsonObject.getString("total_ratings"), j = jsonObject.getString("total_reviews"),
+                                    k = jsonObject.getString("service_title");
 
                             fav = check_favourite(a, c, AppConfig.CHECK_FAVOURITE);
 
@@ -198,7 +199,7 @@ public class ServiceListingActivity extends AppCompatActivity {
                                     c, d,
                                     e, f,
                                     g, h,
-                                    m, j, fav));
+                                    m, j, fav, k));
 
                         }
                         adapter.notifyDataSetChanged();

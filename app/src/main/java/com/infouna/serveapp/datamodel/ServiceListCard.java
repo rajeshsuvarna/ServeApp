@@ -16,10 +16,12 @@ public class ServiceListCard {
     public String total_ratings;
     public String total_reviews;
     public String favourite;
+    public String service_title;
 
     public ServiceListCard(String userid, String service_providerid, String service_name,
                            String banner_picture, String service_tag, String service_location,
-                           String service_price, String confirmed, String total_ratings, String total_reviews, String favourite) {
+                           String service_price, String confirmed, String total_ratings, String total_reviews,
+                           String favourite, String service_title) {
         this.userid = userid;
         this.service_providerid = service_providerid;
         this.service_name = service_name;
@@ -31,6 +33,7 @@ public class ServiceListCard {
         this.total_ratings = total_ratings;
         this.total_reviews = total_reviews;
         this.favourite = favourite;
+        this.service_title = service_title;
     }
 }
 

@@ -46,15 +46,12 @@ import cz.msebera.android.httpclient.Header;
 
 public class EditServiceProfileActivity extends AppCompatActivity {
 
-    EditText title,add, web, loc, sname, ssname, sprice, tag, desc;
-    String userid,service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description;
+    EditText title, add, web, loc, sname, ssname, sprice, tag, desc;
+    String userid, service_address, service_banner, service_shop_photo, service_website, service_location, service_id, service_name, sub_service_name, service_title, service_price, service_description;
     int i;
     ImageView iv_ban, iv_shop;
     Button update;
     private Toolbar toolbar;
-
-
-
 
     ProgressDialog prgDialog;
     String encodedString;
@@ -114,7 +111,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
 
         userid = spf.getString("useridKey", "");
 
-        title.setText(spf.getString("ES_service_titleKey","Null String"));
+        title.setText(spf.getString("ES_service_titleKey", "Null String"));
         add.setText(spf.getString("ES_addressKey", "Null String"));
         web.setText(spf.getString("ES_websiteKey", "Null String"));
         loc.setText(spf.getString("ES_locationKey", "Null String"));
@@ -122,7 +119,6 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         ssname.setText(spf.getString("ES_sub_service_nameKey", "Null String"));
         sprice.setText(spf.getString("ES_service_priceKey", "Null String"));
         desc.setText(spf.getString("ES_service_descKey", "Null String"));
-
 
 
         update = (Button) findViewById(R.id.ES_update);
@@ -150,17 +146,20 @@ public class EditServiceProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 service_address = add.getText().toString();
+                service_website = web.getText().toString();
+                service_location = loc.getText().toString();
+                service_id = spf.getString("ES_service_idKey", "Null String");
+                service_name = sname.getText().toString();
+                sub_service_name = ssname.getText().toString();
+                service_title = title.getText().toString();
+                service_price = sprice.getText().toString();
+                service_description = desc.getText().toString();
 
-                        service_website = web.getText().toString();
-                        service_location = loc.getText().toString();
-                        service_id = spf.getString("ES_service_idKey", "Null String");
-                        service_name = sname.getText().toString();
-                        sub_service_name = ssname.getText().toString();
-                        service_title = title.getText().toString();
-                        service_price = sprice.getText().toString();
-                        service_description = desc.getText().toString();
-                       // uploadImage(v);
+                uploadImage(v);
 
+                update_profile(service_id, service_address, fileName[0], service_website, fileName[1], service_location,
+                        service_name, sub_service_name, service_title, service_price, service_description,
+                        AppConfig.URL_UPDATE_SERVICE_PROFILE);
 
             }
         });
@@ -200,7 +199,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
 
                 if (i == 0) {
                     // Set the Image in ImageView
-                    iv_shop.setImageBitmap(BitmapFactory
+                    iv_ban.setImageBitmap(BitmapFactory
                             .decodeFile(imgPath[i]));
                     // Get the Image's file name
                     String fileNameSegments[] = imgPath[i].split("/");
@@ -237,12 +236,6 @@ public class EditServiceProfileActivity extends AppCompatActivity {
                 // Convert image to String using Base64
 
                 encodeImagetoString(j);
-
-                //update_profile(final String sid, String add, String ban, String web, String shop, String loc, String sname,
-                      //  String ss, String stitle, String price, String desc, String URL);
-
-
-
 
                 // When Image is not selected from Gallery
             } else {
@@ -343,7 +336,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(this,HomeActivity.class);
+        Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
     }
 
@@ -364,11 +357,10 @@ public class EditServiceProfileActivity extends AppCompatActivity {
     public void update_profile(final String sid, String add, String ban, String web, String shop, String loc, String sname,
                                String ss, String stitle, String price, String desc, String URL) {
 
-
         String tag_json_obj = "json_obj_req";
 
-        URL += "&add=" + add + "&ban_pic=" + ban + "&website=" + web + "&shop_pic=" + shop + "&loc=" + loc +
-                "&sid=" + sid + "&s_name=" + sname + "&ss_name=" + ss + "&s_title=" + stitle + "&tags=" + tag +
+        URL += "&userid=" + userid + "&add=" + add + "&ban_pic=" + ban + "&website=" + web + "&shop_pic=" + shop + "&loc=" + loc +
+                "&sid=" + sid + "&s_name=" + sname + "&ss_name=" + ss + "&s_title=" + stitle + "&tags=" + sname +
                 "&s_price=" + price + "&s_desc=" + desc;
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -378,7 +370,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         String res = response.toString();
-                        finish();
+
 
                     }
                 }, new Response.ErrorListener() {

@@ -50,8 +50,7 @@ public class MyServiceProfileView extends Fragment {
 
     String userid = "", spid = "", type = "";
 
-    String service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description;
-
+    String service_address, service_banner, service_shop_photo, service_website, service_location, service_id, service_name, sub_service_name, service_title, service_price, service_description;
 
     public static final String ES_address = "ES_addressKey";
     public static final String ES_ban = "ES_banKey";
@@ -151,7 +150,6 @@ public class MyServiceProfileView extends Fragment {
                             String res = response.getString("result");
                             //   Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
 
-
                             if (res.equals("0")) {
                                 Toast.makeText(getActivity(), "Data not found", Toast.LENGTH_SHORT).show();
                                 hideDialog();
@@ -169,23 +167,21 @@ public class MyServiceProfileView extends Fragment {
                                 jweb.setText(jsonObject.getString("website"));
                                 jdesc.setText(jsonObject.getString("service_desc"));
 
+                                service_address = jsonObject.getString("address");
+                                service_banner = jsonObject.getString("ban_pic");
+                                service_shop_photo = jsonObject.getString("shop_photos_path");
+                                service_website = jsonObject.getString("website");
+                                service_location = jsonObject.getString("location");
+                                service_id = jsonObject.getString("service_id");
+                                service_name = jsonObject.getString("service_name");
+                                sub_service_name = jsonObject.getString("sub_service_name");
+                                service_price = jsonObject.getString("service_price");
+                                service_title = jsonObject.getString("service_title");
+                                service_description = jsonObject.getString("service_desc");
 
-                                        service_address = jsonObject.getString("address");
-                                        service_banner = jsonObject.getString("ban_pic");
-                                        service_shop_photo = jsonObject.getString("shop_photos_path");
-                                        service_website = jsonObject.getString("website");
-                                        service_location = jsonObject.getString("location");
-                                        service_id = jsonObject.getString("service_id");
-                                        service_name = jsonObject.getString("service_name");
-                                        sub_service_name = jsonObject.getString("sub_service_name");
-                                        service_price = jsonObject.getString("service_price");
-                                        service_title = jsonObject.getString("service_title");
-                                        service_description = jsonObject.getString("service_desc");
-
-                                ServiceProfile sp = new ServiceProfile(service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description);
+                                ServiceProfile sp = new ServiceProfile(service_address, service_banner, service_shop_photo, service_website, service_location, service_id, service_name, sub_service_name, service_title, service_price, service_description);
 
                                 SharedPreferences.Editor editor = spf.edit();
-
 
                                 editor.putString(ES_address, service_address);
                                 editor.putString(ES_ban, service_banner);
@@ -199,14 +195,6 @@ public class MyServiceProfileView extends Fragment {
                                 editor.putString(ES_service_price, service_price);
                                 editor.putString(ES_service_desc, service_description);
                                 editor.commit();
-
-                                jtitle.setText(sp.service_title);
-                                jyourservice.setText(sp.service_name);
-                                jsubservice.setText(sp.sub_service_name);
-                                jservicedesc.setText(sp.service_description);
-                                jminprice.setText(sp.service_price);
-                                jaddress.setText(sp.service_address);
-                                jweb.setText(sp.service_website);
 
                                 loadImages(service_banner);
                                 hideDialog();
@@ -226,7 +214,6 @@ public class MyServiceProfileView extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 hideDialog();
                 Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-
             }
         }
 
@@ -249,14 +236,12 @@ public class MyServiceProfileView extends Fragment {
 
     private void loadImages(String urlThumbnail) {
 
-        urlThumbnail = "http://"+urlThumbnail;
-
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    ban_iv.setImageDrawable(null);
+                    ban_iv.setImageResource(0);
                     ban_iv.setBackground(new BitmapDrawable(response.getBitmap()));
                 }
 

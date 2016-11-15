@@ -1,6 +1,7 @@
 package com.infouna.serveapp.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -93,21 +94,19 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
         if (viewHolder.getItemViewType() == HOMECARD) {
             CardServiceList holder = (CardServiceList) viewHolder;
             holder.servicename.setText(String.valueOf(list.get(position).service_name));
-            holder.review.setText(String.valueOf(list.get(position).total_reviews) + "Reviews");
+            holder.review.setText(String.valueOf(list.get(position).total_reviews) + " Reviews");
 
             String urlThumbnail = list.get(position).banner_picture;
-            //    if (!urlThumbnail.equals("")) {
-            // loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
-            //  }
-
-            if (String.valueOf(list.get(position).confirmed).equals("1")) {
-
-                holder.status_icon.setImageResource(R.mipmap.ic_check);
-
-            } else if (String.valueOf(list.get(position).confirmed).equals("0")) {
-
-                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+            if (!urlThumbnail.equals("")) {
+                loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
             }
+
+            if (list.get(position).favourite.equals("1")) {
+                holder.favourite_icon.setImageResource(R.mipmap.ic_like_selected);
+            } else {
+                holder.favourite_icon.setImageResource(R.mipmap.ic_like_deselected);
+            }
+
         }
     }
 

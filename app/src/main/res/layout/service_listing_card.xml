@@ -23,9 +23,10 @@
         <LinearLayout
             android:id="@+id/SL_backgroundimage"
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
-            android:background="@drawable/self_shot"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/common_plus_signin_btn_text_light_focused">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -39,10 +40,10 @@
                     android:layout_height="12dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:layout_margin="10dp"
-                    />
+                    android:layout_margin="10dp" />
 
                 <TextView
+                    android:id="@+id/SL_servicename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -50,8 +51,7 @@
                     android:text=""
                     android:textColor="@color/common_google_signin_btn_text_dark"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:id="@+id/SL_servicename" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -100,14 +100,14 @@
                         android:onClick="onClick" />
 
                     <TextView
+                        android:id="@+id/SL_reviews"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:padding="1dp"
                         android:text=""
                         android:textColor="@color/common_google_signin_btn_text_dark"
-                        android:textSize="12sp"
-                        android:id="@+id/SL_reviews" />
+                        android:textSize="12sp" />
 
 
                 </LinearLayout>
@@ -128,8 +128,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@mipmap/ic_like_deselected" />
+                    android:layout_marginTop="10dp" />
 
 
             </LinearLayout>
