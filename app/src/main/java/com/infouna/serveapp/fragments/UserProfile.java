@@ -210,15 +210,16 @@ public class UserProfile extends Fragment {
     }
 
     private void loadImages(String urlThumbnail) {
+        urlThumbnail = "http://"+urlThumbnail;
 
-        Toast.makeText(getActivity(), urlThumbnail, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), urlThumbnail, Toast.LENGTH_SHORT).show();
 
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    Picholder.setImageResource(0); // to clear the static background
+                    Picholder.setImageDrawable(null); // to clear the static background
                     Picholder.setBackground(new BitmapDrawable(response.getBitmap()));
                 }
 

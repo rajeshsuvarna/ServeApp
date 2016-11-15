@@ -111,7 +111,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 final String tag_json_obj = "json_obj_req";
 
                 url_check += phone;
+                Toast.makeText(getApplicationContext(), "Url Check"+ url_check.toString(), Toast.LENGTH_LONG).show();
                 url_reg += "&f_name=" + fname + "&l_name=" + lname + "&email=" + email + "&mob=" + phone;
+                Toast.makeText(getApplicationContext(), "Url Reg"+ url_reg.toString(), Toast.LENGTH_LONG).show();
                 final String finalUrl_reg = url_reg;
                 JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url_check, null,
                         new Response.Listener<JSONObject>() {

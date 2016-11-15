@@ -320,7 +320,7 @@ public class HomeActivity extends AppCompatActivity {
         homeFragmentTransaction.commit();
         setTitle("Home");
     }
-
+    @Override
     public void onBackPressed() {
 
         if (ishomeopen != 1) {
@@ -350,14 +350,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void AppExit() {
-        finish();
+        this.finish();
     }
 
     public void openhome() {
         ishomeopen = 1;
         Intent i = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(i);
-        setTitle("Serve App");
+       // setTitle("Serve App");
     }
 
     @Override
@@ -392,15 +392,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadImages(String urlThumbnail) {
+        urlThumbnail = "http://"+urlThumbnail;
 
-        Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
+
 
         if (!urlThumbnail.equals("NA")) {
-            imageLoader.get("http://serveapp.in/imgupload/uploadedimages/Screenshot_20161102-085627.png", new ImageLoader.ImageListener() {
+            imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    Picholder.setImageResource(0); // to clear the static background
+                    Picholder.setImageDrawable(null); // to clear the static background
                     Picholder.setBackground(new BitmapDrawable(response.getBitmap()));
                 }
 

@@ -61,7 +61,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                 i.putExtra(b.getString("Hint_add"), add.getText().toString());
                 i.putExtra(b.getString("Hint_desc"), desc.getText().toString());
                 setResult(1, i);
-                finish();
+               // finish();
             }
         });
 

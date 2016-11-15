@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,13 +29,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
+import com.infouna.serveapp.fragments.HomeFragment;
+import com.infouna.serveapp.fragments.UserProfile;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -59,6 +68,11 @@ public class EditUserProfileActivity extends AppCompatActivity {
     String imgPath, fileName;
     Bitmap bitmap;
     private static int RESULT_LOAD_IMG = 1;
+    public static final String profile = "profilepicKey";
+
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
+    String profile_pic;
 
     EditText fname, lname, mob, e_mail;
     String userid = "", f, l, m, e;
@@ -122,6 +136,12 @@ public class EditUserProfileActivity extends AppCompatActivity {
         e_mail.setText(spf.getString("emailKey", "Null String"));
         mob.setText(spf.getString("phoneKey", "Null String"));
 
+        profile_pic = spf.getString(profile, "Null String");
+
+        if (profile_pic.contains("serveapp")) {
+            loadImages(profile_pic);
+        }
+
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +172,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // Start the Intent
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+        iv.setImageDrawable(null);
     }
 
     // When Image is selected from Gallery
@@ -276,8 +297,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
                 prgDialog.hide();
-                Toast.makeText(getApplicationContext(), String.format("Image updated successfully"),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), String.format("Image updated successfully"),Toast.LENGTH_LONG).show();
+                //showConfirmDialog();
+
 
             }
 
@@ -320,6 +342,48 @@ public class EditUserProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+       Intent i = new Intent(this, HomeActivity.class);
+        startActivity(i);
+    }
+
+   /* public void  showConfirmDialog(){
+        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getApplicationContext());
+        builder.setTitle("Oops sorry...");
+        builder.setDescription("NO Notifications yet...");
+        builder.withDialogAnimation(true, Duration.SLOW);
+        builder.setStyle(Style.HEADER_WITH_TITLE);
+        builder.setPositiveText("OK");
+        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(i);
+                builder.autoDismiss(true);
+            }
+        });
+        builder.show();
+    }
+*/
+    private void loadImages(String urlThumbnail) {
+        urlThumbnail = "http://"+urlThumbnail;
+
+        Toast.makeText(this, urlThumbnail, Toast.LENGTH_SHORT).show();
+
+        if (!urlThumbnail.equals("NA")) {
+            imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
+
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    iv.setImageDrawable(null); // to clear the static background
+                    iv.setBackground(new BitmapDrawable(response.getBitmap()));
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
     }
 
     public void update_profile(final String userid, String f, String l, String e, String m, String filename, String URL) {
@@ -336,7 +400,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         String res = response.toString();
-                        finish();
+                       // finish();
+                        Toast.makeText(EditUserProfileActivity.this, "Updated"+res.toString(), Toast.LENGTH_LONG).show();
 
                     }
                 }, new Response.ErrorListener() {
@@ -367,5 +432,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
             );
         }
     }
+
+
 
 }

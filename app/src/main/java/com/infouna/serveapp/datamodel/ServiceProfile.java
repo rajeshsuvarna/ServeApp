@@ -5,29 +5,21 @@ package com.infouna.serveapp.datamodel;
  */
 public class ServiceProfile {
 
-    public String first_name, last_name, email, profile_pic, address, logo_path,
-            shop_photos, website, location, service_id, service_title, service_name, sub_service_name, tags,
-            service_price, service_desc;
+    public String service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description;
 
-    public ServiceProfile(String email,
-                          String profile_pic, String address, String logo_path,
-                          String shop_photos, String website, String location,
-                          String service_id, String service_name, String sub_service_name,
-                          String tags, String service_price, String service_title, String service_desc) {
+    public ServiceProfile(String service_address, String service_banner, String service_shop_photo, String service_website,String service_location, String service_id,String service_name, String sub_service_name, String service_title, String service_price, String service_description) {
 
-        this.email = email;
-        this.profile_pic = profile_pic;
-        this.address = address;
-        this.logo_path = logo_path;
-        this.shop_photos = shop_photos;
-        this.website = website;
-        this.location = location;
+
+        this.service_address = service_address;
+        this.service_banner = service_banner;
+        this.service_shop_photo = service_shop_photo;
+        this.service_website = service_website;
+        this.service_location = service_location;
         this.service_id = service_id;
         this.service_name = service_name;
         this.sub_service_name = sub_service_name;
-        this.tags = tags;
         this.service_price = service_price;
         this.service_title = service_title;
-        this.service_desc = service_desc;
+        this.service_description = service_description;
     }
 }

@@ -1,8 +1,11 @@
 package com.infouna.serveapp.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,11 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.HomeActivity;
 import com.infouna.serveapp.adapters.NotificationAdapter;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.app.AppConfig;
@@ -35,6 +44,8 @@ import org.json.JSONObject;
 public class NotificationsFragment extends Fragment {
 
     public static final int HOME = 0;
+
+    private ProgressDialog pDialog;
 
     private int mDatasetTypes[] = {HOME};
 
@@ -52,6 +63,13 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_notifications, container, false);
 
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setCancelable(false);
+
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading...");
+        showDialog();
+
         SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         type = spf.getString("typeKey", "");
@@ -59,7 +77,7 @@ public class NotificationsFragment extends Fragment {
             spid = spf.getString("spidKey", "");
         }
 
-        Toast.makeText(getActivity(), spid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), spid, Toast.LENGTH_SHORT).show();
         data = fill_with_data(AppConfig.NOTIFICATION_USER, AppConfig.NOTIFICATION_SP);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewNotif);
@@ -103,11 +121,13 @@ public class NotificationsFragment extends Fragment {
                     try {
 
 
-                        JSONArray dash = response.getJSONArray("user_notification");
 
-                        String r = response.getString("result");
 
-                        if (r.equals("1")) {
+                        String res = response.getString("result");
+
+                        if (res.equals("1")) {
+
+                            JSONArray dash = response.getJSONArray("user_notification");
 
                             JSONObject jsonObject;
 
@@ -122,10 +142,27 @@ public class NotificationsFragment extends Fragment {
                                         e = jsonObject.getString("reqid"), f = jsonObject.getString("userid");
 
                                 data.add(new NotificationCard(a, b, c, d, e, f));
+                                hideDialog();
                             }
                         } else {
 
-                            Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+                            hideDialog();
+                            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+                            builder.setTitle("Oops sorry...");
+                            builder.setDescription("NO Notifications yet...");
+                            builder.withDialogAnimation(true, Duration.SLOW);
+                            builder.setStyle(Style.HEADER_WITH_TITLE);
+                            builder.setPositiveText("OK");
+                            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    Intent i = new Intent(getActivity(), HomeActivity.class);
+                                    startActivity(i);
+                                    builder.autoDismiss(true);
+                                }
+                            });
+                            builder.show();
                         }
                         adapter.notifyDataSetChanged();
 
@@ -155,11 +192,17 @@ public class NotificationsFragment extends Fragment {
                 public void onResponse(JSONObject response) {
                     try {
 
-                        Toast.makeText(getActivity(), response.toString() + "sp - request", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getActivity(), response.toString() + "sp - request", Toast.LENGTH_SHORT).show();
 
-                        JSONArray dash = response.getJSONArray("sp_notification");
-                        String r = response.getString("result");
-                        if (r.equals("1")) {
+
+                        String res = response.getString("result");
+
+                     //   Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
+                        if (res.equals("1")) {
+
+                          //  Toast.makeText(getActivity(), res + "R", Toast.LENGTH_SHORT).show();
+
+                            JSONArray dash = response.getJSONArray("sp_notification");
 
                             JSONObject jsonObject;
 
@@ -176,17 +219,35 @@ public class NotificationsFragment extends Fragment {
                                 data.add(new NotificationCard(a, b,
                                         c, d,
                                         e, f, 0));
+                                hideDialog();
                                 // last parameter is 0, it is used to distinguish sp notif from user notif
                             }
                         } else {
 
-                            Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+                            hideDialog();
+                            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+                            builder.setTitle("Oops sorry...");
+                            builder.setDescription("NO Notifications yet...");
+                            builder.withDialogAnimation(true, Duration.SLOW);
+                            builder.setStyle(Style.HEADER_WITH_TITLE);
+                            builder.setPositiveText("OK");
+                            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    Intent i = new Intent(getActivity(), HomeActivity.class);
+                                    startActivity(i);
+                                    builder.autoDismiss(true);
+                                }
+                            });
+                            builder.show();
                         }
 
                         adapter.notifyDataSetChanged();
 
                     } catch (
                             JSONException e
+
                             )
 
                     {
@@ -206,5 +267,15 @@ public class NotificationsFragment extends Fragment {
         }
 
         return data;
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

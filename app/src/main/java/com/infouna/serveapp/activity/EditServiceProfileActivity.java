@@ -46,12 +46,14 @@ import cz.msebera.android.httpclient.Header;
 
 public class EditServiceProfileActivity extends AppCompatActivity {
 
-    EditText add, web, loc, sname, ssname, sprice, tag, desc;
-    String shop_pic, ban_pic;
+    EditText title,add, web, loc, sname, ssname, sprice, tag, desc;
+    String userid,service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description;
     int i;
     ImageView iv_ban, iv_shop;
     Button update;
     private Toolbar toolbar;
+
+
 
 
     ProgressDialog prgDialog;
@@ -96,29 +98,32 @@ public class EditServiceProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        title = (EditText) findViewById(R.id.ES_title);
         add = (EditText) findViewById(R.id.ES_address);
         web = (EditText) findViewById(R.id.ES_web);
         loc = (EditText) findViewById(R.id.ES_loc);
         sname = (EditText) findViewById(R.id.ES_sname);
         ssname = (EditText) findViewById(R.id.ES_subservice);
         sprice = (EditText) findViewById(R.id.ES_price);
-        tag = (EditText) findViewById(R.id.ES_tag);
         desc = (EditText) findViewById(R.id.ES_desc);
-
-        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
-
-        add.setText(spf.getString("ES_address", ""));
-        web.setText(spf.getString("ES_web", ""));
-        loc.setText(spf.getString("ES_loc", ""));
-        sname.setText(spf.getString("ES_sname", ""));
-        ssname.setText(spf.getString("ES_subservice", ""));
-        sprice.setText(spf.getString("ES_price", ""));
-        tag.setText(spf.getString("ES_tag", ""));
-        desc.setText(spf.getString("ES_desc", ""));
 
         iv_ban = (ImageView) findViewById(R.id.ES_ban_pic);
         iv_shop = (ImageView) findViewById(R.id.ES_shop_pic);
+
+        final SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+
+        userid = spf.getString("useridKey", "");
+
+        title.setText(spf.getString("ES_service_titleKey","Null String"));
+        add.setText(spf.getString("ES_addressKey", "Null String"));
+        web.setText(spf.getString("ES_websiteKey", "Null String"));
+        loc.setText(spf.getString("ES_locationKey", "Null String"));
+        sname.setText(spf.getString("ES_service_nameKey", "Null String"));
+        ssname.setText(spf.getString("ES_sub_service_nameKey", "Null String"));
+        sprice.setText(spf.getString("ES_service_priceKey", "Null String"));
+        desc.setText(spf.getString("ES_service_descKey", "Null String"));
+
+
 
         update = (Button) findViewById(R.id.ES_update);
 
@@ -143,6 +148,18 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                service_address = add.getText().toString();
+
+                        service_website = web.getText().toString();
+                        service_location = loc.getText().toString();
+                        service_id = spf.getString("ES_service_idKey", "Null String");
+                        service_name = sname.getText().toString();
+                        sub_service_name = ssname.getText().toString();
+                        service_title = title.getText().toString();
+                        service_price = sprice.getText().toString();
+                        service_description = desc.getText().toString();
+                       // uploadImage(v);
 
 
             }
@@ -220,6 +237,11 @@ public class EditServiceProfileActivity extends AppCompatActivity {
                 // Convert image to String using Base64
 
                 encodeImagetoString(j);
+
+                //update_profile(final String sid, String add, String ban, String web, String shop, String loc, String sname,
+                      //  String ss, String stitle, String price, String desc, String URL);
+
+
 
 
                 // When Image is not selected from Gallery
@@ -321,6 +343,8 @@ public class EditServiceProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent i = new Intent(this,HomeActivity.class);
+        startActivity(i);
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -338,7 +362,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
     }
 
     public void update_profile(final String sid, String add, String ban, String web, String shop, String loc, String sname,
-                               String ss, String stitle, String tags, String price, String desc, String URL) {
+                               String ss, String stitle, String price, String desc, String URL) {
 
 
         String tag_json_obj = "json_obj_req";

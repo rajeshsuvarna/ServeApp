@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +46,24 @@ public class MyServiceProfileView extends Fragment {
     TextView jtitle, jyourservice, jsubservice, jservicedesc, jminprice, jaddress, jweb, jdesc;
     Button jedit;
 
+    ImageView ban_iv;
+
     String userid = "", spid = "", type = "";
+
+    String service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description;
+
+
+    public static final String ES_address = "ES_addressKey";
+    public static final String ES_ban = "ES_banKey";
+    public static final String ES_shop_photo = "ES_shop_photoKey";
+    public static final String ES_website = "ES_websiteKey";
+    public static final String ES_location = "ES_locationKey";
+    public static final String ES_service_id = "ES_service_idKey";
+    public static final String ES_service_name = "ES_service_nameKey";
+    public static final String ES_sub_service_name = "ES_sub_service_nameKey";
+    public static final String ES_service_title = "ES_service_titleKey";
+    public static final String ES_service_price = "ES_service_priceKey";
+    public static final String ES_service_desc = "ES_service_descKey";
 
     private ProgressDialog pDialog;
 
@@ -95,6 +114,7 @@ public class MyServiceProfileView extends Fragment {
         jaddress = (TextView) v.findViewById(R.id.textview_address);
         jweb = (TextView) v.findViewById(R.id.textview_your_website);
         jdesc = (TextView) v.findViewById(R.id.textview_service_desc);
+        ban_iv = (ImageView) v.findViewById(R.id.ban_pic);
 
         jedit = (Button) v.findViewById(R.id.button_edit_my_service_profile);
 
@@ -150,43 +170,45 @@ public class MyServiceProfileView extends Fragment {
                                 jdesc.setText(jsonObject.getString("service_desc"));
 
 
-                                String c = "", d = "",
-                                        e = jsonObject.getString("address"), f = "",
-                                        g = "", h = jsonObject.getString("website"),
-                                        i = jsonObject.getString("location"), j = jsonObject.getString("service_id"),
-                                        k = jsonObject.getString("service_name"), l = jsonObject.getString("sub_service_name"),
-                                        m = jsonObject.getString("tags"), n = jsonObject.getString("service_price"),
-                                        o = jsonObject.getString("service_title"), p = jsonObject.getString("service_desc");
+                                        service_address = jsonObject.getString("address");
+                                        service_banner = jsonObject.getString("ban_pic");
+                                        service_shop_photo = jsonObject.getString("shop_photos_path");
+                                        service_website = jsonObject.getString("website");
+                                        service_location = jsonObject.getString("location");
+                                        service_id = jsonObject.getString("service_id");
+                                        service_name = jsonObject.getString("service_name");
+                                        sub_service_name = jsonObject.getString("sub_service_name");
+                                        service_price = jsonObject.getString("service_price");
+                                        service_title = jsonObject.getString("service_title");
+                                        service_description = jsonObject.getString("service_desc");
 
-                                ServiceProfile sp = new ServiceProfile(
-                                        c, d,
-                                        e, f,
-                                        g, h,
-                                        i, j,
-                                        k, l,
-                                        m, n,
-                                        o, p);
+                                ServiceProfile sp = new ServiceProfile(service_address,service_banner,service_shop_photo,service_website,service_location,service_id,service_name,sub_service_name,service_title,service_price,service_description);
 
                                 SharedPreferences.Editor editor = spf.edit();
-                                editor.putString("ES_title", o);
-                                editor.putString("ES_address", e);
-                                editor.putString("ES_web", h);
-                                editor.putString("ES_loc", i);
-                                editor.putString("ES_sname", k);
-                                editor.putString("ES_price", n);
-                                editor.putString("ES_subservice", l);
-                                editor.putString("ES_tag", m);
-                                editor.putString("ES_desc", p);
+
+
+                                editor.putString(ES_address, service_address);
+                                editor.putString(ES_ban, service_banner);
+                                editor.putString(ES_shop_photo, service_shop_photo);
+                                editor.putString(ES_website, service_website);
+                                editor.putString(ES_location, service_location);
+                                editor.putString(ES_service_id, service_id);
+                                editor.putString(ES_service_name, service_name);
+                                editor.putString(ES_sub_service_name, sub_service_name);
+                                editor.putString(ES_service_title, service_title);
+                                editor.putString(ES_service_price, service_price);
+                                editor.putString(ES_service_desc, service_description);
                                 editor.commit();
 
+                                jtitle.setText(sp.service_title);
                                 jyourservice.setText(sp.service_name);
                                 jsubservice.setText(sp.sub_service_name);
-                                jservicedesc.setText("");     // nothing in URL
+                                jservicedesc.setText(sp.service_description);
                                 jminprice.setText(sp.service_price);
-                                jaddress.setText(sp.address);
-                                jweb.setText(sp.website);
+                                jaddress.setText(sp.service_address);
+                                jweb.setText(sp.service_website);
 
-                                loadImages(d);
+                                loadImages(service_banner);
                                 hideDialog();
                             }
 
@@ -227,13 +249,15 @@ public class MyServiceProfileView extends Fragment {
 
     private void loadImages(String urlThumbnail) {
 
+        urlThumbnail = "http://"+urlThumbnail;
+
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-
-                    // bgimage.setBackground(new BitmapDrawable(response.getBitmap()));
+                    ban_iv.setImageDrawable(null);
+                    ban_iv.setBackground(new BitmapDrawable(response.getBitmap()));
                 }
 
                 @Override

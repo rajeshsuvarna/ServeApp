@@ -1,5 +1,6 @@
 package com.infouna.serveapp.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,8 @@ public class MyServiceRequest extends Fragment {
     MyServiceRequestsAdapter adapter;
     RecyclerView recyclerView;
 
+    private ProgressDialog pDialog;
+
     public static final String req_id = "reqidKey";
 
     JsonObjectRequest jsonObjReq;
@@ -71,6 +74,13 @@ public class MyServiceRequest extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_service_request, container, false);
 
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setCancelable(false);
+
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading...");
+        showDialog();
+
        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
 
@@ -90,7 +100,7 @@ public class MyServiceRequest extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Toast.makeText(getActivity(), "uid" + userid, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "uid" + userid, Toast.LENGTH_SHORT).show();
 
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(getActivity(), recyclerView, new RVAdapter.ClickListener() {
             @Override
@@ -128,7 +138,7 @@ public class MyServiceRequest extends Fragment {
 
         url += uid;
 
-        Toast.makeText(getActivity(),url,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(),url,Toast.LENGTH_LONG).show();
 
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -136,11 +146,7 @@ public class MyServiceRequest extends Fragment {
                 try {
                     String res = response.getString("result");
 
-                    Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
-
-
-
-                    Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
 
                     if (res.equals("1")) {
 
@@ -164,10 +170,13 @@ public class MyServiceRequest extends Fragment {
                             data.add(new OrderListCardUser(reqid, b, c, d, e));
 
                         }
+                        hideDialog();
 
 
                     }
                     else {
+
+                        hideDialog();
 
                         final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
                         builder.setTitle("You have not requested any service");
@@ -205,5 +214,15 @@ public class MyServiceRequest extends Fragment {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
 
         return data;
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }
