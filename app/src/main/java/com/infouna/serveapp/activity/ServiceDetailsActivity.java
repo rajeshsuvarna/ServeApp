@@ -49,7 +49,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
     String fav, ratin;
     int rate;
 
-    String userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc;
+    String userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc, service_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         setTitle("Service Details");
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -72,7 +72,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -80,8 +80,8 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         userid = spf.getString("useridKey", "Null String");
 
 
-  //      Intent i = getIntent();
-    //    Bundle b = i.getExtras();
+        //      Intent i = getIntent();
+        //    Bundle b = i.getExtras();
 
 
         servicename = (TextView) findViewById(R.id.sd_sname);
@@ -118,9 +118,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         String s_user_id = spf.getString("ser_uid_Key", "Null String");
         String fav = spf.getString("favKey", "Null String");
 
-       // s_name = b.getString("servicename");
+        // s_name = b.getString("servicename");
 
-        load_order_details(s_name,s_user_id, fav, AppConfig.SERVICE_DETAILS_URL);
+        load_order_details(s_user_id, s_name, fav, AppConfig.SERVICE_DETAILS_URL);
         loadImages("http://serveapp.in/imgupload/uploadedimages/123456Hurt.jpg");
         //  loadImages(b.getString("picture"));
     }
@@ -141,7 +141,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
             request_service(userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc, AppConfig.SERVICE_REQUEST);
 
         } catch (Exception ex) {
-           // Toast.makeText(ServiceDetailsActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(ServiceDetailsActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -180,7 +180,10 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
     private void load_order_details(String uid, final String sname, final String fav, String url) {
 
+
         url += "&userid=" + uid + "&s_name=" + sname;
+
+        Toast.makeText(ServiceDetailsActivity.this, url, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -197,7 +200,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
                             String reviews = jsonObject.getString("total_reviews");
 
-                            servicename.setText(sname);
+
+                            servicename.setText(jsonObject.getString("service_title"));
+
 
                             if (Integer.parseInt(reviews) > 0) {
                                 review_count.setText(reviews + "reviews");
@@ -206,7 +211,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                             }
 
                             spid = jsonObject.getString("service_providerid");
-                           // Toast.makeText(ServiceDetailsActivity.this, spid, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(ServiceDetailsActivity.this, spid, Toast.LENGTH_SHORT).show();
 
                             s_sub_name = jsonObject.getString("sub_service_name");
 
@@ -270,7 +275,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent back = new Intent(this,ServiceListingActivity.class);
+        Intent back = new Intent(this, ServiceListingActivity.class);
         startActivity(back);
         finish();
     }

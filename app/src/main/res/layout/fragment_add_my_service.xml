@@ -8,40 +8,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/AMSimageholder"
+        <ImageView
+            android:id="@+id/imageholder"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="@drawable/self_shot"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/dummy"
+            android:elevation="5dp" />
 
-            <LinearLayout
-                android:id="@+id/chooseImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.8"
-                android:background="@color/cardview_light_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:alpha="20"
-                    android:background="@mipmap/ic_edit" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:alpha="20"
-                    android:text="Upload Service Image" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Select ^ Image" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,35 +44,35 @@
                 android:spinnerMode="dialog"
                 android:textColor="@color/colorPrimaryDark" />
 
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/input_add_servicetitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Service Title"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
             <!--
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="10dp">
+                                    <android.support.design.widget.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="8dp"
+                                        android:layout_marginTop="10dp">
 
-                            <EditText
-                                android:id="@+id/input_add_service"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Service Name"
-                                android:inputType="text" />
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="10dp">
-
-                            <EditText
-                                android:id="@+id/input_add_sub_service"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Sub Service Name"
-                                android:inputType="text" />
-                        </android.support.design.widget.TextInputLayout>
-            -->
+                                        <EditText
+                                            android:id="@+id/input_add_sub_service"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hint="Sub Service Name"
+                                            android:inputType="text" />
+                                    </android.support.design.widget.TextInputLayout>
+                        -->
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -104,7 +84,7 @@
                     android:id="@+id/input_add_yourservicedescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Your Service Description"
+                    android:hint="Service Description"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -176,7 +156,7 @@
                     android:id="@+id/input_add_website"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Your Website"
+                    android:hint="Website"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 

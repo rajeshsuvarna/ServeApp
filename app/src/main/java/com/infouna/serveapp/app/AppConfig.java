@@ -75,7 +75,7 @@ public class AppConfig {
     public static String SERVICE_LISTING_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=search&keyword=";
 
     //Service details
-    public static String SERVICE_DETAILS_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=service_details&";
+    public static String SERVICE_DETAILS_URL = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=service_details";
 
     //Check favourite service listing
     public static String CHECK_FAVOURITE = "http://www.serveapp.in/assets/api/accept_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=check_user_favourites";

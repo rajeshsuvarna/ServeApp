@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -39,7 +40,7 @@ import butterknife.ButterKnife;
 public class UserRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "UserRegistration";
-    public static String name;
+    public static String name, userid, finalUrl_reg;
 
     @Bind(R.id.input_fname)
     EditText _fnameText;
@@ -111,11 +112,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 final String tag_json_obj = "json_obj_req";
 
                 url_check += phone;
-                Toast.makeText(getApplicationContext(), "Url Check"+ url_check.toString(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), "Url Check" + url_check.toString(), Toast.LENGTH_LONG).show();
                 url_reg += "&f_name=" + fname + "&l_name=" + lname + "&email=" + email + "&mob=" + phone;
-                Toast.makeText(getApplicationContext(), "Url Reg"+ url_reg.toString(), Toast.LENGTH_LONG).show();
-                final String finalUrl_reg = url_reg;
-                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url_check, null,
+
+                finalUrl_reg = url_reg;
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url_check, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -134,9 +135,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                                     public void onResponse(JSONObject response) {
                                                         Log.d(TAG, "Register Response: " + response.toString());
 
+                                                       // Toast.makeText(getApplicationContext(), "in json", Toast.LENGTH_LONG).show();
+
                                                         try {
                                                             String res = response.getString("result");
-                                                            final String userid = response.getString("userid");
+                                                            userid = response.getString("userid");
                                                             if (res.equals("1")) {
                                                                 hideDialog();
                                                                 String url_otp = AppConfig.URL_SEND_OPT;

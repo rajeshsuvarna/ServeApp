@@ -46,6 +46,7 @@ public class ServiceListingActivity extends AppCompatActivity {
     public static final String fav = "favKey";
     public static final String ser_prov_user_id = "ser_uid_Key";
     public static final String ser_prov_ban_pic = "ser_prov_ban_pic_Key";
+    public static final String service_title = "service_title_key";
 
     public List<ServiceListCard> data;
 
@@ -60,6 +61,8 @@ public class ServiceListingActivity extends AppCompatActivity {
     private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     TextView total_orders;
+
+    public String s_name;
 
     public String result = "";
 
@@ -122,16 +125,13 @@ public class ServiceListingActivity extends AppCompatActivity {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
 
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(servicename, data.get(position).service_name);
+                editor.putString(servicename, s_name);
                 editor.putString(fav, data.get(position).favourite);
                 editor.putString(ser_prov_user_id, data.get(position).userid);
                 editor.putString(ser_prov_ban_pic, data.get(position).banner_picture);
+
                 editor.commit();
 
-                //  i.putExtra("servicename", data.get(position).service_name);
-                //    i.putExtra("fav", data.get(position).favourite);
-                //   i.putExtra("uid", data.get(position).userid);
-                //   i.putExtra("picture", data.get(position).banner_picture);
                 startActivity(i);
             }
 
@@ -139,17 +139,13 @@ public class ServiceListingActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(servicename, data.get(position).service_name);
+                editor.putString(servicename, s_name);
                 editor.putString(fav, data.get(position).favourite);
                 editor.putString(ser_prov_user_id, data.get(position).userid);
                 editor.putString(ser_prov_ban_pic, data.get(position).banner_picture);
+
                 editor.commit();
 
-                /*
-                i.putExtra("servicename", data.get(position).service_name);
-                i.putExtra("fav", data.get(position).favourite);
-                i.putExtra("uid", data.get(position).userid);
-                i.putExtra("picture", data.get(position).banner_picture);*/
                 startActivity(i);
             }
         }));
@@ -187,16 +183,21 @@ public class ServiceListingActivity extends AppCompatActivity {
                             jsonObject = dash.getJSONObject(i);
 
                             String a = jsonObject.getString("userid"), b = jsonObject.getString("service_providerid"),
-                                    c = jsonObject.getString("service_name"), d = jsonObject.getString("banner_picture"),
+                                    d = jsonObject.getString("banner_picture"),
                                     e = "", f = "",
                                     g = "", h = jsonObject.getString("confirmed"),
                                     m = jsonObject.getString("total_ratings"), j = jsonObject.getString("total_reviews"),
                                     k = jsonObject.getString("service_title");
+                            s_name = jsonObject.getString("service_name");
 
-                            fav = check_favourite(a, c, AppConfig.CHECK_FAVOURITE);
+                            SharedPreferences.Editor editor = spf.edit();
+                            editor.putString("servicenameKey", s_name);
+                            editor.commit();
+
+                            fav = check_favourite(a, s_name, AppConfig.CHECK_FAVOURITE);
 
                             data.add(new ServiceListCard(a, b,
-                                    c, d,
+                                    s_name, d,
                                     e, f,
                                     g, h,
                                     m, j, fav, k));
