@@ -210,7 +210,7 @@ public class UserProfile extends Fragment {
     }
 
     private void loadImages(String urlThumbnail) {
-        urlThumbnail = "http://"+urlThumbnail;
+       // urlThumbnail = "http://"+urlThumbnail;
 
         //Toast.makeText(getActivity(), urlThumbnail, Toast.LENGTH_SHORT).show();
 

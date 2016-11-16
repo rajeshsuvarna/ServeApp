@@ -18,7 +18,7 @@ import com.infouna.serveapp.activity.LoginActivity;
 public class Splashscreen extends AppCompatActivity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 1000;
+    private static int SPLASH_TIME_OUT = 500;
     RelativeLayout ln1;
     private static final int red = 0xfff44336;
 

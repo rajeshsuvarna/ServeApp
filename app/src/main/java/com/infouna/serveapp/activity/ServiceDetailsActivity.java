@@ -35,9 +35,9 @@ import org.json.JSONObject;
 
 public class ServiceDetailsActivity extends AppCompatActivity {
 
-    TextView servicename, review_count, address;
+    TextView servicename, review_count, address, description;
     Button request;
-    ImageView btnfav, stars[] = new ImageView[5];
+    ImageView btnfav, stars[] = new ImageView[5], confirm;
     LinearLayout background;
 
     private Toolbar toolbar;
@@ -49,7 +49,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
     String fav, ratin;
     int rate;
 
-    String userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc, service_title;
+    String userid, spid, sp_fname, sp_lname, s_sub_name, max_budget, location, req_dt, add, desc, service_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +88,12 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         review_count = (TextView) findViewById(R.id.sd_reviewcount);
         address = (TextView) findViewById(R.id.sd_address);
         background = (LinearLayout) findViewById(R.id.sd_background);
+        description = (TextView) findViewById(R.id.sd_more_details);
 
         request = (Button) findViewById(R.id.btn_sd_request);
 
         btnfav = (ImageView) findViewById(R.id.sd_favourite);
+        confirm =(ImageView) findViewById(R.id.check);
 
         stars[0] = (ImageView) findViewById(R.id.star_1);
         stars[1] = (ImageView) findViewById(R.id.star_2);
@@ -114,14 +116,17 @@ public class ServiceDetailsActivity extends AppCompatActivity {
             }
         });
 
-        String s_name = spf.getString("servicenameKey", "Null String");
-        String s_user_id = spf.getString("ser_uid_Key", "Null String");
-        String fav = spf.getString("favKey", "Null String");
+
+
+        String s_name = spf.getString("service_name_key", "Null String");
+        String s_user_id = spf.getString("service_uid_Key", "Null String");
+        String fav = spf.getString("ser_prov_user_fav_Key", "Null String");
+        String ban_pic = spf.getString("ser_prov_ban_pic_Key", "Null String");
 
         // s_name = b.getString("servicename");
 
         load_order_details(s_user_id, s_name, fav, AppConfig.SERVICE_DETAILS_URL);
-        loadImages("http://serveapp.in/imgupload/uploadedimages/123456Hurt.jpg");
+        loadImages(ban_pic);
         //  loadImages(b.getString("picture"));
     }
 
@@ -138,7 +143,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
             add = b.getString("add");
             desc = b.getString("desc");
 
-            request_service(userid, spid, s_name, s_sub_name, max_budget, location, req_dt, add, desc, AppConfig.SERVICE_REQUEST);
+            request_service(userid, spid, sp_fname, s_sub_name, max_budget, location, req_dt, add, desc, AppConfig.SERVICE_REQUEST);
 
         } catch (Exception ex) {
             // Toast.makeText(ServiceDetailsActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
@@ -183,7 +188,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
         url += "&userid=" + uid + "&s_name=" + sname;
 
-        Toast.makeText(ServiceDetailsActivity.this, url, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(ServiceDetailsActivity.this, url, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -216,6 +221,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                             s_sub_name = jsonObject.getString("sub_service_name");
 
                             address.setText(jsonObject.getString("location"));
+                            description.setText(jsonObject.getString("service_description"));
 
                             rater(3);
                             //rater(Integer.parseInt(jsonObject.getString("total_ratings")));
@@ -224,6 +230,14 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                                 btnfav.setImageResource(R.mipmap.ic_like_selected);
                             } else {
                                 btnfav.setImageResource(R.mipmap.ic_like_deselected);
+                            }
+
+                            String check_confirm = jsonObject.getString("confirmed");
+
+                            if (check_confirm.equals("1")) {
+                                confirm.setImageResource(R.mipmap.ic_check);
+                            } else {
+                                btnfav.setImageResource(R.mipmap.ic_warning_notification);
                             }
 
                         } catch (JSONException e) {

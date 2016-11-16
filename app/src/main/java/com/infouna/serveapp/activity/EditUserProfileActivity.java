@@ -206,15 +206,11 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 String fileNameSegments[] = imgPath.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
                 // Put file name in Async Http Post Param which will used in Php web app
-                Toast.makeText(
-                        getApplicationContext(),
-                        fileName,
-                        Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_LONG).show();
 
 
             } else {
-                Toast.makeText(this, "You haven't picked Image",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
@@ -236,10 +232,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
             // When Image is not selected from Gallery
         } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Please select an image",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),   "Please select an image", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -365,9 +358,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
     }
 */
     private void loadImages(String urlThumbnail) {
-        urlThumbnail = "http://"+urlThumbnail;
+      //  urlThumbnail = "http://"+urlThumbnail;
 
-        Toast.makeText(this, urlThumbnail, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, urlThumbnail, Toast.LENGTH_SHORT).show();
 
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
@@ -401,7 +394,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
                         String res = response.toString();
                        // finish();
-                        Toast.makeText(EditUserProfileActivity.this, "Updated"+res.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditUserProfileActivity.this, "Updated", Toast.LENGTH_LONG).show();
 
                     }
                 }, new Response.ErrorListener() {

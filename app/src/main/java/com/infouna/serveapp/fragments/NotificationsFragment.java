@@ -149,8 +149,8 @@ public class NotificationsFragment extends Fragment {
                           //  Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
                             hideDialog();
                             final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
-                            builder.setTitle("Oops sorry...");
-                            builder.setDescription("NO Notifications yet...");
+                            builder.setTitle("Oops Noooooootifications.....");
+                            builder.setDescription("We will notify you when there are any amazing offers and orders for you ...");
                             builder.withDialogAnimation(true, Duration.SLOW);
                             builder.setStyle(Style.HEADER_WITH_TITLE);
                             builder.setPositiveText("OK");

@@ -392,9 +392,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadImages(String urlThumbnail) {
-        urlThumbnail = "http://"+urlThumbnail;
+       // urlThumbnail = "http://"+urlThumbnail;
 
-       // Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
+       //Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
 
 
         if (!urlThumbnail.equals("NA")) {

@@ -43,10 +43,16 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     JsonObjectRequest jsonObjReq, jsonObjReqfav;
 
-    public static final String fav = "favKey";
-    public static final String ser_prov_user_id = "ser_uid_Key";
-    public static final String ser_prov_ban_pic = "ser_prov_ban_pic_Key";
+    public static final String ser_prov_user_id = "service_uid_Key";
+    public static final String ser_prov_id = "service_id_Key";
+    public static final String service_name = "service_name_key";
+    public static final String sub_service_name = "sub_service_name_key";
     public static final String service_title = "service_title_key";
+    public static final String ser_prov_ban_pic = "ser_prov_ban_pic_Key";
+    public static final String ser_prov_confirmed = "ser_prov_confirm_Key";
+    public static final String ser_prov_total_rating = "ser_prov_total_rating_Key";
+    public static final String ser_prov_total_review = "ser_prov_total_review_Key";
+    public static final String ser_prov_user_fav = "ser_prov_user_fav_Key";
 
     public List<ServiceListCard> data;
 
@@ -98,13 +104,15 @@ public class ServiceListingActivity extends AppCompatActivity {
         //Intent i = getIntent();
         //  Bundle b = i.getExtras();
 
-        final String servicename = spf.getString("servicenameKey", "Null String");
+        final String serv_name = spf.getString("servicenameKey", "Null String");
+
+      //  Toast.makeText(ServiceListingActivity.this, serv_name, Toast.LENGTH_SHORT).show();
 
         total_orders = (TextView) findViewById(R.id.total_service_listing);
 
         //Toast.makeText(ServiceListingActivity.this, b.getString("servicename"), Toast.LENGTH_SHORT).show();
 
-        data = fill_with_data(AppConfig.SERVICE_LISTING_URL, servicename); // pass servicename/keyword as 2nd parameter here
+        data = fill_with_data(AppConfig.SERVICE_LISTING_URL, serv_name); // pass servicename/keyword as 2nd parameter here
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewServiceListing);
 
@@ -125,10 +133,16 @@ public class ServiceListingActivity extends AppCompatActivity {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
 
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(servicename, s_name);
-                editor.putString(fav, data.get(position).favourite);
                 editor.putString(ser_prov_user_id, data.get(position).userid);
+                editor.putString(ser_prov_id, data.get(position).service_providerid);
+                editor.putString(service_name, data.get(position).service_name);
+                editor.putString(sub_service_name, data.get(position).sub_service_name);
+                editor.putString(service_title, data.get(position).service_title);
                 editor.putString(ser_prov_ban_pic, data.get(position).banner_picture);
+                editor.putString(ser_prov_confirmed, data.get(position).confirmed);
+                editor.putString(ser_prov_total_rating, data.get(position).total_ratings);
+                editor.putString(ser_prov_total_review, data.get(position).total_reviews);
+                editor.putString(ser_prov_user_fav, data.get(position).favourite);
 
                 editor.commit();
 
@@ -139,10 +153,15 @@ public class ServiceListingActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(ServiceListingActivity.this, ServiceDetailsActivity.class);
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(servicename, s_name);
-                editor.putString(fav, data.get(position).favourite);
                 editor.putString(ser_prov_user_id, data.get(position).userid);
+                editor.putString(ser_prov_id, data.get(position).service_providerid);
+                editor.putString(service_name, data.get(position).service_name);
+                editor.putString(sub_service_name, data.get(position).sub_service_name);
+                editor.putString(service_title, data.get(position).service_title);
                 editor.putString(ser_prov_ban_pic, data.get(position).banner_picture);
+                editor.putString(ser_prov_confirmed, data.get(position).confirmed);
+                editor.putString(ser_prov_total_rating, data.get(position).total_ratings);
+                editor.putString(ser_prov_total_review, data.get(position).total_reviews);
 
                 editor.commit();
 
@@ -182,31 +201,29 @@ public class ServiceListingActivity extends AppCompatActivity {
 
                             jsonObject = dash.getJSONObject(i);
 
-                            String a = jsonObject.getString("userid"), b = jsonObject.getString("service_providerid"),
-                                    d = jsonObject.getString("banner_picture"),
-                                    e = "", f = "",
-                                    g = "", h = jsonObject.getString("confirmed"),
-                                    m = jsonObject.getString("total_ratings"), j = jsonObject.getString("total_reviews"),
-                                    k = jsonObject.getString("service_title");
-                            s_name = jsonObject.getString("service_name");
+                            String userid = jsonObject.getString("userid");
+                            String service_providerid = jsonObject.getString("service_providerid");
+                            String service_name = jsonObject.getString("service_name");
+                            String sub_service_name = jsonObject.getString("sub_service_name");
+                            String service_title = jsonObject.getString("service_title");
+                            String banner_picture = jsonObject.getString("banner_picture");
+                            String confirmed = jsonObject.getString("confirmed");
+                            String total_ratings = jsonObject.getString("total_ratings");
+                            String total_reviews = jsonObject.getString("total_reviews");
 
-                            SharedPreferences.Editor editor = spf.edit();
-                            editor.putString("servicenameKey", s_name);
-                            editor.commit();
+                         //   SharedPreferences.Editor editor = spf.edit();
+                           // editor.putString(servicename, s_name);
+                            //editor.commit();
 
-                            fav = check_favourite(a, s_name, AppConfig.CHECK_FAVOURITE);
+                            fav = check_favourite(userid, s_name, AppConfig.CHECK_FAVOURITE);
 
-                            data.add(new ServiceListCard(a, b,
-                                    s_name, d,
-                                    e, f,
-                                    g, h,
-                                    m, j, fav, k));
+                            data.add(new ServiceListCard(userid,service_providerid,service_name,sub_service_name,service_title,banner_picture,confirmed,total_ratings,total_reviews,fav));
 
                         }
                         adapter.notifyDataSetChanged();
                     } else if (res.equals("0")) {
                         total_orders.setText("0");
-                        // Toast.makeText(ServiceListingActivity.this, "else" + response.getString("result"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ServiceListingActivity.this, "No services found..Come back later", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
