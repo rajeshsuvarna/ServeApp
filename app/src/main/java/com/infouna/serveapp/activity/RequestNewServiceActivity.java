@@ -30,30 +30,45 @@ import com.infouna.serveapp.app.AppController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Darshan on 03-10-2016.
  */
 public class RequestNewServiceActivity extends AppCompatActivity {
 
-    EditText max, loc, date, address, desc;
+   // EditText max, loc, date, address, desc;
     Button confirm;
     Toolbar toolbar;
     String userid, sp_id, s_name, s_sub_name, s_max_budget, s_location, s_req_dt, s_address, s_description,s_title;
     public static SharedPreferences spf;
     private ProgressDialog pDialog;
 
+    @Bind(R.id.RNS_maxbudget)
+    EditText max;
+    @Bind(R.id.RNS_location)
+    EditText loc;
+    @Bind(R.id.RNS_date)
+    EditText date;
+    @Bind(R.id.RNS_add)
+    EditText address;
+    @Bind(R.id.RNS_desc)
+    EditText desc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_new_service);
+        ButterKnife.bind(this);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Service Details");
+        setTitle("Service Request");
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null){
@@ -68,11 +83,11 @@ public class RequestNewServiceActivity extends AppCompatActivity {
             }
         });
 
-        max = (EditText) findViewById(R.id.RNS_maxbudget);
+        /*max = (EditText) findViewById(R.id.RNS_maxbudget);
         loc = (EditText) findViewById(R.id.RNS_location);
         date = (EditText) findViewById(R.id.RNS_date);
         address = (EditText) findViewById(R.id.RNS_add);
-        desc = (EditText) findViewById(R.id.RNS_desc);
+        desc = (EditText) findViewById(R.id.RNS_desc);*/
 
         confirm = (Button) findViewById(R.id.btn_confirm_req);
 
@@ -93,13 +108,31 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                  s_req_dt = date.getText().toString();
                  s_address = address.getText().toString();
                  s_description = desc.getText().toString();
+
+                if (s_max_budget.isEmpty()) {
+                    max.setError("Maximum budge needed");
+                } else if (s_location.isEmpty()) {
+                    loc.setError("Service location needed");
+                } else if (s_req_dt.isEmpty()) {
+                    date.setError("Service date needed");
+                } else if (s_address.isEmpty()) {
+                    address.setError("Address for service needed");
+                } else if (s_description.isEmpty()) {
+                    desc.setError("Description needed");
+                } else {
+                    max.setError(null);
+                    loc.setError(null);
+                    date.setError(null);
+                    address.setError(null);
+                    desc.setError(null);
+
                 pDialog.setIndeterminate(true);
                 pDialog.setMessage("Booking...");
                 showDialog();
 
 
                 request_service(userid,sp_id,s_name,s_sub_name,s_max_budget,s_location,s_req_dt,s_address,s_description,s_title, AppConfig.SERVICE_REQUEST);
-
+                }
                // finish();
             }
         });
