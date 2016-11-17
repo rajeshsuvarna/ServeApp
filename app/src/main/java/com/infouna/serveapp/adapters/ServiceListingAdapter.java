@@ -58,13 +58,13 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
 
     public class CardServiceList extends ViewHolder {
         CardView cv;
-        TextView servicename, review;
+        TextView servicetitle, review;
         LinearLayout bgimage;
         public ImageView status_icon, favourite_icon, stars[] = new ImageView[5];
 
         public CardServiceList(View v) {
             super(v);
-            this.servicename = (TextView) itemView.findViewById(R.id.SL_servicename);
+            this.servicetitle = (TextView) itemView.findViewById(R.id.SL_servicename);
             this.review = (TextView) itemView.findViewById(R.id.SL_reviews);
             this.cv = (CardView) itemView.findViewById(R.id.Service_List_cardView);
             this.bgimage = (LinearLayout) itemView.findViewById(R.id.SL_backgroundimage);
@@ -93,13 +93,14 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         if (viewHolder.getItemViewType() == HOMECARD) {
             CardServiceList holder = (CardServiceList) viewHolder;
-            holder.servicename.setText(String.valueOf(list.get(position).service_name));
+            holder.servicetitle.setText(String.valueOf(list.get(position).service_title)); // service title
             holder.review.setText(String.valueOf(list.get(position).total_reviews) + " Reviews");
 
             String urlThumbnail = list.get(position).banner_picture;
             if (!urlThumbnail.equals("")) {
                 loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
             }
+
 
             if (list.get(position).favourite.equals("1")) {
                 holder.favourite_icon.setImageResource(R.mipmap.ic_like_selected);

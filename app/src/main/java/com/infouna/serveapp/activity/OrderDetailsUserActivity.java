@@ -27,7 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- ** Created by Darshan on 15-04-2016.
+ * * Created by Darshan on 15-04-2016.
  **/
 
 public class OrderDetailsUserActivity extends AppCompatActivity {
@@ -67,7 +67,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         userid = spf.getString("useridKey", "");
         reqid = spf.getString("reqidKey", "");
 
-       // Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("SP")) {
             spid = spf.getString("spidKey", "");
         }
@@ -119,16 +119,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         });
 
         load_order_details(userid, reqid, AppConfig.ORDER_DETAILS_USER);
-        if (accepted.equals("1")) {
-            jacceptedstatus.setText("Accepted");
-            jstatusicon.setImageResource(R.mipmap.ic_check);
-        } else if (accepted.equals("0") | accepted.equals("null")) {
-            jacceptedstatus.setText("Pending Approval from Service Provider");
-            jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
-        } else {
-            jacceptedstatus.setText("Pending Approval from Service Provider");
-            jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
-        }
+
 
     }
 
@@ -148,6 +139,8 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
                             JSONArray dash = response.getJSONArray("orders_details");
 
+                            Toast.makeText(OrderDetailsUserActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
                             JSONObject jsonObject = dash.getJSONObject(0);
 
                             sname = jsonObject.getString("service_name");
@@ -161,7 +154,20 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                             jstatusdate.setText(dt[0]);
                             jstatustime.setText(dt[1]);
 
-                            accepted = jsonObject.getString("accepted");
+                            accepted = jsonObject.getString("accepted").trim();
+
+                            if (accepted.equals("1")) {
+                                jacceptedstatus.setText("Accepted");
+                                jstatusicon.setImageResource(R.mipmap.ic_check);
+                            } else if (accepted.equals("0")) {
+                                jacceptedstatus.setText("Declined");
+                                jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+                            } else {
+                                jacceptedstatus.setText("Pending Approval from Service Provider");
+                                jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+                            }
+
+                            Toast.makeText(OrderDetailsUserActivity.this, accepted, Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

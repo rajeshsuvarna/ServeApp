@@ -22,5 +22,6 @@ public class OrderListCardSP {
         this.username = username;
         this.requested_date_time = requested_date_time;
         this.accepted = accepted;
+
     }
 }

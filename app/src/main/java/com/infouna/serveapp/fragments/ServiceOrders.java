@@ -79,7 +79,7 @@ public class ServiceOrders extends Fragment {
         type = spf.getString("typeKey", "null");
         spid = spf.getString("spidKey", "null");
 
-   //     Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+        //     Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
 
         total_orders = (TextView) v.findViewById(R.id.t_orders);
 
@@ -133,14 +133,14 @@ public class ServiceOrders extends Fragment {
 
                     Intent i = new Intent(getActivity(), OrderDetailsSPActivity.class);
                     i.putExtra("reqid", data.get(position).reqid);
-                    i.putExtra("spid", spid);
+                    i.putExtra("spid", data.get(position).spid);
                     startActivity(i);
                 }
             }));
 
         }
 
-            return v;
+        return v;
 
     }
 
@@ -180,8 +180,7 @@ public class ServiceOrders extends Fragment {
                             data.add(new OrderListCardSP(a, b, c, d, e, f, g));
                         }
                         hideDialog();
-                    }
-                    else {
+                    } else {
 
                         hideDialog();
 
@@ -200,7 +199,6 @@ public class ServiceOrders extends Fragment {
                             }
                         });
                         builder.show();
-
 
 
                     }
@@ -222,6 +220,7 @@ public class ServiceOrders extends Fragment {
 
         return data;
     }
+
     private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();

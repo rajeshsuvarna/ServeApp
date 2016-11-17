@@ -106,7 +106,7 @@ public class ServiceListingActivity extends AppCompatActivity {
 
         final String serv_name = spf.getString("servicenameKey", "Null String");
 
-      //  Toast.makeText(ServiceListingActivity.this, serv_name, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(ServiceListingActivity.this, serv_name, Toast.LENGTH_SHORT).show();
 
         total_orders = (TextView) findViewById(R.id.total_service_listing);
 
@@ -211,13 +211,10 @@ public class ServiceListingActivity extends AppCompatActivity {
                             String total_ratings = jsonObject.getString("total_ratings");
                             String total_reviews = jsonObject.getString("total_reviews");
 
-                         //   SharedPreferences.Editor editor = spf.edit();
-                           // editor.putString(servicename, s_name);
-                            //editor.commit();
 
                             fav = check_favourite(userid, s_name, AppConfig.CHECK_FAVOURITE);
 
-                            data.add(new ServiceListCard(userid,service_providerid,service_name,sub_service_name,service_title,banner_picture,confirmed,total_ratings,total_reviews,fav));
+                            data.add(new ServiceListCard(userid, service_providerid, service_name, service_title, sub_service_name, banner_picture, confirmed, total_ratings, total_reviews, fav));
 
                         }
                         adapter.notifyDataSetChanged();

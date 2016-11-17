@@ -80,14 +80,17 @@ public class ServiceOrdersAdapter extends RecyclerView.Adapter<ServiceOrdersAdap
         if (viewHolder.getItemViewType() == HOMECARD) {
             CardOrderListSP holder = (CardOrderListSP) viewHolder;
             holder.username.setText(String.valueOf(list.get(position).username));
-            holder.date.setText(String.valueOf(list.get(position).requested_date_time));
-            holder.time.setText(String.valueOf(list.get(position).requested_date_time));
+
+            String[] split = list.get(position).requested_date_time.split(" ");
+
+            holder.date.setText(split[0]);
+            holder.time.setText(split[1]);
 
             if (String.valueOf(list.get(position).accepted).equals("1")) {
                 holder.status.setText("Service accepted");
                 holder.status_icon.setImageResource(R.mipmap.ic_check);
 
-            } else if (String.valueOf(list.get(position).accepted).equals("0")) {
+            } else {
                 holder.status.setText("Pending approval");
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }

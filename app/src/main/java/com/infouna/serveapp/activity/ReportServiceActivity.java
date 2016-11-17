@@ -45,7 +45,7 @@ public class ReportServiceActivity extends AppCompatActivity {
         setTitle("Report Service");
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -54,11 +54,11 @@ public class ReportServiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-        }
+            }
         });
 
 
-        Intent i =getIntent();
+        Intent i = getIntent();
         b = i.getExtras();
 
         userid = b.getString("userid");
@@ -116,8 +116,8 @@ public class ReportServiceActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent back = new Intent(this,OrderDetailsUserActivity.class);
-        startActivity(back);
+        //  Intent back = new Intent(this,OrderDetailsUserActivity.class);
+        // startActivity(back);
         finish();
     }
 }

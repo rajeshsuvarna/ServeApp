@@ -45,7 +45,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    String accepted_request_id; // response from accept button click api call
+    String uid, accepted_request_id; // response from accept button click api call
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         setTitle("Order Details");
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -68,7 +68,6 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
 
         SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
@@ -83,7 +82,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         jdate = (TextView) findViewById(R.id.date_ods);
         jdesc = (TextView) findViewById(R.id.desc_ods);
         jsname = (TextView) findViewById(R.id.user_name_ods);
-        jstatusdate = (TextView) findViewById(R.id.status_ods);
+        jstatusdate = (TextView) findViewById(R.id.userdate_ods);
         jstatustime = (TextView) findViewById(R.id.usertime_ods);
         jacceptedstatus = (TextView) findViewById(R.id.status_ods);
 
@@ -98,7 +97,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                accept_request(userid, b.getString("reqid"), AppConfig.ACCEPT_SERVICE_REQUEST);
+                accept_request(uid, b.getString("reqid"), AppConfig.ACCEPT_SERVICE_REQUEST);
 
             }
         });
@@ -107,7 +106,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(OrderDetailsSPActivity.this, ReportServiceActivity.class);
-                i.putExtra("userid", userid);    // pass values here
+                i.putExtra("userid", uid);    // pass values here
                 i.putExtra("spid", spid);      // pass values here
                 i.putExtra("reqid", b.getString("reqid"));
                 i.putExtra("s_name", s_name);
@@ -118,7 +117,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         jbtncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decline_request(userid, b.getString("reqid"), AppConfig.DECLINE_SERVICE_REQUEST_SP); // userid, reqid, url
+                decline_request(uid, b.getString("reqid"), AppConfig.DECLINE_SERVICE_REQUEST_SP); // userid, reqid, url
             }
         });
 
@@ -138,22 +137,42 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                           // Toast.makeText(OrderDetailsSPActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OrderDetailsSPActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                             JSONArray dash = response.getJSONArray("sp_orders_details");
 
                             JSONObject jsonObject = dash.getJSONObject(0);
 
-                            s_name = jsonObject.getString("service_name");
+                            s_name = jsonObject.getString("username");
 
                             jmax.setText(jsonObject.getString("max_budget"));
                             jloc.setText(jsonObject.getString("location"));
-                            jdate.setText(jsonObject.getString("reqested_date_time"));
+                            jdate.setText(jsonObject.getString("reqstd_date_time"));
                             jdesc.setText(jsonObject.getString("desc"));
+                            String accepted = jsonObject.getString("accepted");
+
+                            uid = jsonObject.getString("userid");
+
+                            if (accepted.equals("1")) {
+                                jstatusicon.setImageResource(R.mipmap.ic_check);
+                                jacceptedstatus.setText("Accepted");
+                            } else if (accepted.equals("0")) {
+                                jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+                                jacceptedstatus.setText("Pending Approval");
+                            } else {
+                                jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+                                jacceptedstatus.setText("Order Declined by Provider");
+                            }
+
+                            String dt = jsonObject.getString("reqstd_date_time");
+
+                            String[] split = dt.split(" ");
+
+                            jdate.setText(split[0]);
 
                             jsname.setText(s_name);
-                            String[] dt = jsonObject.getString("requested_date_time").split(" ");
-                            jstatusdate.setText(dt[0]);
-                            jstatustime.setText(dt[1]);
+
+                            jstatusdate.setText(split[0]);
+                            jstatustime.setText(split[1]);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -174,7 +193,10 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     public void accept_request(String uid, String reqid, String url) {
 
+
         url += "&userid=" + uid + "&reqid=" + reqid + "&req=1";
+
+        Toast.makeText(OrderDetailsSPActivity.this, url, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -229,7 +251,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i =new Intent(this,HomeActivity.class);
+        Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
         finish();
     }

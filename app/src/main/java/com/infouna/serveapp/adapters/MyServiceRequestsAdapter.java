@@ -97,8 +97,13 @@ public class MyServiceRequestsAdapter extends RecyclerView.Adapter<MyServiceRequ
                 holder.status.setText("Service accepted");
                 holder.status_icon.setImageResource(R.mipmap.ic_check);
 
-            } else if (String.valueOf(list.get(position).accepted).equals("null")) {
-                holder.status.setText("Pending approval");
+            } else if (String.valueOf(list.get(position).accepted).equals("0")) {
+                holder.status.setText("Order Declined");
+                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
+            }
+            else
+            {
+                holder.status.setText("Pending Order");
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }
         }
