@@ -387,7 +387,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void AppExit() {
-        this.finish();
+        finish();
     }
 
     public void openhome() {
@@ -396,6 +396,10 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(i);
         setTitle("Serve App");
     }
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

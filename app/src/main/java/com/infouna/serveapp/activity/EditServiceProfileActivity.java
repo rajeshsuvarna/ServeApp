@@ -341,6 +341,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
+        this.finish();
     }
 
     public static void verifyStoragePermissions(Activity activity) {
