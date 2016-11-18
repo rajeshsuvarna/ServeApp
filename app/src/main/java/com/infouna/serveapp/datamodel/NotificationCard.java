@@ -8,7 +8,7 @@ public class NotificationCard {
 
     public String user_message, user_generated_datetime, user_sp_accepted, user_service_name, user_reqid, user_userid;
     public String sp_message, sp_generated_time, sp_request_from, sp_service_name, sp_spid, sp_reqid;
-    public int sp_type;
+    public String sp_type = "";
 
     public NotificationCard(String user_message, String generated_datetime,
                             String sp_accepted, String service_name, String reqid, String userid) {
@@ -22,7 +22,7 @@ public class NotificationCard {
     }
 
     public NotificationCard(String sp_message, String sp_generated_time, String sp_request_from,
-                            String sp_service_name, String sp_spid, String sp_reqid, int type) {
+                            String sp_service_name, String sp_spid, String sp_reqid, String type) {
 
         this.sp_message = sp_message;
         this.sp_generated_time = sp_generated_time;

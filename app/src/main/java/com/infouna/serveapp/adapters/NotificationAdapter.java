@@ -32,7 +32,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public String type = "";
 
-    public static final int HOMECARD = 0, ORDERSP = 1, ORDERU = 2, SERVICELIST = 3, NOTIFICATION = 4;
+    public static final int HOMECARD = 0;
 
     public NotificationAdapter(List data, int mDatasetType) {
         if (mDatasetType == 0) {
@@ -51,12 +51,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class CardNotification extends ViewHolder {
         CardView cv;
-        TextView sname, title, notif_status;
+        TextView sname, title, notif_status, notif_pre;
         public ImageView status_icon;
 
         public CardNotification(View v) {
             super(v);
             this.sname = (TextView) itemView.findViewById(R.id.notif_text_sname);
+            this.notif_pre = (TextView) itemView.findViewById(R.id.notif_pre);
             this.title = (TextView) itemView.findViewById(R.id.notif_title);
             this.notif_status = (TextView) itemView.findViewById(R.id.notif_status);
             this.cv = (CardView) itemView.findViewById(R.id.cardViewNotification);
@@ -77,9 +78,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        if (viewHolder.getItemViewType() == NOTIFICATION) {
+        if (viewHolder.getItemViewType() == HOMECARD) {
             CardNotification holder = (CardNotification) viewHolder;
-            if (type.equals("user")) {
+
+            if (list.get(position).sp_type.equals("")) {
                 holder.sname.setText(String.valueOf(list.get(position).user_service_name));
                 if (String.valueOf(list.get(position).user_sp_accepted).equals("1")) {
                     holder.title.setText("Service request accepted");
@@ -91,23 +93,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
                 }
 
-            } else if (type.equals("sp")) {
-
-                holder.sname.setText(String.valueOf(list.get(position).sp_service_name));
-
-                holder.title.setText("sp");
-                holder.notif_status.setText("sp");
+            } else {
+                holder.sname.setText("");
+                holder.notif_pre.setText("");
+                holder.notif_status.setText("");
+                holder.title.setText(String.valueOf(list.get(position).sp_message));
+                holder.status_icon.setImageResource(R.mipmap.ic_info_notification);
             }
 
-
-            if (String.valueOf(list.get(position).user_sp_accepted).equals("1")) {
-
-                holder.status_icon.setImageResource(R.mipmap.ic_check);
-
-            } else if (String.valueOf(list.get(position).user_sp_accepted).equals("0")) {
-
-                holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
-            }
         }
     }
 

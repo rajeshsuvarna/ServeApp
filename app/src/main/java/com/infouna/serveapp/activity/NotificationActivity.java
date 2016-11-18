@@ -1,4 +1,4 @@
-package com.infouna.serveapp.fragments;
+package com.infouna.serveapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,17 +7,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,7 +25,6 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
-import com.infouna.serveapp.activity.HomeActivity;
 import com.infouna.serveapp.adapters.NotificationAdapter;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.app.AppConfig;
@@ -40,7 +35,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class NotificationsFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Darshan on 18-11-2016.
+ */
+
+public class NotificationActivity extends AppCompatActivity {
 
     public static final int HOME = 0;
 
@@ -57,28 +59,36 @@ public class NotificationsFragment extends Fragment {
     NotificationAdapter adapter;
     RecyclerView recyclerView;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_notifications, container, false);
+    TextView count;
 
-        pDialog = new ProgressDialog(getActivity());
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_notifications);
+
+        pDialog = new ProgressDialog(NotificationActivity.this);
         pDialog.setCancelable(false);
 
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Loading...");
         showDialog();
 
-        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        count = (TextView) findViewById(R.id.count);
+
+        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
-        type = spf.getString("typeKey", "");
-        if (type.equals("SP")) {
+        String check = spf.getString("typeKey", "");
+        if (check.equals("SP")) {
             spid = spf.getString("spidKey", "");
         }
 
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        type = b.getString("ID", "");
+
         data = fill_with_data(AppConfig.NOTIFICATION_USER, AppConfig.NOTIFICATION_SP);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerViewNotif);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewNotif);
 
         adapter = new NotificationAdapter(data, mDatasetTypes[0]); //array position is [4] coz card card type is NOTIFICATION
 
@@ -88,9 +98,9 @@ public class NotificationsFragment extends Fragment {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
 
-        recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(getActivity(), recyclerView, new RVAdapter.ClickListener() {
+        recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(NotificationActivity.this, recyclerView, new RVAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
@@ -102,7 +112,7 @@ public class NotificationsFragment extends Fragment {
             }
         }));
 
-        return v;
+
     }
 
     public List<NotificationCard> fill_with_data(String user_url, String sp_url) {
@@ -111,13 +121,16 @@ public class NotificationsFragment extends Fragment {
         if (type.equals("USER")) {
             user_url += userid;
 
-
+            Toast.makeText(NotificationActivity.this, "USER", Toast.LENGTH_SHORT).show();
             jsonObjReq = new JsonObjectRequest(Request.Method.POST, user_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
 
                         String res = response.getString("result");
+                        String total = response.getString("total_notifications");
+
+                        count.setText("Top " + total + " Notifications");
 
                         if (res.equals("1")) {
 
@@ -142,7 +155,7 @@ public class NotificationsFragment extends Fragment {
 
                             //  Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
                             hideDialog();
-                            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+                            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(NotificationActivity.this);
                             builder.setTitle("Oops Noooooootifications.....");
                             builder.setDescription("We will notify you when there are any amazing offers and orders for you ...");
                             builder.withDialogAnimation(true, Duration.SLOW);
@@ -151,7 +164,7 @@ public class NotificationsFragment extends Fragment {
                             builder.onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    Intent i = new Intent(getActivity(), HomeActivity.class);
+                                    Intent i = new Intent(NotificationActivity.this, HomeActivity.class);
                                     startActivity(i);
                                     builder.autoDismiss(true);
                                 }
@@ -170,7 +183,7 @@ public class NotificationsFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             });
@@ -179,19 +192,24 @@ public class NotificationsFragment extends Fragment {
 
         } else if (type.equals("SP")) {
 
+            Toast.makeText(NotificationActivity.this, "SP", Toast.LENGTH_SHORT).show();
+
             sp_url += spid;
 
-            Toast.makeText(getActivity(), sp_url, Toast.LENGTH_SHORT).show();
+            Toast.makeText(NotificationActivity.this, sp_url, Toast.LENGTH_SHORT).show();
 
             jsonObjReq = new JsonObjectRequest(Request.Method.POST, sp_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
 
-                        // Toast.makeText(getActivity(), response.toString() + "sp - request", Toast.LENGTH_SHORT).show();
-
 
                         String res = response.getString("result");
+
+                        String total = response.getString("total_notifications");
+
+                        count.setText("Top " + total + " Notifications");
+
 
                         //   Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
                         if (res.equals("1")) {
@@ -212,6 +230,8 @@ public class NotificationsFragment extends Fragment {
                                         c = jsonObject.getString("request_from"), d = jsonObject.getString("service_name"),
                                         e = jsonObject.getString("spid"), f = jsonObject.getString("reqid");
 
+                                Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
                                 data.add(new NotificationCard(a, b,
                                         c, d,
                                         e, f, "0"));
@@ -222,7 +242,7 @@ public class NotificationsFragment extends Fragment {
 
                             //  Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
                             hideDialog();
-                            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+                            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(NotificationActivity.this);
                             builder.setTitle("Oops sorry...");
                             builder.setDescription("NO Notifications yet...");
                             builder.withDialogAnimation(true, Duration.SLOW);
@@ -231,7 +251,7 @@ public class NotificationsFragment extends Fragment {
                             builder.onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    Intent i = new Intent(getActivity(), HomeActivity.class);
+                                    Intent i = new Intent(NotificationActivity.this, HomeActivity.class);
                                     startActivity(i);
                                     builder.autoDismiss(true);
                                 }
@@ -251,7 +271,7 @@ public class NotificationsFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             });

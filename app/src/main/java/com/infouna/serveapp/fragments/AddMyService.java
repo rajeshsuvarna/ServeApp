@@ -185,7 +185,6 @@ public class AddMyService extends Fragment {
                 Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
 
                 /*
-
                 if(service_desc.isEmpty())
                 {
                     jservdesc.setError("Service Description Required!!");

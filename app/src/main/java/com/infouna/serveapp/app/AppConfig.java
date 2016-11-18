@@ -57,7 +57,7 @@ public class AppConfig {
     public static String ORDER_DETAILS_USER = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=order_details";
 
     // Cancel service request
-    public static String CANCEL_SERVICE_REQUEST = "http://www.serveapp.com/assets/api/cancle_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+    public static String CANCEL_SERVICE_REQUEST = "http://www.serveapp.in/assets/api/cancle_request.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
 
     // Order listing service provider
     public static String ORDER_LISTING_SP = "http://www.serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=sp_orders&spid=";
