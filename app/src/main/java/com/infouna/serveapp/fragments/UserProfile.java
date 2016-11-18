@@ -114,9 +114,17 @@ public class UserProfile extends Fragment {
         txt_email.setText(semail);
         txt_mobile.setText(sphone);
 
-        if (profile_pic.contains("serveapp")) {
+        String[] split = profile_pic.split("/");
+        if (split.length == 5) {
+
+            Picholder.setImageResource(R.drawable.default_user_photo);
+        } else if (profile_pic.contains("serveapp")) {
+
             loadImages(profile_pic);
+        } else {
+            Picholder.setImageResource(R.drawable.default_user_photo);
         }
+
 
         hideDialog();
 

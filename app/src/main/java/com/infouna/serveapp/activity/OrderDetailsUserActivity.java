@@ -120,7 +120,6 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
         load_order_details(userid, reqid, AppConfig.ORDER_DETAILS_USER);
 
-
     }
 
     private void load_order_details(String uid, String rid, String url) {
@@ -147,12 +146,13 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
                             jmax.setText(jsonObject.getString("max_budget"));
                             jloc.setText(jsonObject.getString("location"));
-                            jdate.setText(jsonObject.getString("reqested_date_time"));
                             jdesc.setText(jsonObject.getString("description"));
                             jsname.setText(sname);
                             String[] dt = jsonObject.getString("reqested_date_time").split(" ");
                             jstatusdate.setText(dt[0]);
                             jstatustime.setText(dt[1]);
+
+                            jdate.setText(dt[0]);
 
                             accepted = jsonObject.getString("accepted").trim();
 

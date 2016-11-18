@@ -139,9 +139,17 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
         profile_pic = spf.getString(profile, "Null String");
 
-        if (profile_pic.contains("serveapp")) {
+        String[] split = profile_pic.split("/");
+        if (split.length == 5) {
+
+            iv.setImageResource(R.drawable.default_user_photo);
+        } else if (profile_pic.contains("serveapp")) {
+
             loadImages(profile_pic);
+        } else {
+            iv.setImageResource(R.drawable.default_user_photo);
         }
+
 
         iv.setOnClickListener(new View.OnClickListener() {
             @Override

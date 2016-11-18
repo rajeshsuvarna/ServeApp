@@ -115,9 +115,18 @@ public class HomeActivity extends AppCompatActivity {
         Picholder = (de.hdodenhof.circleimageview.CircleImageView) header.findViewById(R.id.drawer_image);
 
         pp = spf.getString(profile, "Null String");
-        if (pp.contains("serveapp")) {
+        String[] split = pp.split("/");
+
+        if (split.length == 5) {
+
+            Picholder.setImageResource(R.drawable.default_user_photo);
+        } else if (pp.contains("serveapp")) {
+
             loadImages(pp);
+        } else {
+            Picholder.setImageResource(R.drawable.default_user_photo);
         }
+
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -170,11 +179,15 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.addmyservice:
                         ishomeopen = 0;
+                        Intent i = new Intent(HomeActivity.this, AddMyServiceActivity.class);
+                        startActivity(i);
+                        /*
                         AddMyService addMyServeFragment = new AddMyService();
                         android.support.v4.app.FragmentTransaction addMyServefragmentTransaction = getSupportFragmentManager().beginTransaction();
                         addMyServefragmentTransaction.replace(R.id.frame, addMyServeFragment);
                         addMyServefragmentTransaction.commit();
                         setTitle("Add My Service");
+                        */
                         return true;
 
                     case R.id.myserviceprofile:
@@ -242,9 +255,19 @@ public class HomeActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
                 pp = spf.getString(profile, "Null String");
-                if (pp.contains("serveapp")) {
+                String[] split = pp.split("/");
+
+
+                if (split.length == 5) {
+
+                    Picholder.setImageResource(R.drawable.default_user_photo);
+                } else if (pp.contains("serveapp")) {
+
                     loadImages(pp);
+                } else {
+                    Picholder.setImageResource(R.drawable.default_user_photo);
                 }
+
                 name.setText(spf.getString(fname, "Null String") + " " + spf.getString(lname, "Null String"));
                 super.onDrawerOpened(drawerView);
             }
@@ -294,8 +317,16 @@ public class HomeActivity extends AppCompatActivity {
                             name.setText(fn + " " + ln);
 
                             pp = spf.getString(profile, "Null String");
-                            if (pp.contains("serveapp")) {
+                            String[] split = pp.split("/");
+
+                            if (split.length == 5) {
+
+                                Picholder.setImageResource(R.drawable.default_user_photo);
+                            } else if (pp.contains("serveapp")) {
+
                                 loadImages(pp);
+                            } else {
+                                Picholder.setImageResource(R.drawable.default_user_photo);
                             }
 
                             // hideDialog();
@@ -326,6 +357,7 @@ public class HomeActivity extends AppCompatActivity {
         homeFragmentTransaction.commit();
         setTitle("Home");
     }
+
     @Override
     public void onBackPressed() {
         if (ishomeopen != 1) {
@@ -405,10 +437,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadImages(String urlThumbnail) {
-       // urlThumbnail = "http://"+urlThumbnail;
+        // urlThumbnail = "http://"+urlThumbnail;
 
-       //Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(HomeActivity.this, urlThumbnail, Toast.LENGTH_SHORT).show();
 
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
@@ -427,6 +458,7 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
     }
+
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
