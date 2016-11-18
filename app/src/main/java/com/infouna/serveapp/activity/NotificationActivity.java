@@ -112,7 +112,6 @@ public class NotificationActivity extends AppCompatActivity {
             }
         }));
 
-
     }
 
     public List<NotificationCard> fill_with_data(String user_url, String sp_url) {
@@ -128,15 +127,18 @@ public class NotificationActivity extends AppCompatActivity {
                     try {
 
                         String res = response.getString("result");
-                        String total = response.getString("total_notifications");
 
-                        count.setText("Top " + total + " Notifications");
+                        Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 
                         if (res.equals("1")) {
 
                             JSONArray dash = response.getJSONArray("user_notification");
 
                             JSONObject jsonObject;
+
+                            String total = response.getString("total_notifications");
+
+                            count.setText("Top " + total + " Notifications");
 
                             data.clear();
 
@@ -203,22 +205,18 @@ public class NotificationActivity extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     try {
 
-
                         String res = response.getString("result");
 
-                        String total = response.getString("total_notifications");
-
-                        count.setText("Top " + total + " Notifications");
-
-
-                        //   Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
+                        Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
                         if (res.equals("1")) {
-
-                            //  Toast.makeText(getActivity(), res + "R", Toast.LENGTH_SHORT).show();
 
                             JSONArray dash = response.getJSONArray("sp_notification");
 
                             JSONObject jsonObject;
+
+                            String total = response.getString("total_notifications");
+
+                            count.setText("Top " + total + " Notifications");
 
                             data.clear();
 
@@ -230,7 +228,6 @@ public class NotificationActivity extends AppCompatActivity {
                                         c = jsonObject.getString("request_from"), d = jsonObject.getString("service_name"),
                                         e = jsonObject.getString("spid"), f = jsonObject.getString("reqid");
 
-                                Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
                                 data.add(new NotificationCard(a, b,
                                         c, d,

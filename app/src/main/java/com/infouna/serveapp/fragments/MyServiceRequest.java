@@ -81,7 +81,7 @@ public class MyServiceRequest extends Fragment {
         pDialog.setMessage("Loading...");
         showDialog();
 
-       spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
 
         total_orders = (TextView) v.findViewById(R.id.torders_ODU);
@@ -100,7 +100,7 @@ public class MyServiceRequest extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-       // Toast.makeText(getActivity(), "uid" + userid, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "uid" + userid, Toast.LENGTH_SHORT).show();
 
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(getActivity(), recyclerView, new RVAdapter.ClickListener() {
             @Override
@@ -111,8 +111,6 @@ public class MyServiceRequest extends Fragment {
                 editor.putString(req_id, data.get(position).reqid);
                 editor.commit();
 
-               // i.putExtra("reqid", data.get(position).reqid);
-               // i.putExtra("userid", userid);
                 startActivity(i);
             }
 
@@ -123,8 +121,6 @@ public class MyServiceRequest extends Fragment {
                 editor.putString(req_id, data.get(position).reqid);
                 editor.commit();
 
-               // i.putExtra("reqid", data.get(position).reqid);
-               // i.putExtra("userid", userid);
                 startActivity(i);
             }
         }));
@@ -146,7 +142,7 @@ public class MyServiceRequest extends Fragment {
                 try {
                     String res = response.getString("result");
 
-                   // Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getActivity(),res,Toast.LENGTH_LONG).show();
 
                     if (res.equals("1")) {
 
@@ -173,8 +169,7 @@ public class MyServiceRequest extends Fragment {
                         hideDialog();
 
 
-                    }
-                    else {
+                    } else {
 
                         hideDialog();
 
@@ -193,7 +188,6 @@ public class MyServiceRequest extends Fragment {
                             }
                         });
                         builder.show();
-
 
 
                     }
