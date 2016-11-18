@@ -30,6 +30,10 @@ import com.infouna.serveapp.app.AppController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -56,6 +60,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
     @Bind(R.id.RNS_desc)
     EditText desc;
 
+    String[] encodedParams = new String[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +108,15 @@ public class RequestNewServiceActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 s_max_budget = max.getText().toString();
-                 s_location = loc.getText().toString();
-                 s_req_dt = date.getText().toString();
-                 s_address = address.getText().toString();
-                 s_description = desc.getText().toString();
+
+                 s_max_budget = max.getText().toString().trim();
+                 s_location = loc.getText().toString().trim();
+                 s_req_dt = date.getText().toString().trim();
+                 s_address = address.getText().toString().trim();
+                 s_description = desc.getText().toString().trim();
 
                 if (s_max_budget.isEmpty()) {
-                    max.setError("Maximum budge needed");
+                    max.setError("Maximum budget needed");
                 } else if (s_location.isEmpty()) {
                     loc.setError("Service location needed");
                 } else if (s_req_dt.isEmpty()) {
@@ -131,17 +137,29 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                 showDialog();
 
 
-                request_service(userid,sp_id,s_name,s_sub_name,s_max_budget,s_location,s_req_dt,s_address,s_description,s_title, AppConfig.SERVICE_REQUEST);
+                    try {
+                        request_service(userid,sp_id,s_name,s_sub_name,s_max_budget,s_location,s_req_dt,s_address,s_description,s_title, AppConfig.SERVICE_REQUEST);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
+
                // finish();
             }
         });
 
     }
 
-    private void request_service(String userid, String s, String s_name, String s_sub_name, String max_budget, String location, String req_dt, String addr, String desc, String title, String URL) {
-        URL += "&userid=" + userid + "&spid=" + s + "&s_name=" + s_name + "&s_sub_name=" + s_sub_name + "&max_budget=" + max_budget + "&location="
-                + location + "&req_dt=" + req_dt + "&add=" + addr + "&desc=" + desc + "&s_title=" + title ;
+    private void request_service(String userid, String s, String s_name, String s_sub_name, String max_budget, String location, String req_dt, String addr, String desc, String title, String URL) throws UnsupportedEncodingException {
+
+        encodedParams[0] = URLEncoder.encode(max_budget,"utf-8");
+        encodedParams[1] = URLEncoder.encode(location,"utf-8");
+        encodedParams[2] = URLEncoder.encode(addr,"utf-8");
+        encodedParams[3] = URLEncoder.encode(req_dt,"utf-8");
+        encodedParams[4] = URLEncoder.encode(desc,"utf-8");
+
+        URL += "&userid=" + userid + "&spid=" + s + "&s_name=" + s_name + "&s_sub_name=" + s_sub_name + "&max_budget=" + encodedParams[0] + "&location="
+                + encodedParams[1] + "&req_dt=" + encodedParams[3] + "&add=" + encodedParams[2] + "&desc=" + encodedParams[4] + "&s_title=" + title ;
 
         String tag_json_obj = "json_obj_req";
 
@@ -164,8 +182,8 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                                 hideDialog();
                                 Toast.makeText(getApplicationContext(), "Service Booked, we will notify once provider has confirmed your order", Toast.LENGTH_LONG).show();
 
-                                /*
-                                final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getApplicationContext());
+
+                                final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(RequestNewServiceActivity.this);
                                 builder.setTitle("Service Booked");
                                 builder.setDescription("We will notify you when the service is accepted from the provider ...");
                                 builder.withDialogAnimation(true, Duration.SLOW);
@@ -179,13 +197,13 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                                         builder.autoDismiss(true);
                                     }
                                 });
-                                builder.show();*/
+                                builder.show();
                             }
                             else {
                                 hideDialog();
                                 Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
 
-                              /*  final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getApplicationContext());
+                                final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(RequestNewServiceActivity.this);
                                 builder.setTitle("SORRY");
                                 builder.setDescription("Cannot book now..Come back later");
                                 builder.withDialogAnimation(true, Duration.SLOW);
@@ -199,7 +217,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                                         builder.autoDismiss(true);
                                     }
                                 });
-                                builder.show();*/
+                                builder.show();
 
                             }
 

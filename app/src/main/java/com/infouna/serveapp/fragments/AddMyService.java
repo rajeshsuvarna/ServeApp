@@ -68,6 +68,8 @@ import cz.msebera.android.httpclient.Header;
 import static android.app.Activity.RESULT_OK;
 import static com.infouna.serveapp.activity.LoginActivity.MyPREFERENCES;
 
+
+
 public class AddMyService extends Fragment {
 
     ArrayAdapter<String> adapterONE, adapterTWO;
@@ -88,6 +90,8 @@ public class AddMyService extends Fragment {
     public static final String profile = "profilepicKey";
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
+
 
 /*
     @Bind(R.id.input_add_yourservicedescription) EditText jservdesc;
@@ -113,6 +117,7 @@ public class AddMyService extends Fragment {
     String userid, ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, stitle, city, pin, web;
     int enable = 0;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -127,7 +132,10 @@ public class AddMyService extends Fragment {
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
-        Toast.makeText(getActivity(), userid + "test", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), userid + "test", Toast.LENGTH_SHORT).show();
+
+
+
 
         servicespinner = (Spinner) v.findViewById(R.id.servicespinner);
         subservicespinner = (Spinner) v.findViewById(R.id.subservicespinner);
@@ -144,8 +152,12 @@ public class AddMyService extends Fragment {
 
         iv = (ImageView) v.findViewById(R.id.imageholder);
 
+
+
         fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, "all"); // fill service spinner 1
         setAdapter(1);
+
+
 
         servicespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -175,68 +187,74 @@ public class AddMyService extends Fragment {
                 subservice = subservicespinner.getSelectedItem().toString(); //jsubservice.getText().toString();
                 service_desc = jservdesc.getText().toString();
                 min_price = jminprice.getText().toString();
-                int foo_price = Integer.parseInt(min_price);
+                //int foo_price = Integer.parseInt(min_price);
                 address = jsaddress.getText().toString();
                 city = jscity.getText().toString();
                 pin = jpin.getText().toString();
-                int foo_pin = Integer.parseInt(pin);
+               // int foo_pin = Integer.parseInt(pin);
                 web = jweb.getText().toString();
 
-                Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
 
-                /*
-                if(service_desc.isEmpty())
+
+
+                if(stitle.isEmpty())
                 {
-                    jservdesc.setError("Service Description Required!!");
+                    Toast.makeText(getActivity(), "Service title is required", Toast.LENGTH_SHORT).show();
                 }
-                    else if(service_desc.length() < 5)
+                else if(service_desc.isEmpty())
                     {
-                        jservdesc.setError("Service Description too short!!");
+                        Toast.makeText(getActivity(), "Service description is required", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(service_desc.length() < 10)
+                    {
+                        Toast.makeText(getActivity(), "Service description is to short", Toast.LENGTH_SHORT).show();
                     }
                         else if (min_price.isEmpty())
                         {
-                            jminprice.setError("Please Provide Your Minimum Service Price!!");
+                            Toast.makeText(getActivity(), "Service Minimum price is required", Toast.LENGTH_SHORT).show();
                         }
-                            else if (foo_price <= 99)
+                            /*else if (foo_price <= 99)
                             {
-                                jminprice.setError("Minimum Service Price Should Be More Than 100 RS");
-                            }
+                                Toast.makeText(getActivity(), "Minimum service price should be 100 Rs", Toast.LENGTH_SHORT).show();
+                            }*/
                                 else if (address.isEmpty())
                                 {
-                                    jsaddress.setError("Please provide your address");
+                                    Toast.makeText(getActivity(), "Address is required", Toast.LENGTH_SHORT).show();
                                 }
                                     else  if(address.length() < 7)
                                     {
-                                      jsaddress.setError("Address very short, please enter proper address!!");
+                                        Toast.makeText(getActivity(), "Address very short, please enter proper address!!", Toast.LENGTH_SHORT).show();
                                     }
                                         else  if(city.isEmpty())
                                         {
-                                            jscity.setError("Please enter your servicing city");
+                                            Toast.makeText(getActivity(), "Servicing city required", Toast.LENGTH_SHORT).show();
                                         }
                                         else if(pin.isEmpty())
                                             {
-                                                jpin.setError("Please provide your PIN-CODE");
+                                                Toast.makeText(getActivity(), "PIN CODE required", Toast.LENGTH_SHORT).show();
                                             }
-                                            else if(foo_pin < 2)
+                                           /* else if(foo_pin < 2)
                                             {
                                                 jpin.setError("Please provide correct PIN-CODE");
 
-                                            }
+                                            }*/
                                                 else if(Patterns.WEB_URL.matcher(web).matches())
                                                 {
-                                                    jweb.setError("Please provide your proper website");
+                                                    Toast.makeText(getActivity(), "Provide a valid web address", Toast.LENGTH_SHORT).show();
                                                 }
-                                                else
-                */
+                                                else {
 
-                try {
-                    uploadImage(v);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                                            try {
+                                                uploadImage(v);
+                                                jservicetitle.setError(null);
+
+                                            } catch (UnsupportedEncodingException e) {
+                                                e.printStackTrace();
+                                            } catch (URISyntaxException e) {
+                                                e.printStackTrace();
+                                            }
                 }
-
             }
         });
 
@@ -259,13 +277,16 @@ public class AddMyService extends Fragment {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // Start the Intent
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
-        iv.setImageResource(0);
+        iv.setImageDrawable(null);
     }
 
     // When Image is selected from Gallery
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        iv.setImageDrawable(null);
         super.onActivityResult(requestCode, resultCode, data);
+
+
 
         try {
             // When an Image is picked

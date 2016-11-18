@@ -323,6 +323,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
 
         if (ishomeopen != 1) {
             openhome();
@@ -351,7 +352,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void AppExit() {
-        this.finish();
+        finish();
+
     }
 
     public void openhome() {

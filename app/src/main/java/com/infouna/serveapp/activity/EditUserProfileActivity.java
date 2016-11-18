@@ -145,8 +145,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                iv.setImageResource(0);
                 loadImagefromGallery();
+
 
             }
         });
@@ -168,11 +169,13 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
     public void loadImagefromGallery() {
         // Create intent to Open Image applications like Gallery, Google Photos
+
+
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // Start the Intent
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
-        iv.setImageDrawable(null);
+
     }
 
     // When Image is selected from Gallery
@@ -367,8 +370,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    iv.setImageDrawable(null); // to clear the static background
-                    iv.setBackground(new BitmapDrawable(response.getBitmap()));
+                    //iv.setImageDrawable(null); // to clear the static background
+                   // iv.setBackground(new BitmapDrawable(response.getBitmap()));
+                    iv.setImageDrawable(new BitmapDrawable(response.getBitmap()));
                 }
 
                 @Override

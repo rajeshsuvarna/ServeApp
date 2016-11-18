@@ -28,7 +28,7 @@
                     android:layout_height="76dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_profile"
+                    android:src="@drawable/default_user_photo"
                     app:civ_border_width="2dp"
                     app:civ_border_color="#FFFFFF"/>
             </RelativeLayout>
