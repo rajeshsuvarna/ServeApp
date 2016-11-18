@@ -211,15 +211,7 @@ public class HomeActivity extends AppCompatActivity {
                         faqfragmentTransaction.commit();
                         setTitle("FAQ");
                         return true;
-                    case R.id.share:
-                        ishomeopen = 0;
-                        String message = "Text I want to share.";
-                        Intent share = new Intent(Intent.ACTION_SEND);
-                        share.setType("text/plain");
-                        share.putExtra(Intent.EXTRA_TEXT, message);
-                        startActivity(Intent.createChooser(share, "Share Via"));
-                        setTitle("Serve App");
-                        return true;
+
                     case R.id.support:
                         ishomeopen = 0;
                         Support supportFragment = new Support();
@@ -336,8 +328,6 @@ public class HomeActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
         if (ishomeopen != 1) {
             openhome();
         } else {
@@ -365,15 +355,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void AppExit() {
-        finish();
-
+        this.finish();
     }
 
     public void openhome() {
         ishomeopen = 1;
         Intent i = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(i);
-       // setTitle("Serve App");
+        setTitle("Serve App");
     }
 
     @Override
@@ -402,6 +391,14 @@ public class HomeActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
             finish();
+        }
+        if (id == R.id.action_share) {
+
+            String message = "Text I want to share.";
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, message);
+            startActivity(Intent.createChooser(share, "Share Via"));
         }
 
         return super.onOptionsItemSelected(item);

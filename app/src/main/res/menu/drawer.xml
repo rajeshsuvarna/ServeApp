@@ -57,10 +57,7 @@
             android:id="@+id/faq"
             android:checked="false"
             android:title="@string/nav_item_faq"/>
-        <item
-            android:id="@+id/share"
-            android:checked="false"
-            android:title="@string/nav_item_share_serveapp" />
+
         <item
             android:id="@+id/support"
             android:checked="false"

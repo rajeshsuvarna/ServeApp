@@ -72,10 +72,23 @@ public class NotificationActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Edit User Profile");
+        setTitle("Notifications");
 
         pDialog = new ProgressDialog(NotificationActivity.this);
         pDialog.setCancelable(false);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         pDialog.setIndeterminate(true);
         pDialog.setMessage("Loading...");
@@ -295,5 +308,12 @@ public class NotificationActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, HomeActivity.class);
+        startActivity(i);
     }
 }

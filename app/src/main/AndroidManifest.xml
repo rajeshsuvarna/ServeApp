@@ -33,8 +33,7 @@
             android:noHistory="true"></activity>
         <activity
             android:name=".activity.HomeActivity"
-            android:label="@string/app_name"
-            android:noHistory="false"></activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".activity.RateServiceActivity"
             android:label="@string/app_name"
@@ -46,11 +45,11 @@
         <activity
             android:name=".activity.OrderDetailsSPActivity"
             android:label="@string/app_name"
-            android:noHistory="false"></activity>
+            android:noHistory="true"></activity>
         <activity
             android:name=".activity.OrderDetailsUserActivity"
             android:label="@string/app_name"
-            android:noHistory="false"></activity>
+            android:noHistory="true"></activity>
         <activity
             android:name=".activity.ServiceListingActivity"
             android:label="@string/app_name"
@@ -74,7 +73,7 @@
         <activity
             android:name=".activity.NotificationActivity"
             android:label="@string/app_name"
-            android:noHistory="false"></activity>
+            android:noHistory="true"></activity>
     </application>
 
 </manifest>

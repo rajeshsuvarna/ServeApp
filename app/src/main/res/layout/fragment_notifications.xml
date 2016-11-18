@@ -8,6 +8,10 @@
         android:orientation="vertical"
         tools:context=".CardViewActivity">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
         <TextView
             android:id="@+id/count"
             android:layout_width="fill_parent"
