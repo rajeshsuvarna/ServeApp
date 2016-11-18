@@ -76,12 +76,11 @@
         <activity
             android:name=".activity.NotificationActivity"
             android:label="@string/app_name"
-
-            android:noHistory="true"></activity>
+            android:noHistory="true"/>
         <activity
             android:name=".activity.AddMyServiceActivity"
             android:label="@string/app_name"
-            android:noHistory="false"></activity>
+            android:noHistory="false"/>
 
 
     </application>

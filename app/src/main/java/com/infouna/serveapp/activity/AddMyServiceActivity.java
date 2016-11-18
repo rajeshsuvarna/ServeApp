@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
@@ -100,6 +101,8 @@ public class AddMyServiceActivity extends AppCompatActivity {
 
     public View v;
 
+    Toolbar toolbar;
+
     private ProgressDialog pDialog;
 
     public static SharedPreferences spf;
@@ -122,6 +125,22 @@ public class AddMyServiceActivity extends AppCompatActivity {
         prgDialog = new ProgressDialog(AddMyServiceActivity.this);
         // Set Cancelable as False
         prgDialog.setCancelable(false);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Add My Service");
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         // Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
 
@@ -262,12 +281,10 @@ public class AddMyServiceActivity extends AppCompatActivity {
                             public void run() {
                                 // This method will be executed once the timer is over
                                 // Start your app main activity
-                                Intent i = new Intent(AddMyServiceActivity.this, LoginActivity.class);
-                                startActivity(i);
+
 
                                 loadImagefromGallery();
                                 // close this activity
-                                finish();
                             }
                         }, 2000);
 
