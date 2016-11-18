@@ -141,7 +141,7 @@ public class NotificationActivity extends AppCompatActivity {
         if (type.equals("USER")) {
             user_url += userid;
 
-            Toast.makeText(NotificationActivity.this, "USER", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(NotificationActivity.this, "USER", Toast.LENGTH_SHORT).show();
             jsonObjReq = new JsonObjectRequest(Request.Method.POST, user_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -149,7 +149,7 @@ public class NotificationActivity extends AppCompatActivity {
 
                         String res = response.getString("result");
 
-                        Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                       // Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 
                         if (res.equals("1")) {
 
@@ -215,11 +215,11 @@ public class NotificationActivity extends AppCompatActivity {
 
         } else if (type.equals("SP")) {
 
-            Toast.makeText(NotificationActivity.this, "SP", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(NotificationActivity.this, "SP", Toast.LENGTH_SHORT).show();
 
             sp_url += spid;
 
-            Toast.makeText(NotificationActivity.this, sp_url, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NotificationActivity.this, sp_url, Toast.LENGTH_SHORT).show();
 
             jsonObjReq = new JsonObjectRequest(Request.Method.POST, sp_url, null, new Response.Listener<JSONObject>() {
                 @Override
@@ -228,7 +228,7 @@ public class NotificationActivity extends AppCompatActivity {
 
                         String res = response.getString("result");
 
-                        Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
                         if (res.equals("1")) {
 
                             JSONArray dash = response.getJSONArray("sp_notification");

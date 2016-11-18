@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                   Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
+              //     Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getContext(), ServiceListingActivity.class);
 
                 SharedPreferences.Editor editor = spf.edit();
@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) {
 
-                  Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
+            //      Toast.makeText(getActivity(), data.get(position).servicename, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getContext(), ServiceListingActivity.class);
 
                 SharedPreferences.Editor editor = spf.edit();

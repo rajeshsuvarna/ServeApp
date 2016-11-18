@@ -249,7 +249,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                                                 jpin.setError("Please provide correct PIN-CODE");
 
                                             }*/
-                    else if (Patterns.WEB_URL.matcher(web).matches()) {
+                    else if (web.isEmpty()) {
                         Toast.makeText(AddMyServiceActivity.this, "Provide a valid web address", Toast.LENGTH_SHORT).show();
                     } else {
 
@@ -580,6 +580,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                             String res = response.getString("spid");
                             SharedPreferences.Editor editor = spf.edit();
                             editor.putString("spidKey", res);
+                            editor.putString("typeKey", "SP");
                             editor.commit();
 
                             Toast.makeText(AddMyServiceActivity.this, response.toString(), Toast.LENGTH_SHORT).show();

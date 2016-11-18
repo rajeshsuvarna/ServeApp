@@ -36,6 +36,7 @@ public class RateServiceActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    String accepted = "", reqid = "", userid = "", sname = "", spid = "";
 
     int rate;
 
@@ -79,7 +80,7 @@ public class RateServiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                submitreview("566912", "12345", "carpentor", rate, jreview.getText().toString()); // passing parameters of url to function; refer URL documentation
+                submitreview("", "12345", "carpentor", rate, jreview.getText().toString()); // passing parameters of url to function; refer URL documentation
 
             }
         });

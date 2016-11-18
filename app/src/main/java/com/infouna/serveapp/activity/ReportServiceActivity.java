@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -87,12 +88,35 @@ public class ReportServiceActivity extends AppCompatActivity {
 
         url += "&userid=" + uid + "&spid=" + spid + "&reqid=" + reqid + "&s_name=" + s_name + "&comments=" + comments;
 
+
+        //  Toast.makeText(ReportServiceActivity.this, url, Toast.LENGTH_SHORT).show();
+
         if (jreportcomment.length() != 0) {
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+
+                            Toast.makeText(ReportServiceActivity.this, "Reporting Success", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+
+            /*
+             * Showing splash screen with a timer. This will be useful when you
+             * want to show case your app logo / company
+             */
+
+                                @Override
+                                public void run() {
+                                    // This method will be executed once the timer is over
+                                    // Start your app main activity
+
+
+                                    finish();
+                                    // close this activity
+                                }
+                            }, 2000);
+
 
                         }
                     }, new Response.ErrorListener() {

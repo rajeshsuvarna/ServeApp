@@ -138,12 +138,12 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
                             JSONArray dash = response.getJSONArray("orders_details");
 
-                            Toast.makeText(OrderDetailsUserActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(OrderDetailsUserActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
                             JSONObject jsonObject = dash.getJSONObject(0);
 
                             sname = jsonObject.getString("service_name");
-
+                            spid = jsonObject.getString("spid");
                             jmax.setText(jsonObject.getString("max_budget"));
                             jloc.setText(jsonObject.getString("location"));
                             jdesc.setText(jsonObject.getString("description"));
@@ -167,7 +167,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
                             }
 
-                            Toast.makeText(OrderDetailsUserActivity.this, accepted, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(OrderDetailsUserActivity.this, "", Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -192,6 +192,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
         String tag_json_obj = "json_obj_req";
 
+      //  Toast.makeText(OrderDetailsUserActivity.this, url, Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
                 new Response.Listener<JSONObject>() {

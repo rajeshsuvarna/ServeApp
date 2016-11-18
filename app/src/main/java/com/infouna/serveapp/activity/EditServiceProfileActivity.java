@@ -15,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -374,7 +375,22 @@ public class EditServiceProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         String res = response.toString();
+                        Toast.makeText(EditServiceProfileActivity.this, "Updated", Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
 
+            /*
+             * Showing splash screen with a timer. This will be useful when you
+             * want to show case your app logo / company
+             */
+
+                            @Override
+                            public void run() {
+                                // This method will be executed once the timer is over
+                                // Start your app main activity
+                                finish();
+                                // close this activity
+                            }
+                        }, 2000);
 
                     }
                 }, new Response.ErrorListener() {

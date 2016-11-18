@@ -211,7 +211,7 @@ public class ServiceListingActivity extends AppCompatActivity {
                             String total_ratings = jsonObject.getString("total_ratings");
                             String total_reviews = jsonObject.getString("total_reviews");
 
-
+                         //   Toast.makeText(ServiceListingActivity.this, service_providerid, Toast.LENGTH_SHORT).show();
                             fav = check_favourite(userid, s_name, AppConfig.CHECK_FAVOURITE);
 
                             data.add(new ServiceListCard(userid, service_providerid, service_name, service_title, sub_service_name, banner_picture, confirmed, total_ratings, total_reviews, fav));

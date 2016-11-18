@@ -157,8 +157,9 @@ public class RequestNewServiceActivity extends AppCompatActivity {
         encodedParams[2] = URLEncoder.encode(addr,"utf-8");
         encodedParams[3] = URLEncoder.encode(req_dt,"utf-8");
         encodedParams[4] = URLEncoder.encode(desc,"utf-8");
+        encodedParams[5] = URLEncoder.encode(s_sub_name,"utf-8");
 
-        URL += "&userid=" + userid + "&spid=" + s + "&s_name=" + s_name + "&s_sub_name=" + s_sub_name + "&max_budget=" + encodedParams[0] + "&location="
+        URL += "&userid=" + userid + "&spid=" + s + "&s_name=" + s_name + "&s_sub_name=" + encodedParams[5] + "&max_budget=" + encodedParams[0] + "&location="
                 + encodedParams[1] + "&req_dt=" + encodedParams[3] + "&add=" + encodedParams[2] + "&desc=" + encodedParams[4] + "&s_title=" + title ;
 
         String tag_json_obj = "json_obj_req";
@@ -201,6 +202,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                             }
                             else {
                                 hideDialog();
+                                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
 
                                 final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(RequestNewServiceActivity.this);
