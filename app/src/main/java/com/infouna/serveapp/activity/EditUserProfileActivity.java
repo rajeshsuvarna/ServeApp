@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -209,7 +210,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 String fileNameSegments[] = imgPath.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
                 // Put file name in Async Http Post Param which will used in Php web app
-              //  Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_LONG).show();
+                //  Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_LONG).show();
 
 
             } else {
@@ -224,18 +225,29 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
     // When Upload button is clicked
     public void uploadImage(View v) {
+
+        Bitmap bm = ((BitmapDrawable) iv.getDrawable()).getBitmap();
         // When Image is selected from Gallery
-        if (imgPath != null && !imgPath.isEmpty()) {
-            prgDialog.setMessage("Initiating...");
-            prgDialog.show();
-            // Convert image to String using Base64
-            encodeImagetoString();
+        if (null != iv.getDrawable() | bm != null) {
 
-            update_profile(userid, f, l, e, m, fileName, AppConfig.URL_UPDATE_USER_PROFILE);  // update profile
+            if (imgPath != null && !imgPath.isEmpty()) {
+                prgDialog.setMessage("Initiating...");
+                prgDialog.show();
+                // Convert image to String using Base64
+                encodeImagetoString();
 
-            // When Image is not selected from Gallery
+                update_profile(userid, f, l, e, m, fileName, AppConfig.URL_UPDATE_USER_PROFILE);  // update profile
+
+                // When Image is not selected from Gallery
+            } else {
+                String[] split = profile_pic.split("/");
+                fileName = split[split.length - 1];
+
+                update_profile(userid, f, l, e, m, fileName, AppConfig.URL_UPDATE_USER_PROFILE);  // update profile
+
+            }
         } else {
-            Toast.makeText(getApplicationContext(),   "Please select an image", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please 2 select an image" + iv.getDrawable(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -293,7 +305,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
                 prgDialog.hide();
-                Toast.makeText(getApplicationContext(), String.format("Image updated successfully"),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), String.format("Image updated successfully"), Toast.LENGTH_LONG).show();
                 //showConfirmDialog();
 
 
@@ -338,32 +350,32 @@ public class EditUserProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-       Intent i = new Intent(this, HomeActivity.class);
+        Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
     }
 
-   /* public void  showConfirmDialog(){
-        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getApplicationContext());
-        builder.setTitle("Oops sorry...");
-        builder.setDescription("NO Notifications yet...");
-        builder.withDialogAnimation(true, Duration.SLOW);
-        builder.setStyle(Style.HEADER_WITH_TITLE);
-        builder.setPositiveText("OK");
-        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-            @Override
-            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(i);
-                builder.autoDismiss(true);
-            }
-        });
-        builder.show();
-    }
-*/
+    /* public void  showConfirmDialog(){
+         final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getApplicationContext());
+         builder.setTitle("Oops sorry...");
+         builder.setDescription("NO Notifications yet...");
+         builder.withDialogAnimation(true, Duration.SLOW);
+         builder.setStyle(Style.HEADER_WITH_TITLE);
+         builder.setPositiveText("OK");
+         builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+             @Override
+             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                 Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                 startActivity(i);
+                 builder.autoDismiss(true);
+             }
+         });
+         builder.show();
+     }
+ */
     private void loadImages(String urlThumbnail) {
-      //  urlThumbnail = "http://"+urlThumbnail;
+        //  urlThumbnail = "http://"+urlThumbnail;
 
-       // Toast.makeText(this, urlThumbnail, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, urlThumbnail, Toast.LENGTH_SHORT).show();
 
         if (!urlThumbnail.equals("NA")) {
             imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
@@ -371,7 +383,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     //iv.setImageDrawable(null); // to clear the static background
-                   // iv.setBackground(new BitmapDrawable(response.getBitmap()));
+                    // iv.setBackground(new BitmapDrawable(response.getBitmap()));
                     iv.setImageDrawable(new BitmapDrawable(response.getBitmap()));
                 }
 
@@ -397,7 +409,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         String res = response.toString();
-                       // finish();
+                        // finish();
                         Toast.makeText(EditUserProfileActivity.this, "Updated", Toast.LENGTH_LONG).show();
 
                     }
@@ -429,7 +441,6 @@ public class EditUserProfileActivity extends AppCompatActivity {
             );
         }
     }
-
 
 
 }

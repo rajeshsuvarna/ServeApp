@@ -107,6 +107,9 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         iv_ban = (ImageView) findViewById(R.id.ES_ban_pic);
         iv_shop = (ImageView) findViewById(R.id.ES_shop_pic);
 
+        sname.setKeyListener(null);
+        ssname.setKeyListener(null);
+
         final SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
 
         userid = spf.getString("useridKey", "");

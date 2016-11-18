@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -35,12 +36,18 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
+import com.infouna.serveapp.activity.HomeActivity;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
 import com.loopj.android.http.AsyncHttpClient;
@@ -114,7 +121,7 @@ public class AddMyService extends Fragment {
 
     Spinner servicespinner, subservicespinner;
 
-    String userid, ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, stitle, city, pin, web;
+    String userid, type,ban_pic, shop_pic, loc, service, subservice, service_desc, min_price, address, stitle, city, pin, web;
     int enable = 0;
 
 
@@ -127,12 +134,13 @@ public class AddMyService extends Fragment {
 
         spf = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "Null String");
+        type = spf.getString("typeKey", "Null String");
 
         prgDialog = new ProgressDialog(getActivity());
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
-       // Toast.makeText(getActivity(), userid + "test", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
 
 
 
@@ -152,121 +160,125 @@ public class AddMyService extends Fragment {
 
         iv = (ImageView) v.findViewById(R.id.imageholder);
 
-
-
-        fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, "all"); // fill service spinner 1
-        setAdapter(1);
-
-
-
-        servicespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                adapterTWO = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, Collections.<String>emptyList());
-                adapterTWO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                subservicespinner.setAdapter(adapterTWO);
-
-                fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
-                setAdapter(2);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        jregisterservice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                stitle = jservicetitle.getText().toString();
-                service = servicespinner.getSelectedItem().toString(); //jservice.getText().toString();
-                subservice = subservicespinner.getSelectedItem().toString(); //jsubservice.getText().toString();
-                service_desc = jservdesc.getText().toString();
-                min_price = jminprice.getText().toString();
-                //int foo_price = Integer.parseInt(min_price);
-                address = jsaddress.getText().toString();
-                city = jscity.getText().toString();
-                pin = jpin.getText().toString();
-               // int foo_pin = Integer.parseInt(pin);
-                web = jweb.getText().toString();
-
-               // Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
-
-
-
-                if(stitle.isEmpty())
-                {
-                    Toast.makeText(getActivity(), "Service title is required", Toast.LENGTH_SHORT).show();
+        if(type.equals("SP"))
+        {
+            Toast.makeText(getActivity(), "Oops! You are already an Service Provider", Toast.LENGTH_SHORT).show();
+            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(getActivity());
+            builder.setTitle("You are already an Service Provider");
+            builder.setDescription("Keep Calm wait for orders... ");
+            builder.withDialogAnimation(true, Duration.SLOW);
+            builder.setStyle(Style.HEADER_WITH_TITLE);
+            builder.setPositiveText("OK");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    Intent i = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(i);
+                    builder.autoDismiss(true);
                 }
-                else if(service_desc.isEmpty())
-                    {
+            });
+            builder.show();
+
+        }
+        else if (type.equals("USER")) {
+
+
+            fill_spinner(AppConfig.URL_DASHBOARD_SERVICES_HOME, 1, "all"); // fill service spinner 1
+            setAdapter(1);
+
+
+            servicespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    adapterTWO = new ArrayAdapter<String>(getContext(),
+                            android.R.layout.simple_spinner_item, Collections.<String>emptyList());
+                    adapterTWO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    subservicespinner.setAdapter(adapterTWO);
+
+                    fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
+                    setAdapter(2);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            jregisterservice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    stitle = jservicetitle.getText().toString();
+                    service = servicespinner.getSelectedItem().toString(); //jservice.getText().toString();
+                    subservice = subservicespinner.getSelectedItem().toString(); //jsubservice.getText().toString();
+                    service_desc = jservdesc.getText().toString();
+                    min_price = jminprice.getText().toString();
+                    //int foo_price = Integer.parseInt(min_price);
+                    address = jsaddress.getText().toString();
+                    city = jscity.getText().toString();
+                    pin = jpin.getText().toString();
+                    // int foo_pin = Integer.parseInt(pin);
+                    web = jweb.getText().toString();
+
+                    // Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
+
+
+                    if (stitle.isEmpty()) {
+                        Toast.makeText(getActivity(), "Service title is required", Toast.LENGTH_SHORT).show();
+                    } else if (service_desc.isEmpty()) {
                         Toast.makeText(getActivity(), "Service description is required", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(service_desc.length() < 10)
-                    {
+                    } else if (service_desc.length() < 10) {
                         Toast.makeText(getActivity(), "Service description is to short", Toast.LENGTH_SHORT).show();
+                    } else if (min_price.isEmpty()) {
+                        Toast.makeText(getActivity(), "Service Minimum price is required", Toast.LENGTH_SHORT).show();
                     }
-                        else if (min_price.isEmpty())
-                        {
-                            Toast.makeText(getActivity(), "Service Minimum price is required", Toast.LENGTH_SHORT).show();
-                        }
                             /*else if (foo_price <= 99)
                             {
                                 Toast.makeText(getActivity(), "Minimum service price should be 100 Rs", Toast.LENGTH_SHORT).show();
                             }*/
-                                else if (address.isEmpty())
-                                {
-                                    Toast.makeText(getActivity(), "Address is required", Toast.LENGTH_SHORT).show();
-                                }
-                                    else  if(address.length() < 7)
-                                    {
-                                        Toast.makeText(getActivity(), "Address very short, please enter proper address!!", Toast.LENGTH_SHORT).show();
-                                    }
-                                        else  if(city.isEmpty())
-                                        {
-                                            Toast.makeText(getActivity(), "Servicing city required", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else if(pin.isEmpty())
-                                            {
-                                                Toast.makeText(getActivity(), "PIN CODE required", Toast.LENGTH_SHORT).show();
-                                            }
+                    else if (address.isEmpty()) {
+                        Toast.makeText(getActivity(), "Address is required", Toast.LENGTH_SHORT).show();
+                    } else if (address.length() < 7) {
+                        Toast.makeText(getActivity(), "Address very short, please enter proper address!!", Toast.LENGTH_SHORT).show();
+                    } else if (city.isEmpty()) {
+                        Toast.makeText(getActivity(), "Servicing city required", Toast.LENGTH_SHORT).show();
+                    } else if (pin.isEmpty()) {
+                        Toast.makeText(getActivity(), "PIN CODE required", Toast.LENGTH_SHORT).show();
+                    }
                                            /* else if(foo_pin < 2)
                                             {
                                                 jpin.setError("Please provide correct PIN-CODE");
 
                                             }*/
-                                                else if(Patterns.WEB_URL.matcher(web).matches())
-                                                {
-                                                    Toast.makeText(getActivity(), "Provide a valid web address", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                    else if (Patterns.WEB_URL.matcher(web).matches()) {
+                        Toast.makeText(getActivity(), "Provide a valid web address", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                                            try {
-                                                uploadImage(v);
-                                                jservicetitle.setError(null);
+                        try {
+                            uploadImage(v);
+                            jservicetitle.setError(null);
 
-                                            } catch (UnsupportedEncodingException e) {
-                                                e.printStackTrace();
-                                            } catch (URISyntaxException e) {
-                                                e.printStackTrace();
-                                            }
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
-        });
+            });
 
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (enable == 1) {
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (enable == 1) {
 
-                    loadImagefromGallery();
+                        loadImagefromGallery();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return v;
     }

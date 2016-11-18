@@ -220,7 +220,8 @@ public class UserProfile extends Fragment {
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     Picholder.setImageDrawable(null); // to clear the static background
-                    Picholder.setBackground(new BitmapDrawable(response.getBitmap()));
+                    //Picholder.setBackground(new BitmapDrawable(response.getBitmap()));
+                    Picholder.setImageDrawable(new BitmapDrawable(response.getBitmap()));
                 }
 
                 @Override

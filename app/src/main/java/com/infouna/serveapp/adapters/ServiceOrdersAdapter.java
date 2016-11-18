@@ -84,7 +84,7 @@ public class ServiceOrdersAdapter extends RecyclerView.Adapter<ServiceOrdersAdap
             String[] split = list.get(position).requested_date_time.split(" ");
 
             holder.date.setText(split[0]);
-            holder.time.setText(split[1]);
+           // holder.time.setText(split[1]);
 
             if (String.valueOf(list.get(position).accepted).equals("1")) {
                 holder.status.setText("Service accepted");

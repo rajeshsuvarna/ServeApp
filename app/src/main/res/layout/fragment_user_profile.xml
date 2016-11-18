@@ -55,31 +55,6 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:gravity="left"
-                            android:paddingTop="5dp"
-                            android:text="Location"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
-
-                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/edit_loc_image"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginTop="3dp"
-                            android:layout_toRightOf="@+id/location"
-                            android:src="@mipmap/ic_edit_nav" />
-
-                    </RelativeLayout>
 
                 </LinearLayout>
 
