@@ -1,6 +1,5 @@
 package com.infouna.serveapp.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -33,28 +32,50 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.infouna.serveapp.R;
+import com.wdullaer.materialdatetimepicker.Utils;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import java.util.Calendar;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+
 /**
  * Created by Darshan on 03-10-2016.
  */
-public class RequestNewServiceActivity extends AppCompatActivity {
-
+public class RequestNewServiceActivity extends AppCompatActivity implements  View.OnClickListener,
+        DatePickerDialog.OnDateSetListener{
    // EditText max, loc, date, address, desc;
     Button confirm;
     Toolbar toolbar;
     String userid, sp_id, s_name, s_sub_name, s_max_budget, s_location, s_req_dt, s_address, s_description,s_title;
     public static SharedPreferences spf;
     private ProgressDialog pDialog;
+    private EditText edt_time;
+
 
     @Bind(R.id.RNS_maxbudget)
     EditText max;
     @Bind(R.id.RNS_location)
     EditText loc;
-    @Bind(R.id.RNS_date)
-    EditText date;
+
     @Bind(R.id.RNS_add)
     EditText address;
     @Bind(R.id.RNS_desc)
@@ -67,6 +88,8 @@ public class RequestNewServiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_new_service);
         ButterKnife.bind(this);
+
+
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -95,6 +118,33 @@ public class RequestNewServiceActivity extends AppCompatActivity {
         desc = (EditText) findViewById(R.id.RNS_desc);*/
 
         confirm = (Button) findViewById(R.id.btn_confirm_req);
+        edt_time = (EditText) findViewById(R.id.RNS_date);
+
+        edt_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        RequestNewServiceActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+
+                dpd.setAccentColor(Color.parseColor("#FF6d00"));
+
+                Calendar[] dates = new Calendar[31];
+                for (int i = 0; i <= 30; i++) {
+                    Calendar date = Calendar.getInstance();
+                    date.add(Calendar.DATE, i);
+                    dates[i] = date;
+                }
+                dpd.setSelectableDays(dates);
+
+                dpd.show(getFragmentManager(), "Datepickerdialog");
+
+            }
+        });
 
 
         spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
@@ -111,7 +161,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
 
                  s_max_budget = max.getText().toString().trim();
                  s_location = loc.getText().toString().trim();
-                 s_req_dt = date.getText().toString().trim();
+                 s_req_dt = edt_time.getText().toString().trim();
                  s_address = address.getText().toString().trim();
                  s_description = desc.getText().toString().trim();
 
@@ -120,7 +170,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                 } else if (s_location.isEmpty()) {
                     loc.setError("Service location needed");
                 } else if (s_req_dt.isEmpty()) {
-                    date.setError("Service date needed");
+                   edt_time.setError("Service date needed");
                 } else if (s_address.isEmpty()) {
                     address.setError("Address for service needed");
                 } else if (s_description.isEmpty()) {
@@ -128,7 +178,7 @@ public class RequestNewServiceActivity extends AppCompatActivity {
                 } else {
                     max.setError(null);
                     loc.setError(null);
-                    date.setError(null);
+                    edt_time.setError(null);
                     address.setError(null);
                     desc.setError(null);
 
@@ -149,6 +199,9 @@ public class RequestNewServiceActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
     private void request_service(String userid, String s, String s_name, String s_sub_name, String max_budget, String location, String req_dt, String addr, String desc, String title, String URL) throws UnsupportedEncodingException {
 
@@ -257,5 +310,24 @@ public class RequestNewServiceActivity extends AppCompatActivity {
         Intent back = new Intent(this,ServiceDetailsActivity.class);
         startActivity(back);
         finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
+        if(dpd != null) dpd.setOnDateSetListener(this);
+    }
+
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date = dayOfMonth+"-"+(++monthOfYear)+"-"+year;
+        edt_time.setText(date);
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
