@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,8 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
     public static SharedPreferences spf;
 
+    private ProgressDialog pDialog;
+
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     String fav, ratin;
@@ -75,6 +78,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "Null String");
@@ -185,6 +191,10 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
     private void load_order_details(String uid, final String sname, final String fav, String url) {
 
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading Service Details...");
+        showDialog();
+
 
         url += "&userid=" + uid + "&s_name=" + sname;
 
@@ -198,13 +208,20 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            hideDialog();
+
 
                             JSONArray dash = response.getJSONArray("service_details");
 
                             JSONObject jsonObject = dash.getJSONObject(0);
 
                             String reviews = jsonObject.getString("total_reviews");
-
+                            String ratings = jsonObject.getString("total_ratings");
+                            try {
+                                rate = Integer.parseInt(ratings);
+                            }
+                            catch (NumberFormatException e) {
+                            }
 
                             servicename.setText(jsonObject.getString("service_title"));
 
@@ -223,7 +240,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                             address.setText(jsonObject.getString("location"));
                             description.setText(jsonObject.getString("service_description"));
 
-                            rater(3);
+                            rater(rate);
                             //rater(Integer.parseInt(jsonObject.getString("total_ratings")));
 
                             if (fav.equals("1")) {
@@ -237,11 +254,12 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                             if (check_confirm.equals("1")) {
                                 confirm.setImageResource(R.mipmap.ic_check);
                             } else {
-                                btnfav.setImageResource(R.mipmap.ic_warning_notification);
+                                confirm.setImageResource(R.mipmap.ic_warning_notification);
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideDialog();
                         }
 
                     }
@@ -249,6 +267,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
 
             }
         });
@@ -291,6 +310,16 @@ public class ServiceDetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent back = new Intent(this, ServiceListingActivity.class);
         startActivity(back);
-        finish();
+        this.finish();
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

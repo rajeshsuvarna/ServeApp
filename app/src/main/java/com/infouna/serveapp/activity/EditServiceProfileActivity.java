@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
@@ -54,6 +55,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
     Button update;
     private Toolbar toolbar;
 
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     ProgressDialog prgDialog;
     String encodedString;
     RequestParams params = new RequestParams();
@@ -124,12 +126,41 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         sprice.setText(spf.getString("ES_service_priceKey", "Null String"));
         desc.setText(spf.getString("ES_service_descKey", "Null String"));
 
+        service_banner = spf.getString("ES_banKey", "Null String");
+        service_shop_photo = spf.getString("ES_shop_photoKey","Null");
+
+        service_name = spf.getString("ES_service_nameKey", "Null String");
+        sub_service_name = spf.getString("ES_sub_service_nameKey", "Null String");
+
+        Toast.makeText(this,service_name + sub_service_name+ service_banner+service_shop_photo, Toast.LENGTH_LONG).show();
+
+        String[] split = service_banner.split("/");
+        if (split.length == 5) {
+
+            iv_ban.setImageResource(R.drawable.service_image_banner);
+        } else if (service_banner.contains("serveapp")) {
+
+            loadImages(service_banner);
+        } else {
+            iv_ban.setImageResource(R.drawable.service_image_banner);
+        }
+
+        String[] split_shop = service_shop_photo.split("/");
+        if (split_shop.length == 5) {
+            iv_shop.setImageResource(R.drawable.default_shop_pic);
+        } else if (service_shop_photo.contains("serveapp")) {
+            loadImages(service_banner);
+        } else {
+            iv_ban.setImageResource(R.drawable.default_shop_pic);
+        }
+
 
         update = (Button) findViewById(R.id.ES_update);
 
         iv_ban.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                iv_ban.setImageResource(0);
                 i = 0;
 
                 loadImagefromGallery();
@@ -139,6 +170,7 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         iv_shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                iv_shop.setImageResource(0);
                 i = 1;
 
                 loadImagefromGallery();
@@ -149,26 +181,26 @@ public class EditServiceProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                service_address = add.getText().toString();
-                service_website = web.getText().toString();
-                service_location = loc.getText().toString();
+                service_address = add.getText().toString().trim();
+                service_website = web.getText().toString().trim();
+                service_location = loc.getText().toString().trim();
                 service_id = spf.getString("ES_service_idKey", "Null String");
-                service_name = sname.getText().toString();
-                sub_service_name = ssname.getText().toString();
-                service_title = title.getText().toString();
-                service_price = sprice.getText().toString();
-                service_description = desc.getText().toString();
+               // service_name = sname.getText().toString();
+               // sub_service_name = ssname.getText().toString();
+                service_title = title.getText().toString().trim();
+                service_price = sprice.getText().toString().trim();
+                service_description = desc.getText().toString().trim();
 
                 uploadImage(v);
 
-                update_profile(service_id, service_address, fileName[0], service_website, fileName[1], service_location,
-                        service_name, sub_service_name, service_title, service_price, service_description,
-                        AppConfig.URL_UPDATE_SERVICE_PROFILE);
+
 
             }
         });
 
     }
+
+
 
     public void loadImagefromGallery() {
         // Create intent to Open Image applications like Gallery, Google Photos
@@ -233,21 +265,36 @@ public class EditServiceProfileActivity extends AppCompatActivity {
     // When Upload button is clicked
     public void uploadImage(View v) {
         // When Image is selected from Gallery
-        for (int j = 0; j < 2; j++) {
-            if (imgPath[j] != null && !imgPath[j].isEmpty()) {
-                prgDialog.setMessage("Initiating...");
-                prgDialog.show();
-                // Convert image to String using Base64
 
-                encodeImagetoString(j);
+        Bitmap bm_ban = ((BitmapDrawable) iv_ban.getDrawable()).getBitmap();
+        Bitmap bm_shop = ((BitmapDrawable) iv_ban.getDrawable()).getBitmap();
 
-                // When Image is not selected from Gallery
-            } else {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Please select an image",
-                        Toast.LENGTH_LONG).show();
+        if (null != iv_ban.getDrawable() | bm_ban != null | null != iv_shop.getDrawable() | bm_shop != null  ) {
+            for (int j = 0; j < 2; j++) {
+                if (imgPath[j] != null && !imgPath[j].isEmpty()) {
+                    prgDialog.setMessage("Initiating...");
+                    prgDialog.show();
+                    // Convert image to String using Base64
+
+                    encodeImagetoString(j);
+
+                    update_profile(userid,service_id, service_address, fileName[0], service_website, fileName[1], service_location,
+                            service_name, sub_service_name, service_title,service_price, service_description,
+                            AppConfig.URL_UPDATE_SERVICE_PROFILE);
+
+                    // When Image is not selected from Gallery
+                } else {
+                    String[] split = service_banner.split("/");
+                    fileName[0] = split[split.length - 1];
+
+                    String[] split_s = service_shop_photo.split("/");
+                    fileName[1] = split_s[split.length - 1];
+                    //Toast.makeText(getApplicationContext(),"Please select an image", Toast.LENGTH_LONG).show();
+                }
             }
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Please  select an image", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -359,14 +406,17 @@ public class EditServiceProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void update_profile(final String sid, String add, String ban, String web, String shop, String loc, String sname,
-                               String ss, String stitle, String price, String desc, String URL) {
+
+    public void update_profile(String userid,final String sid, String add, String ban, String web, String shop, String loc,
+                               String sname,String ss, String stitle, String price, String desc, String URL) {
 
         String tag_json_obj = "json_obj_req";
 
-        URL += "&userid=" + userid + "&add=" + add + "&ban_pic=" + ban + "&website=" + web + "&shop_pic=" + shop + "&loc=" + loc +
+        URL += "userid="+userid+ "&add=" + add + "&ban_pic=" + ban + "&website=" + web + "&shop_pic=" + shop + "&loc=" + loc +
                 "&sid=" + sid + "&s_name=" + sname + "&ss_name=" + ss + "&s_title=" + stitle + "&tags=" + sname +
                 "&s_price=" + price + "&s_desc=" + desc;
+
+        Toast.makeText(EditServiceProfileActivity.this, URL, Toast.LENGTH_LONG).show();
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 URL, null,
@@ -375,22 +425,9 @@ public class EditServiceProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         String res = response.toString();
+                        Toast.makeText(EditServiceProfileActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+
                         Toast.makeText(EditServiceProfileActivity.this, "Updated", Toast.LENGTH_LONG).show();
-                        new Handler().postDelayed(new Runnable() {
-
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-
-                            @Override
-                            public void run() {
-                                // This method will be executed once the timer is over
-                                // Start your app main activity
-                                finish();
-                                // close this activity
-                            }
-                        }, 2000);
 
                     }
                 }, new Response.ErrorListener() {
@@ -407,5 +444,35 @@ public class EditServiceProfileActivity extends AppCompatActivity {
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
+
+
+
+    private void loadImages(String urlThumbnail) {
+        //  urlThumbnail = "http://"+urlThumbnail;
+
+        // Toast.makeText(this, urlThumbnail, Toast.LENGTH_SHORT).show();
+
+        if (!urlThumbnail.equals("NA")) {
+            imageLoader.get(urlThumbnail, new ImageLoader.ImageListener() {
+
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    //iv.setImageDrawable(null); // to clear the static background
+                    // iv.setBackground(new BitmapDrawable(response.getBitmap()));
+                    iv_ban.setImageDrawable(new BitmapDrawable(response.getBitmap()));
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
+    }
+
+
+
+
+
 
 }

@@ -252,7 +252,7 @@ public class AddMyService extends Fragment {
                                                 jpin.setError("Please provide correct PIN-CODE");
 
                                             }*/
-                    else if (Patterns.WEB_URL.matcher(web).matches()) {
+                    else if (web.isEmpty()) {
                         Toast.makeText(getActivity(), "Provide a valid web address", Toast.LENGTH_SHORT).show();
                     } else {
 
@@ -323,8 +323,7 @@ public class AddMyService extends Fragment {
                 String fileNameSegments[] = imgPath.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
                 // Put file name in Async Http Post Param which will used in Php web app
-                Toast.makeText(
-                        getActivity(),
+                Toast.makeText(getActivity(),
                         fileName,
                         Toast.LENGTH_LONG).show();
 

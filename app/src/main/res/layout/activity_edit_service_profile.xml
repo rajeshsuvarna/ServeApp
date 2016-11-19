@@ -29,7 +29,7 @@
                     android:layout_height="150dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/noimageavailable"
+                    android:src="@drawable/service_image_banner"
                     android:elevation="5dp" />
 
                 <ImageView
@@ -38,7 +38,7 @@
                     android:layout_height="150dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/noimageavailable"
+                    android:src="@drawable/default_shop_pic"
                     android:elevation="5dp" />
 
             </LinearLayout>
@@ -53,14 +53,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Select ^ Banner photo" />
+                    android:textSize="10dp"
+                    android:text="Select Banner photo" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Select ^ Shop photo" />
+                    android:textSize="10dp"
+                    android:text="Select Shop photo" />
             </LinearLayout>
 
             <android.support.design.widget.TextInputLayout

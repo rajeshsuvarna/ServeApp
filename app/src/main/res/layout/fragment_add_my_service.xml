@@ -14,16 +14,17 @@
 
         <ImageView
             android:id="@+id/imageholder"
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:src="@drawable/defaut_banner"
-            android:elevation="5dp" />
+            android:layout_height="150dp"
+            android:src="@drawable/service_image_banner"
+            android:elevation="5dp"
+            android:layout_width="match_parent" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Select ^ Image" />
+            android:textSize="10dp"
+            android:text="Select Banner Image" />
 
         <LinearLayout
             android:layout_width="match_parent"

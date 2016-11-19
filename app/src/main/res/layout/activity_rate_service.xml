@@ -17,10 +17,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:padding="7dp"
-            android:text="Rating the Service : Laundry Service"
+            android:text="Rating the Service : "
             android:textColor="@color/secondary_text"
             android:textSize="12dp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:id="@+id/rate_sname"/>
 
         <TextView
             android:layout_width="fill_parent"

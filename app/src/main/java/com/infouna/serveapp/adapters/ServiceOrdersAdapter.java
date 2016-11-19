@@ -87,11 +87,11 @@ public class ServiceOrdersAdapter extends RecyclerView.Adapter<ServiceOrdersAdap
            // holder.time.setText(split[1]);
 
             if (String.valueOf(list.get(position).accepted).equals("1")) {
-                holder.status.setText("Service accepted");
+                holder.status.setText("Request accepted");
                 holder.status_icon.setImageResource(R.mipmap.ic_check);
 
             } else {
-                holder.status.setText("Pending approval");
+                holder.status.setText("Pending Your approval");
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }
         }

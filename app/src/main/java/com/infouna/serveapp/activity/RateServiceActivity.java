@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,6 +29,8 @@ import org.json.JSONObject;
 
 import butterknife.Bind;
 
+import static com.google.android.gms.analytics.internal.zzy.b;
+
 /**
  * Created by Darshan on 31-03-2016.
  */
@@ -36,12 +40,18 @@ public class RateServiceActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    String accepted = "", reqid = "", userid = "", sname = "", spid = "";
+    String userid, spid, reqid, sname;
+
+    Bundle b;
+
 
     int rate;
 
     EditText jreview;
     Button jsubmitreview;
+    TextView rate_sname;
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,10 @@ public class RateServiceActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Rate Service");
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null){
@@ -65,6 +79,16 @@ public class RateServiceActivity extends AppCompatActivity {
             }
         });
 
+        Intent i = getIntent();
+        b = i.getExtras();
+
+        userid = b.getString("userid");
+        spid = b.getString("spid");
+        reqid = b.getString("reqid");
+        sname = b.getString("s_name");
+
+        // Toast.makeText(RateServiceActivity.this, userid+spid+reqid+sname, Toast.LENGTH_SHORT).show();
+
 
 
         stars[0] = (ImageButton) findViewById(R.id.star_1);
@@ -75,12 +99,14 @@ public class RateServiceActivity extends AppCompatActivity {
 
         jreview = (EditText) findViewById(R.id.review);
         jsubmitreview = (Button) findViewById(R.id.submit_review);
+        rate_sname = (TextView) findViewById(R.id.rate_sname);
+        rate_sname.setText("Rating the Service: "+sname+" Service");
 
         jsubmitreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                submitreview("", "12345", "carpentor", rate, jreview.getText().toString()); // passing parameters of url to function; refer URL documentation
+               // Toast.makeText(RateServiceActivity.this, rate+ jreview.getText().toString(), Toast.LENGTH_SHORT).show();
+                submitreview(userid, spid, sname, rate, jreview.getText().toString()); // passing parameters of url to function; refer URL documentation
 
             }
         });
@@ -95,14 +121,18 @@ public class RateServiceActivity extends AppCompatActivity {
 
         url += "&userid=" + uid + "&spid=" + spid + "&s_name=" + sname + "&rating=" + String.valueOf(rating) + "&reviews=" + review;
 
-        if (review.length() != 0 && rate != 0) {
+        if (review.length() != 0 || rate != 0) {
+            pDialog.setIndeterminate(true);
+            pDialog.setMessage("Rating Service...");
+            showDialog();
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                               // Toast.makeText(RateServiceActivity.this, response.toString(), Toast.LENGTH_SHORT).show(); // replace with assignment statement
+                                hideDialog();
+                                Toast.makeText(RateServiceActivity.this,"Review submitted successfully", Toast.LENGTH_SHORT).show(); // replace with assignment statement
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -112,6 +142,7 @@ public class RateServiceActivity extends AppCompatActivity {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    hideDialog();
 
                 }
             });
@@ -122,6 +153,7 @@ public class RateServiceActivity extends AppCompatActivity {
         } else {
 
             Toast.makeText(RateServiceActivity.this, "Ratings and comments necessary", Toast.LENGTH_SHORT).show();
+
 
         }
 
@@ -169,5 +201,15 @@ public class RateServiceActivity extends AppCompatActivity {
         Intent back = new Intent(this,OrderDetailsUserActivity.class);
         startActivity(back);
         finish();
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

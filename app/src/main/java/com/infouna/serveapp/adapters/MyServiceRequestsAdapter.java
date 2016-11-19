@@ -91,19 +91,19 @@ public class MyServiceRequestsAdapter extends RecyclerView.Adapter<MyServiceRequ
             String[] split = list.get(position).requested_date_time.split(" ");
 
             holder.date.setText(split[0]);
-            holder.time.setText(split[1]);
+           // holder.time.setText(split[1]);
 
             if (String.valueOf(list.get(position).accepted).equals("1")) {
-                holder.status.setText("Service accepted");
+                holder.status.setText("Service accepted by the Service Provider");
                 holder.status_icon.setImageResource(R.mipmap.ic_check);
 
             } else if (String.valueOf(list.get(position).accepted).equals("0")) {
-                holder.status.setText("Order Declined");
+                holder.status.setText("Order cancelled by User");
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }
             else
             {
-                holder.status.setText("Pending Order");
+                holder.status.setText("Pending approval from Service Provider");
                 holder.status_icon.setImageResource(R.mipmap.ic_warning_notification);
             }
         }

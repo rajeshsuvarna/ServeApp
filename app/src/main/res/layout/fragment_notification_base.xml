@@ -28,10 +28,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/user_notif"
-                android:padding="3dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/user_notifications"
+                android:padding="50dp"
+                android:layout_marginLeft="30dp"/>
 
             <TextView
                 android:id="@+id/txtun"
@@ -39,6 +40,50 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="User"
+                android:textColor="@color/colorAccent"
+                android:textSize="25sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+        <!--  card ends -->
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/tools"
+
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="5dp"
+
+        app:cardCornerRadius="1dp"
+        app:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardUseCompatPadding="true">
+
+        <!--  entire card -->
+        <LinearLayout
+            android:id="@+id/llspn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/sp_notifications"
+                android:padding="50dp"
+                android:layout_marginLeft="30dp"/>
+
+            <TextView
+                android:id="@+id/txtspn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+
+                android:text="Service Provider"
                 android:textColor="@color/colorAccent"
                 android:textSize="25sp"
                 android:textStyle="normal" />
@@ -62,26 +107,26 @@
 
         <!--  entire card -->
         <LinearLayout
-            android:id="@+id/llspn"
+            android:id="@+id/lloffers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-
-                android:background="@drawable/sp_notif"
-                android:padding="3dp" />
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/offers"
+                android:padding="50dp"
+                android:layout_marginLeft="30dp"/>
 
             <TextView
-                android:id="@+id/txtspn"
+                android:id="@+id/txtoffers"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
 
-                android:text="Service Provider"
+                android:text="Offers"
                 android:textColor="@color/colorAccent"
                 android:textSize="25sp"
                 android:textStyle="normal" />

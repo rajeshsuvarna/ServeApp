@@ -70,7 +70,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
-                        android:text="at "
+                        android:text=""
                         android:textColor="@color/secondary_text"
                         android:textSize="13sp"
                         android:textStyle="italic" />

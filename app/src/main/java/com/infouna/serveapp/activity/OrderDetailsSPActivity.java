@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,7 +46,9 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    String uid, accepted_request_id; // response from accept button click api call
+    private ProgressDialog pDialog;
+
+    String uid, accepted_request_id,declined_request_id; // response from accept button click api call
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,11 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
+
 
         SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
@@ -127,6 +135,10 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     private void load_order_details(String sid, String rid, String url) {
 
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading Order Details...");
+        showDialog();
+
         url += "&spid=" + sid + "&reqid=" + rid;
 
         String tag_json_obj = "json_obj_req";
@@ -154,13 +166,13 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
                             if (accepted.equals("1")) {
                                 jstatusicon.setImageResource(R.mipmap.ic_check);
-                                jacceptedstatus.setText("Accepted");
+                                jacceptedstatus.setText("Request Accepted");
                             } else if (accepted.equals("0")) {
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
-                                jacceptedstatus.setText("Pending Approval");
+                                jacceptedstatus.setText("Order Declined");
                             } else {
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
-                                jacceptedstatus.setText("Order Declined by Provider");
+                                jacceptedstatus.setText("Pending Your Approval");
                             }
 
                             String dt = jsonObject.getString("reqstd_date_time");
@@ -172,10 +184,12 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                             jsname.setText(s_name);
 
                             jstatusdate.setText(split[0]);
-                            jstatustime.setText(split[1]);
+                           // jstatustime.setText(split[1]);
+                            hideDialog();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideDialog();
                         }
 
                     }
@@ -183,6 +197,8 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                hideDialog();
 
             }
         });
@@ -193,10 +209,14 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     public void accept_request(String uid, String reqid, String url) {
 
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Accepting Order...");
+        showDialog();
+
 
         url += "&userid=" + uid + "&reqid=" + reqid + "&req=1";
 
-        Toast.makeText(OrderDetailsSPActivity.this, url, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(OrderDetailsSPActivity.this, url, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -208,14 +228,18 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                         try {
                             accepted_request_id = response.getString("reqid").toString();
                             Toast.makeText(OrderDetailsSPActivity.this, "Request accepted", Toast.LENGTH_SHORT).show();
+                            load_order_details(spid,accepted_request_id, AppConfig.ORDER_DETAILS_SP);
+                            hideDialog();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideDialog();
                         }
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
 
             }
         });
@@ -226,6 +250,10 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     public void decline_request(String uid, String reqid, String url) {
 
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Declining Your Order...");
+        showDialog();
+
         url += "&userid=" + uid + "&reqid=" + reqid + "&req=0";
 
         String tag_json_obj = "json_obj_req";
@@ -235,12 +263,21 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(OrderDetailsSPActivity.this, "Request declined", Toast.LENGTH_SHORT).show();
+                        try {
+                            accepted_request_id = response.getString("reqid").toString();
+                            Toast.makeText(OrderDetailsSPActivity.this, "Request Declined", Toast.LENGTH_SHORT).show();
+                            load_order_details(spid,accepted_request_id, AppConfig.ORDER_DETAILS_SP);
+                            hideDialog();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hideDialog();
+                        }
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
 
             }
         });
@@ -254,5 +291,16 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
         finish();
+    }
+
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

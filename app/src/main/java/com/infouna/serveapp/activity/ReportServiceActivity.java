@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,6 +23,7 @@ import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 /**
  * Created by Darshan on 31-03-2016.
@@ -33,8 +36,11 @@ public class ReportServiceActivity extends AppCompatActivity {
 
     EditText jreportcomment;
     Button jbtnsubmit;
+    TextView js_name;
 
     String userid, spid, reqid, sname;
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,11 @@ public class ReportServiceActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Report Service");
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
+
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -65,15 +76,21 @@ public class ReportServiceActivity extends AppCompatActivity {
         userid = b.getString("userid");
         spid = b.getString("spid");
         reqid = b.getString("reqid");
+        sname = b.getString("s_name");
+       // Toast.makeText(ReportServiceActivity.this, sname, Toast.LENGTH_SHORT).show();
 
         jreportcomment = (EditText) findViewById(R.id.reportcomment);
+        js_name = (TextView) findViewById(R.id.s_name);
         jbtnsubmit = (Button) findViewById(R.id.submitreport);
+
+        js_name.setText("You are reporting "+sname+" Service");
 
         jbtnsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 report(userid, spid, reqid, sname, jreportcomment.getText().toString());
+
 
             }
         });
@@ -92,30 +109,17 @@ public class ReportServiceActivity extends AppCompatActivity {
         //  Toast.makeText(ReportServiceActivity.this, url, Toast.LENGTH_SHORT).show();
 
         if (jreportcomment.length() != 0) {
+            pDialog.setIndeterminate(true);
+            pDialog.setMessage("Reporting Service...");
+            showDialog();
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            hideDialog();
 
                             Toast.makeText(ReportServiceActivity.this, "Reporting Success", Toast.LENGTH_SHORT).show();
-                            new Handler().postDelayed(new Runnable() {
-
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-
-                                @Override
-                                public void run() {
-                                    // This method will be executed once the timer is over
-                                    // Start your app main activity
-
-
-                                    finish();
-                                    // close this activity
-                                }
-                            }, 2000);
 
 
                         }
@@ -123,6 +127,7 @@ public class ReportServiceActivity extends AppCompatActivity {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    hideDialog();
 
                 }
             });
@@ -140,8 +145,18 @@ public class ReportServiceActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //  Intent back = new Intent(this,OrderDetailsUserActivity.class);
-        // startActivity(back);
-        finish();
+        Intent back = new Intent(this,HomeActivity.class);
+         startActivity(back);
+       // finish();
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

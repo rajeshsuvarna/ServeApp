@@ -1,6 +1,7 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,8 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     JsonObjectRequest jsonObjReq, jsonObjReqfav;
 
+    private ProgressDialog pDialog;
+
     public static final String ser_prov_user_id = "service_uid_Key";
     public static final String ser_prov_id = "service_id_Key";
     public static final String service_name = "service_name_key";
@@ -70,9 +75,12 @@ public class ServiceListingActivity extends AppCompatActivity {
 
     public String s_name;
 
-    public String result = "";
+    public String like_result = "1";
+    public String like;
+
 
     public static SharedPreferences spf;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +107,13 @@ public class ServiceListingActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading Services...");
+        showDialog();
 
 
         //Intent i = getIntent();
@@ -187,7 +202,7 @@ public class ServiceListingActivity extends AppCompatActivity {
 
                     if (res.equals("1")) {
 
-                        String fav = "0";
+                        String fav;
 
                         String t = response.getString("total_services");
 
@@ -211,20 +226,26 @@ public class ServiceListingActivity extends AppCompatActivity {
                             String total_ratings = jsonObject.getString("total_ratings");
                             String total_reviews = jsonObject.getString("total_reviews");
 
-                         //   Toast.makeText(ServiceListingActivity.this, service_providerid, Toast.LENGTH_SHORT).show();
-                            fav = check_favourite(userid, s_name, AppConfig.CHECK_FAVOURITE);
+                            //Toast.makeText(ServiceListingActivity.this, total_rat.toString(), Toast.LENGTH_SHORT).show();
+
+                            fav = check_favourite(userid, service_name, AppConfig.CHECK_FAVOURITE);
+                           // Toast.makeText(ServiceListingActivity.this,"fav"+fav, Toast.LENGTH_SHORT).show();
+
 
                             data.add(new ServiceListCard(userid, service_providerid, service_name, service_title, sub_service_name, banner_picture, confirmed, total_ratings, total_reviews, fav));
 
+                            hideDialog();
                         }
                         adapter.notifyDataSetChanged();
-                    } else if (res.equals("0")) {
+                    } else  {
                         total_orders.setText("0");
                         Toast.makeText(ServiceListingActivity.this, "No services found..Come back later", Toast.LENGTH_SHORT).show();
+                        hideDialog();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hideDialog();
                 }
             }
 
@@ -232,6 +253,7 @@ public class ServiceListingActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(ServiceListingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                hideDialog();
             }
 
         });
@@ -241,24 +263,38 @@ public class ServiceListingActivity extends AppCompatActivity {
         return data;
     }
 
-    public String check_favourite(String uid, String sname, String URL) {
+    public String check_favourite(final String uid, final String sname, String URL) {
 
-        URL += "&spid=" + uid + "&s_name=" + sname;
+        URL += "&userid=" + uid + "&s_name=" + sname;
+       // Toast.makeText(ServiceListingActivity.this,URL, Toast.LENGTH_SHORT).show();
+     //   Log.d("test", URL);
 
         jsonObjReqfav = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    //Toast.makeText(ServiceListingActivity.this,response.toString(), Toast.LENGTH_SHORT).show();
+                   // Log.d(like_result,  response.toString());
 
-                    if (response.getString("result").equals("1")) {
+                   String r_lk = response.getString("result");
+
+                    if (r_lk.equals("1")) {
 
                         JSONArray dash = response.getJSONArray("user_favourite_service");
 
                         JSONObject jsonObject = dash.getJSONObject(0);
 
-                        result = jsonObject.getString("liked");
+                        like_result = jsonObject.getString("liked");
+                     //   Toast.makeText(ServiceListingActivity.this,"result"+like_result+uid, Toast.LENGTH_SHORT).show();
+                       // like = like_result;
+
 
                     }
+                    else if(r_lk.equals("0")) {
+                        like_result = "0";
+                        //Toast.makeText(ServiceListingActivity.this,"elseresult"+uid, Toast.LENGTH_SHORT).show();
+                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -274,14 +310,27 @@ public class ServiceListingActivity extends AppCompatActivity {
         });
 
         AppController.getInstance().addToRequestQueue(jsonObjReqfav);
+       // Toast.makeText(ServiceListingActivity.this,"ret"+like_result+uid, Toast.LENGTH_SHORT).show();
+        return like_result;
 
-        return result;
     }
 
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
-        finish();
+        this.finish();
     }
+
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
 }

@@ -121,7 +121,6 @@ public class MyServiceProfileView extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), EditServiceProfileActivity.class);
-
                 startActivityForResult(i, 1);
             }
         });

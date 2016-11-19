@@ -101,13 +101,24 @@ public class ServiceListingAdapter extends RecyclerView.Adapter<ServiceListingAd
                 loadImages(urlThumbnail, holder, viewHolder.getItemViewType());
             }
 
+            String temp_fav = list.get(position).favourite;
 
-            if (list.get(position).favourite.equals("1")) {
+
+           if (temp_fav.equals("1")) {
                 holder.favourite_icon.setImageResource(R.mipmap.ic_like_selected);
             } else {
                 holder.favourite_icon.setImageResource(R.mipmap.ic_like_deselected);
             }
 
+            String rating = list.get(position).total_ratings;
+            try {
+                    Integer total_rating = Integer.parseInt(rating);
+                    for (int i = 0; i < total_rating; i++)
+                        holder.stars[i].setImageResource(R.mipmap.ic_star_selected);
+
+            } catch (NumberFormatException e) {
+
+            }
         }
     }
 

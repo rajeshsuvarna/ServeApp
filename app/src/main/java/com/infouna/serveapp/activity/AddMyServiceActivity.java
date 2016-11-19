@@ -173,6 +173,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                     Intent i = new Intent(AddMyServiceActivity.this, HomeActivity.class);
                     startActivity(i);
                     builder.autoDismiss(true);
+                    onBackPressed();
                 }
             });
             builder.show();
@@ -335,10 +336,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                 String fileNameSegments[] = imgPath.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
                 // Put file name in Async Http Post Param which will used in Php web app
-                Toast.makeText(
-                        AddMyServiceActivity.this,
-                        fileName,
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(AddMyServiceActivity.this,fileName,Toast.LENGTH_LONG).show();
 
 
             } else {
@@ -361,7 +359,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
             // Convert image to String using Base64
             encodeImagetoString();
 
-            register(userid, service, subservice, fileName, "null", "location", service_desc, min_price, address, city, pin, web, stitle, AppConfig.URL_ADD_SERVICE);
+            register(userid, service, subservice, fileName, "default_hop_pic.png" , city, service_desc, min_price, address, city, pin, web, stitle, AppConfig.URL_ADD_SERVICE);
 
             // When Image is not selected from Gallery
         } else {
@@ -426,7 +424,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
                 prgDialog.hide();
-                Toast.makeText(AddMyServiceActivity.this, String.format("Image updated successfully"), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddMyServiceActivity.this, String.format("Image uploaded successfully"), Toast.LENGTH_LONG).show();
                 //showConfirmDialog();
 
 
@@ -566,7 +564,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                 "&s_sub_name=" + encodedParams[6] + "&s_title=" + encodedParams[3] + "&s_desc=" + encodedParams[4] +
                 "&pin=" + encodedParams[5];
 
-        Toast.makeText(AddMyServiceActivity.this, URL, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AddMyServiceActivity.this, URL, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -583,11 +581,11 @@ public class AddMyServiceActivity extends AppCompatActivity {
                             editor.putString("typeKey", "SP");
                             editor.commit();
 
-                            Toast.makeText(AddMyServiceActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddMyServiceActivity.this,"Service data Added Succesfully", Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(AddMyServiceActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddMyServiceActivity.this, "Something went wrong, please come back later", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -595,7 +593,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(AddMyServiceActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddMyServiceActivity.this, "Something went wrong, please come back later", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -609,6 +607,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent i = new Intent(this, HomeActivity.class);
         startActivity(i);
+        this.finish();
     }
 
     private void showDialog() {

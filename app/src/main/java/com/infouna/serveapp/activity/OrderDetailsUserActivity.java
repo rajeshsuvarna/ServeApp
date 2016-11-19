@@ -1,10 +1,12 @@
 package com.infouna.serveapp.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,10 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -37,6 +44,8 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
     ImageView jstatusicon;
 
     Toolbar toolbar;
+
+    private ProgressDialog pDialog;
 
     String accepted = "", reqid = "", userid = "", sname = "", spid = "";
 
@@ -66,6 +75,14 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         String type = spf.getString("typeKey", "");
         userid = spf.getString("useridKey", "");
         reqid = spf.getString("reqidKey", "");
+       // sname = spf.getString("r_snameKey","");
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Loading Order Details...");
+        showDialog();
 
         // Toast.makeText(OrderDetailsUserActivity.this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("SP")) {
@@ -78,7 +95,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         jdesc = (TextView) findViewById(R.id.textview_add_desc);
         jsname = (TextView) findViewById(R.id.service_name_odu);
         jstatusdate = (TextView) findViewById(R.id.service_date_odu);
-        jstatustime = (TextView) findViewById(R.id.service_time_odu);
+      //  jstatustime = (TextView) findViewById(R.id.service_time_odu);
         jacceptedstatus = (TextView) findViewById(R.id.accepted_status);
 
         jbtnreport = (Button) findViewById(R.id.report);
@@ -124,6 +141,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
     private void load_order_details(String uid, String rid, String url) {
 
+
         url += "&userid=" + uid + "&reqid=" + rid;
 
         String tag_json_obj = "json_obj_req";
@@ -150,7 +168,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                             jsname.setText(sname);
                             String[] dt = jsonObject.getString("reqested_date_time").split(" ");
                             jstatusdate.setText(dt[0]);
-                            jstatustime.setText(dt[1]);
+                          //  jstatustime.setText(dt[1]);
 
                             jdate.setText(dt[0]);
 
@@ -168,9 +186,11 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                             }
 
                             //Toast.makeText(OrderDetailsUserActivity.this, "", Toast.LENGTH_SHORT).show();
+                            hideDialog();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideDialog();
                         }
 
                     }
@@ -178,6 +198,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
 
             }
         });
@@ -187,6 +208,10 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
     }
 
     public void cancel_request(String uid, String spid, String reqid, String url) {
+
+        pDialog.setIndeterminate(true);
+        pDialog.setMessage("Cancelling Your Order...");
+        showDialog();
 
         url += "&userid=" + uid + "&spid=" + spid + "&reqid=" + reqid;
 
@@ -198,12 +223,31 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        hideDialog();
                         Toast.makeText(OrderDetailsUserActivity.this, "Request cancelled", Toast.LENGTH_SHORT).show();
+                        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(OrderDetailsUserActivity.this);
+                        builder.setTitle("You cancelled this service");
+                        builder.setDescription("Please view other services in home... ");
+                        builder.withDialogAnimation(true, Duration.SLOW);
+                        builder.setStyle(Style.HEADER_WITH_TITLE);
+                        builder.setPositiveText("OK");
+                        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent i = new Intent(OrderDetailsUserActivity.this, HomeActivity.class);
+                                startActivity(i);
+                                builder.autoDismiss(true);
+                            }
+                        });
+                        builder.show();
                     }
+
+
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
 
             }
         });
@@ -217,5 +261,15 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         Intent back = new Intent(this, HomeActivity.class);
         startActivity(back);
         finish();
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

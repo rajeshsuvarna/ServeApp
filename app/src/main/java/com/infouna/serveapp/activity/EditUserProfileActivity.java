@@ -255,7 +255,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Please 2 select an image" + iv.getDrawable(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please  select an image" + iv.getDrawable(), Toast.LENGTH_LONG).show();
         }
     }
 
