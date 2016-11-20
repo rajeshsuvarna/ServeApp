@@ -44,7 +44,6 @@ public class RateServiceActivity extends AppCompatActivity {
 
     Bundle b;
 
-
     int rate;
 
     EditText jreview;

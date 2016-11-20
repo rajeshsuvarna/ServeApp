@@ -305,7 +305,6 @@
                     android:id="@+id/btn_report_customer_ods"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
-                    android:layout_marginBottom="15dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
@@ -316,18 +315,39 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_accept_ods"
-                android:layout_width="fill_parent"
-                android:layout_height="45dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_weight="0.5"
-                android:background="@color/green"
-                android:text="Accept Request"
-                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_accept_ods"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/green"
+                    android:text="Accept Request"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                <Button
+                    android:id="@+id/btn_view_details"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/yellow"
+                    android:text="User Details"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

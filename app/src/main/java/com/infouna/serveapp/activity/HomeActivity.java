@@ -73,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
     public static final String phone = "phoneKey";
     public static final String profile = "profilepicKey";
 
+    public static final String PARENT = "parentKey";
+
     public String URL_GET_USER_PROFILE = "http://serveapp.in/assets/api/getData.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&act=user_profile&userid=";
 
     TextView name, location;
@@ -108,6 +110,10 @@ public class HomeActivity extends AppCompatActivity {
 
         spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         String u = spf.getString("useridKey", "Null String");
+
+        SharedPreferences.Editor editor = spf.edit();
+        editor.putString(PARENT, "null");
+        editor.commit();
 
         String userid = u; // replace this with proper userid
         fetch_profile(userid);    // call with userid as parameter

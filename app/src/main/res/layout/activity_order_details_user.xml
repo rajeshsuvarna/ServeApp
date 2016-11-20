@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
@@ -280,17 +281,39 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/report"
-                android:layout_width="fill_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="0.5"
-                android:background="@color/light_grey"
-                android:text="Report Service"
-                android:textColor="@color/textColorPrimary" />
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/report"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+
+                    android:layout_weight="0.5"
+                    android:background="@color/light_grey"
+                    android:text="Report Service"
+                    android:textColor="@color/textColorPrimary" />
+
+                <Button
+                    android:id="@+id/btn_sp_details"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/yellow"
+                    android:text="Provider Details"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

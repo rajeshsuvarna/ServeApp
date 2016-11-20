@@ -68,4 +68,24 @@
     <string name="activity_order_details_service_request_details">Service Request Details</string>
     <!-- activity favourites end -->
 
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Welcome to Serve App!</string>
+    <string name="slide_1_desc">You are one step away from experiencing awesomeness!</string>
+
+    <string name="slide_2_title">Verified Professionals</string>
+    <string name="slide_2_desc">The easiest way to hire experts for your daily service needs</string>
+
+    <string name="slide_3_title">Discounts and Offers</string>
+    <string name="slide_3_desc">Best discounts on every single service you request!</string>
+
+    <string name="slide_4_title"> </string>
+    <string name="slide_4_desc">Engineered by Infouna Technologies</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
 </resources>

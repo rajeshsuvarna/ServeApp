@@ -27,7 +27,9 @@ import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.activity.HomeActivity;
+import com.infouna.serveapp.activity.NotificationActivity;
 import com.infouna.serveapp.activity.OrderDetailsSPActivity;
+import com.infouna.serveapp.activity.OrderDetailsUserActivity;
 import com.infouna.serveapp.adapters.RVAdapter;
 import com.infouna.serveapp.adapters.ServiceOrdersAdapter;
 import com.infouna.serveapp.app.AppConfig;
@@ -58,6 +60,11 @@ public class ServiceOrders extends Fragment {
     public static final int SERVICELIST = 3;
     public static final int NOTIFICATION = 4;
 
+    public static final String PARENT = "parentKey";
+    public static final String NOTIF_REQID = "notifReqKey";
+
+    public static SharedPreferences spf;
+
     private int mDatasetTypes[] = {HOME, ORDERLISTSP, ORDERLISTUSER, SERVICELIST, NOTIFICATION};
 
     TextView total_orders;
@@ -74,12 +81,14 @@ public class ServiceOrders extends Fragment {
         pDialog.setMessage("Loading...");
         showDialog();
 
-        SharedPreferences spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "null");
         type = spf.getString("typeKey", "null");
         spid = spf.getString("spidKey", "null");
 
-        //     Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+        SharedPreferences.Editor editor = spf.edit();
+        editor.putString(PARENT, "ServiceOrders");
+        editor.commit();
 
         total_orders = (TextView) v.findViewById(R.id.t_orders);
 
@@ -122,18 +131,19 @@ public class ServiceOrders extends Fragment {
             recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(getActivity(), recyclerView, new RVAdapter.ClickListener() {
                 @Override
                 public void onClick(View view, int position) {
+                    SharedPreferences.Editor editor = spf.edit();
+                    editor.putString(NOTIF_REQID, data.get(position).reqid);
+                    editor.commit();
                     Intent i = new Intent(getActivity(), OrderDetailsSPActivity.class);
-                    i.putExtra("reqid", data.get(position).reqid);
-                    i.putExtra("spid", spid);
                     startActivity(i);
                 }
 
                 @Override
                 public void onLongClick(View view, int position) {
-
+                    SharedPreferences.Editor editor = spf.edit();
+                    editor.putString(NOTIF_REQID, data.get(position).reqid);
+                    editor.commit();
                     Intent i = new Intent(getActivity(), OrderDetailsSPActivity.class);
-                    i.putExtra("reqid", data.get(position).reqid);
-                    i.putExtra("spid", data.get(position).spid);
                     startActivity(i);
                 }
             }));

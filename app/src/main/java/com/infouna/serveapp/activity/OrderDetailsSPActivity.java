@@ -42,13 +42,14 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
     public String accepted, userid = "", spid = "", type = "", s_name = "";
 
-    public Bundle b;
-
     Toolbar toolbar;
+    public static final String PARENT = "parentKey";
+    public static final String NOTIF_REQID = "notifReqKey";
 
     private ProgressDialog pDialog;
+    public static SharedPreferences spf;
 
-    String uid, accepted_request_id,declined_request_id; // response from accept button click api call
+    String uid, accepted_request_id, declined_request_id, reqid; // response from accept button click api call
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +76,12 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-
-
-        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         type = spf.getString("typeKey", "");
         spid = spf.getString("spidKey", "");
 
-        Intent i = getIntent();
-        b = i.getExtras();
+        reqid = spf.getString(NOTIF_REQID, "");
 
         jmax = (TextView) findViewById(R.id.max_budget_ods);
         jloc = (TextView) findViewById(R.id.service_loc_ods);
@@ -100,12 +98,11 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
         jstatusicon = (ImageView) findViewById(R.id.icon_ods);
 
-
         jbtnaccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                accept_request(uid, b.getString("reqid"), AppConfig.ACCEPT_SERVICE_REQUEST);
+                accept_request(uid, reqid, AppConfig.ACCEPT_SERVICE_REQUEST);
 
             }
         });
@@ -116,7 +113,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                 Intent i = new Intent(OrderDetailsSPActivity.this, ReportServiceActivity.class);
                 i.putExtra("userid", uid);    // pass values here
                 i.putExtra("spid", spid);      // pass values here
-                i.putExtra("reqid", b.getString("reqid"));
+                i.putExtra("reqid", reqid);
                 i.putExtra("s_name", s_name);
                 startActivity(i);
             }
@@ -125,11 +122,12 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         jbtncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decline_request(uid, b.getString("reqid"), AppConfig.DECLINE_SERVICE_REQUEST_SP); // userid, reqid, url
+                decline_request(uid, reqid, AppConfig.DECLINE_SERVICE_REQUEST_SP);
+                // userid, reqid, url
             }
         });
 
-        load_order_details(spid, b.getString("reqid"), AppConfig.ORDER_DETAILS_SP); // spid, reqid, url as params
+        load_order_details(spid, reqid, AppConfig.ORDER_DETAILS_SP); // spid, reqid, url as params
 
     }
 
@@ -184,7 +182,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                             jsname.setText(s_name);
 
                             jstatusdate.setText(split[0]);
-                           // jstatustime.setText(split[1]);
+                            // jstatustime.setText(split[1]);
                             hideDialog();
 
                         } catch (JSONException e) {
@@ -216,7 +214,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
         url += "&userid=" + uid + "&reqid=" + reqid + "&req=1";
 
-       // Toast.makeText(OrderDetailsSPActivity.this, url, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(OrderDetailsSPActivity.this, url, Toast.LENGTH_SHORT).show();
 
         String tag_json_obj = "json_obj_req";
 
@@ -228,7 +226,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                         try {
                             accepted_request_id = response.getString("reqid").toString();
                             Toast.makeText(OrderDetailsSPActivity.this, "Request accepted", Toast.LENGTH_SHORT).show();
-                            load_order_details(spid,accepted_request_id, AppConfig.ORDER_DETAILS_SP);
+                            load_order_details(spid, accepted_request_id, AppConfig.ORDER_DETAILS_SP);
                             hideDialog();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -266,7 +264,7 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                         try {
                             accepted_request_id = response.getString("reqid").toString();
                             Toast.makeText(OrderDetailsSPActivity.this, "Request Declined", Toast.LENGTH_SHORT).show();
-                            load_order_details(spid,accepted_request_id, AppConfig.ORDER_DETAILS_SP);
+                            load_order_details(spid, accepted_request_id, AppConfig.ORDER_DETAILS_SP);
                             hideDialog();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -292,7 +290,6 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 
     private void showDialog() {
         if (!pDialog.isShowing())

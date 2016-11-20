@@ -53,6 +53,9 @@ public class MyServiceRequest extends Fragment {
 
     JsonObjectRequest jsonObjReq;
 
+    public static final String NOTIF_REQID = "notifReqKey";
+    public static final String PARENT = "parentKey";
+
     public List<OrderListCardUser> data;
 
     public static final int HOME = 0;
@@ -84,6 +87,10 @@ public class MyServiceRequest extends Fragment {
         spf = this.getActivity().getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
 
+        SharedPreferences.Editor editor = spf.edit();
+        editor.putString(PARENT, "MyServiceRequest");
+        editor.commit();
+
         total_orders = (TextView) v.findViewById(R.id.torders_ODU);
 
         data = fill_with_data(AppConfig.ORDER_LISTING_USER, userid); // pass userid as 2nd parameter from SHARED PREFERENCE
@@ -108,7 +115,8 @@ public class MyServiceRequest extends Fragment {
                 Intent i = new Intent(getActivity(), OrderDetailsUserActivity.class);
 
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(req_id, data.get(position).reqid);
+                editor.putString(NOTIF_REQID, data.get(position).reqid);
+                editor.putString(PARENT, "MyServiceRequest");
                 editor.commit();
 
                 startActivity(i);
@@ -117,8 +125,10 @@ public class MyServiceRequest extends Fragment {
             @Override
             public void onLongClick(View view, int position) {
                 Intent i = new Intent(getActivity(), OrderDetailsUserActivity.class);
+
                 SharedPreferences.Editor editor = spf.edit();
-                editor.putString(req_id, data.get(position).reqid);
+                editor.putString(NOTIF_REQID, data.get(position).reqid);
+                editor.putString(PARENT, "MyServiceRequest");
                 editor.commit();
 
                 startActivity(i);

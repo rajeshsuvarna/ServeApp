@@ -78,7 +78,6 @@ public class ServiceListingActivity extends AppCompatActivity {
     public String like_result = "1";
     public String like;
 
-
     public static SharedPreferences spf;
 
 

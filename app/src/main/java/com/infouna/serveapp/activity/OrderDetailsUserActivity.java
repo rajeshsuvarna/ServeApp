@@ -43,7 +43,11 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
     Button jbtnreport, jbtncancel, jbtnrate;
     ImageView jstatusicon;
 
+    public static final String PARENT = "parentKey";
+    public static final String NOTIF_REQID = "notifReqKey";
+
     Toolbar toolbar;
+    public static SharedPreferences spf;
 
     private ProgressDialog pDialog;
 
@@ -71,11 +75,12 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", MODE_PRIVATE);
+        spf = getSharedPreferences("MyPrefs.txt", MODE_PRIVATE);
         String type = spf.getString("typeKey", "");
         userid = spf.getString("useridKey", "");
-        reqid = spf.getString("reqidKey", "");
-       // sname = spf.getString("r_snameKey","");
+
+        reqid = spf.getString(NOTIF_REQID, "");
+        // sname = spf.getString("r_snameKey","");
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -95,7 +100,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         jdesc = (TextView) findViewById(R.id.textview_add_desc);
         jsname = (TextView) findViewById(R.id.service_name_odu);
         jstatusdate = (TextView) findViewById(R.id.service_date_odu);
-      //  jstatustime = (TextView) findViewById(R.id.service_time_odu);
+        //  jstatustime = (TextView) findViewById(R.id.service_time_odu);
         jacceptedstatus = (TextView) findViewById(R.id.accepted_status);
 
         jbtnreport = (Button) findViewById(R.id.report);
@@ -168,7 +173,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                             jsname.setText(sname);
                             String[] dt = jsonObject.getString("reqested_date_time").split(" ");
                             jstatusdate.setText(dt[0]);
-                          //  jstatustime.setText(dt[1]);
+                            //  jstatustime.setText(dt[1]);
 
                             jdate.setText(dt[0]);
 
@@ -217,7 +222,7 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
 
         String tag_json_obj = "json_obj_req";
 
-      //  Toast.makeText(OrderDetailsUserActivity.this, url, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(OrderDetailsUserActivity.this, url, Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
                 new Response.Listener<JSONObject>() {

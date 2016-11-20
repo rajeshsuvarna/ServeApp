@@ -169,8 +169,13 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 l = lname.getText().toString();
                 e = e_mail.getText().toString();
                 m = mob.getText().toString();
+                if((m.isEmpty() || m.length() < 10 || m.length() > 10)) {
+                Toast.makeText(EditUserProfileActivity.this,"Phone no. Invalid",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    uploadImage(v);
+                }
 
-                uploadImage(v);
 
             }
         });

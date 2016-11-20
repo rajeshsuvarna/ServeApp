@@ -47,6 +47,10 @@ public class NotificationActivity extends AppCompatActivity {
 
     public static final int HOME = 0;
 
+    public static SharedPreferences spf;
+    public static final String PARENT = "parentKey";
+    public static final String NOTIF_REQID = "notifReqKey";
+
     private ProgressDialog pDialog;
 
     private int mDatasetTypes[] = {HOME};
@@ -69,6 +73,11 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_notifications);
 
+        spf = this.getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = spf.edit();
+        editor.putString(PARENT, "NotificationActivity");
+        editor.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,7 +105,7 @@ public class NotificationActivity extends AppCompatActivity {
 
         count = (TextView) findViewById(R.id.count);
 
-        SharedPreferences spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
+        spf = getSharedPreferences("MyPrefs.txt", Context.MODE_PRIVATE);
         userid = spf.getString("useridKey", "");
         String check = spf.getString("typeKey", "");
         if (check.equals("SP")) {
@@ -124,11 +133,35 @@ public class NotificationActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RVAdapter.RecyclerTouchListener(NotificationActivity.this, recyclerView, new RVAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                SharedPreferences.Editor editor = spf.edit();
+                if (type.equals("USER")) {
+                    editor.putString(NOTIF_REQID, data.get(position).user_reqid);
+                    editor.commit();
+                    Intent i = new Intent(NotificationActivity.this, OrderDetailsUserActivity.class);
+                    startActivity(i);
+                } else if (type.equals("SP")) {
+                    editor.putString(NOTIF_REQID, data.get(position).sp_reqid);
+                    editor.commit();
+                    Intent i = new Intent(NotificationActivity.this, OrderDetailsSPActivity.class);
+                    startActivity(i);
+                }
 
             }
 
             @Override
             public void onLongClick(View view, int position) {
+                SharedPreferences.Editor editor = spf.edit();
+                if (type.equals("USER")) {
+                    editor.putString(NOTIF_REQID, data.get(position).user_reqid);
+                    editor.commit();
+                    Intent i = new Intent(NotificationActivity.this, OrderDetailsUserActivity.class);
+                    startActivity(i);
+                } else if (type.equals("SP")) {
+                    editor.putString(NOTIF_REQID, data.get(position).sp_reqid);
+                    editor.commit();
+                    Intent i = new Intent(NotificationActivity.this, OrderDetailsSPActivity.class);
+                    startActivity(i);
+                }
 
             }
         }));
@@ -141,7 +174,7 @@ public class NotificationActivity extends AppCompatActivity {
         if (type.equals("USER")) {
             user_url += userid;
 
-          //  Toast.makeText(NotificationActivity.this, "USER", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(NotificationActivity.this, "USER", Toast.LENGTH_SHORT).show();
             jsonObjReq = new JsonObjectRequest(Request.Method.POST, user_url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -149,7 +182,7 @@ public class NotificationActivity extends AppCompatActivity {
 
                         String res = response.getString("result");
 
-                       // Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                        // Toast.makeText(NotificationActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 
                         if (res.equals("1")) {
 
@@ -215,7 +248,7 @@ public class NotificationActivity extends AppCompatActivity {
 
         } else if (type.equals("SP")) {
 
-          //  Toast.makeText(NotificationActivity.this, "SP", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(NotificationActivity.this, "SP", Toast.LENGTH_SHORT).show();
 
             sp_url += spid;
 
