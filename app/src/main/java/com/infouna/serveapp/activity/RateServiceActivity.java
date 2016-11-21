@@ -29,7 +29,6 @@ import org.json.JSONObject;
 
 import butterknife.Bind;
 
-import static com.google.android.gms.analytics.internal.zzy.b;
 
 /**
  * Created by Darshan on 31-03-2016.
