@@ -59,7 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Service Title"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:maxLength="30"/>
             </android.support.design.widget.TextInputLayout>
             <!--
                                     <android.support.design.widget.TextInputLayout
@@ -88,7 +89,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Service Description"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:maxLength="45"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -117,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Service Address"
-                    android:inputType="text" />
+                    android:inputType="textPostalAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -131,7 +133,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Service City"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:maxLength="25"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -160,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Website"
-                    android:inputType="text" />
+                    android:inputType="textUri" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton

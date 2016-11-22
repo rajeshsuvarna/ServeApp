@@ -58,6 +58,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -83,6 +86,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
     Bitmap bitmap;
     private static int RESULT_LOAD_IMG = 1;
     public static final String profile = "profilepicKey";
+    int foo_price,foo_pin;
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
@@ -208,55 +212,72 @@ public class AddMyServiceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    stitle = jservicetitle.getText().toString();
+                    stitle = jservicetitle.getText().toString().trim();
                     service = servicespinner.getSelectedItem().toString(); //jservice.getText().toString();
                     subservice = subservicespinner.getSelectedItem().toString(); //jsubservice.getText().toString();
-                    service_desc = jservdesc.getText().toString();
-                    min_price = jminprice.getText().toString();
-                    //int foo_price = Integer.parseInt(min_price);
-                    address = jsaddress.getText().toString();
-                    city = jscity.getText().toString();
-                    pin = jpin.getText().toString();
-                    // int foo_pin = Integer.parseInt(pin);
+                    service_desc = jservdesc.getText().toString().trim();
+                    min_price = jminprice.getText().toString().trim();
+                    //foo_price = Integer.parseInt(min_price);
+                    address = jsaddress.getText().toString().trim();
+                    city = jscity.getText().toString().trim();
+                    pin = jpin.getText().toString().trim();
+                    //foo_pin = Integer.parseInt(pin);
                     web = jweb.getText().toString();
 
                     // Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
 
-
-                    if (stitle.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "Service title is required", Toast.LENGTH_SHORT).show();
+                    if(service.isEmpty() || subservice.isEmpty())
+                    {
+                        jservicetitle.setError("");
+                    }
+                    else if (stitle.isEmpty()) {
+                        jservicetitle.setError("Service title needed (i:e Shop Name)");
+                        //Toast.makeText(AddMyServiceActivity.this, "Service title is required", Toast.LENGTH_SHORT).show();
                     } else if (service_desc.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "Service description is required", Toast.LENGTH_SHORT).show();
+                        jservdesc.setError("Service description is required");
+                        //Toast.makeText(AddMyServiceActivity.this, "Service description is required", Toast.LENGTH_SHORT).show();
                     } else if (service_desc.length() < 10) {
-                        Toast.makeText(AddMyServiceActivity.this, "Service description is to short", Toast.LENGTH_SHORT).show();
+                        jservdesc.setError("Service description is to short");
+                        //Toast.makeText(AddMyServiceActivity.this, "Service description is to short", Toast.LENGTH_SHORT).show();
                     } else if (min_price.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "Service Minimum price is required", Toast.LENGTH_SHORT).show();
+                        jminprice.setError("Minimum price is required");
+                        //Toast.makeText(AddMyServiceActivity.this, "Minimum price is required", Toast.LENGTH_SHORT).show();
                     }
-                            /*else if (foo_price <= 99)
-                            {
-                                Toast.makeText(getActivity(), "Minimum service price should be 100 Rs", Toast.LENGTH_SHORT).show();
-                            }*/
+                    /*else if (foo_price <= 99)     {
+                        jminprice.setError("Minimum service price should be 100 Rs");
+                        //Toast.makeText(getActivity(), "Minimum service price should be 100 Rs", Toast.LENGTH_SHORT).show();
+                    }*/
                     else if (address.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "Address is required", Toast.LENGTH_SHORT).show();
-                    } else if (address.length() < 7) {
-                        Toast.makeText(AddMyServiceActivity.this, "Address very short, please enter proper address!!", Toast.LENGTH_SHORT).show();
-                    } else if (city.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "Servicing city required", Toast.LENGTH_SHORT).show();
-                    } else if (pin.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "PIN CODE required", Toast.LENGTH_SHORT).show();
+                        jsaddress.setError("Address is required");
+                        //Toast.makeText(AddMyServiceActivity.this, "Address is required", Toast.LENGTH_SHORT).show();
                     }
-                                           /* else if(foo_pin < 2)
-                                            {
-                                                jpin.setError("Please provide correct PIN-CODE");
-
-                                            }*/
-                    else if (web.isEmpty()) {
-                        Toast.makeText(AddMyServiceActivity.this, "Provide a valid web address", Toast.LENGTH_SHORT).show();
+                    else if (address.length() < 7) {
+                        jsaddress.setError("Address very short, please enter proper address!!");
+                        //Toast.makeText(AddMyServiceActivity.this, "Address very short, please enter proper address!!", Toast.LENGTH_SHORT).show();
+                    } else if (city.isEmpty()) {
+                        jscity.setError("Servicing city is required");
+                        //Toast.makeText(AddMyServiceActivity.this, "Servicing city required", Toast.LENGTH_SHORT).show();
+                    } else if (pin.isEmpty()) {
+                        jpin.setError("PIN CODE required");
+                        //Toast.makeText(AddMyServiceActivity.this, "PIN CODE required", Toast.LENGTH_SHORT).show();
+                    } /*else if(foo_pin < 2)
+                    {
+                        jpin.setError("Please provide correct PIN-CODE");
+                    }*/
+                    else if (web.isEmpty() || !Patterns.DOMAIN_NAME.matcher(web).matches()) {
+                        jweb.setError("Provide valid web address");
+                        //Toast.makeText(AddMyServiceActivity.this, "Provide a valid web address", Toast.LENGTH_SHORT).show();
                     } else {
 
                         try {
                             uploadImage(v);
                             jservicetitle.setError(null);
+                            jpin.setError(null);
+                            jscity.setError(null);
+                            jsaddress.setError(null);
+                            jminprice.setError(null);
+                            jservdesc.setError(null);
+                            jweb.setError(null);
 
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
@@ -458,6 +479,9 @@ public class AddMyServiceActivity extends AppCompatActivity {
 
     private void fill_spinner(String url, final int spin, String servicename) {
 
+        prgDialog.setMessage("Loading services...");
+        prgDialog.show();
+
         if (spin == 2) {
             url += "&s_name=" + servicename;
         }
@@ -468,11 +492,13 @@ public class AddMyServiceActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
 
                     if (spin == 1) {
                         JSONArray dash = response.getJSONArray("dashboard_services");
 
-                        JSONObject jsonObject;
+                        JSONObject jsonObject ; //= response.getJSONObject("dashboard_services");
+                        //JSONArray dash = jsonObject.getJSONArray("dashoard_services");
 
                         for (int i = 0; i < dash.length(); i++) {
 
@@ -480,6 +506,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                             String a = jsonObject.getString("services");
 
                             list1.add(a);
+
                         }
 
                     } else if (spin == 2) {
@@ -496,8 +523,10 @@ public class AddMyServiceActivity extends AppCompatActivity {
                                 String a = jsonObject.getString("sub_service_name");
 
                                 list2.add(a);
+
                             }
                         } else {
+                            prgDialog.hide();
                             Toast.makeText(AddMyServiceActivity.this, "No subservices", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -510,7 +539,8 @@ public class AddMyServiceActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(AddMyServiceActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                prgDialog.hide();
+                Toast.makeText(AddMyServiceActivity.this, "Error"+error.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         });

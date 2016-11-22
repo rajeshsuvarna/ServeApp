@@ -57,6 +57,9 @@ import java.io.ByteArrayOutputStream;
 
 import cz.msebera.android.httpclient.Header;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Darshan on 04-11-2016.
  */
@@ -169,13 +172,28 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 l = lname.getText().toString();
                 e = e_mail.getText().toString();
                 m = mob.getText().toString();
-                if((m.isEmpty() || m.length() < 10 || m.length() > 10)) {
-                Toast.makeText(EditUserProfileActivity.this,"Phone no. Invalid",Toast.LENGTH_SHORT).show();
+                if(f.isEmpty()){
+                    fname.setError("Oops!! Very short name!!");
+                }
+                else  if(f.length() < 3){
+                    fname.setError("Oh..very short name??");
+                }
+                else if(l.isEmpty()){
+                    lname.setError("Oops!! need surname");
+                }
+                else  if(e.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(e).matches()){
+                    e_mail.setError("Invalid Email Bro!!");
+                }
+                else if((m.isEmpty() || m.length() < 10 || m.length() > 10)) {
+                    mob.setError("Invalid Phone Number");
                 }
                 else {
+                    fname.setError(null);
+                    lname.setError(null);
+                    mob.setError(null);
+                    e_mail.setError(null);
                     uploadImage(v);
                 }
-
 
             }
         });
@@ -409,6 +427,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
     }
 
     public void update_profile(final String userid, String f, String l, String e, String m, String filename, String URL) {
+        prgDialog.setMessage("Updating profile......");
+        prgDialog.show();
 
 
         String tag_json_obj = "json_obj_req";
@@ -421,9 +441,29 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        String res = response.toString();
+
+                        try {
+                            String res = response.getString("result");
+                            if(res.equals("1"))
+                            {
+                                Toast.makeText(EditUserProfileActivity.this, "Updated", Toast.LENGTH_LONG).show();
+                                prgDialog.hide();
+                            }
+                            else {
+                                Toast.makeText(EditUserProfileActivity.this, "Error..Please try again later", Toast.LENGTH_LONG).show();
+                                prgDialog.hide();
+
+                            }
+
+                        }
+
+                        catch (JSONException e)
+                        {
+                            Toast.makeText(EditUserProfileActivity.this, "Unexpected Error", Toast.LENGTH_LONG).show();
+                        }
+
                         // finish();
-                        Toast.makeText(EditUserProfileActivity.this, "Updated", Toast.LENGTH_LONG).show();
+
 
                     }
                 }, new Response.ErrorListener() {

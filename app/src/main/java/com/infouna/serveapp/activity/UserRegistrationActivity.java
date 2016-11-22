@@ -127,8 +127,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                     if (res.equals("0")) {
 
                                         Toast.makeText(getApplicationContext(), "Number Verified", Toast.LENGTH_LONG).show();
-                                        pDialog.setMessage("Registering ...");
-                                        showDialog();
+                                       hideDialog();
                                         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, finalUrl_reg, null,
                                                 new Response.Listener<JSONObject>() {
                                                     @Override
@@ -141,7 +140,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                                             String res = response.getString("result");
                                                             userid = response.getString("userid");
                                                             if (res.equals("1")) {
-                                                                hideDialog();
+                                                                pDialog.setMessage("Registering ...");
+                                                                showDialog();
                                                                 String url_otp = AppConfig.URL_SEND_OPT;
                                                                 url_otp += userid;
 
@@ -153,6 +153,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
                                                                                     String res = response.getString("result");
                                                                                     if (res.equals("1")) {
+                                                                                        hideDialog();
                                                                                         final String otp = response.getString("OTP");
                                                                                         final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(UserRegistrationActivity.this);
                                                                                         builder.setTitle("OTP : " + otp);
