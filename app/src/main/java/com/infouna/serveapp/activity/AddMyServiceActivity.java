@@ -42,6 +42,7 @@ import com.infouna.serveapp.R;
 import com.infouna.serveapp.Splashscreen;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
+import com.infouna.serveapp.fragments.AddMyService;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -69,7 +70,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class AddMyServiceActivity extends AppCompatActivity {
 
-
     ArrayAdapter<String> adapterONE, adapterTWO;
 
     JsonObjectRequest jsonObjReq;
@@ -86,7 +86,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
     Bitmap bitmap;
     private static int RESULT_LOAD_IMG = 1;
     public static final String profile = "profilepicKey";
-    int foo_price,foo_pin;
+    int foo_price, foo_pin;
 
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
@@ -200,6 +200,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
 
                     fill_spinner(AppConfig.URL_SUB_SEVICES_HOME, 2, servicespinner.getSelectedItem().toString());//servicespinner.getSelectedItem().toString());
                     setAdapter(2);
+                    prgDialog.hide();
                 }
 
                 @Override
@@ -226,11 +227,9 @@ public class AddMyServiceActivity extends AppCompatActivity {
 
                     // Toast.makeText(getActivity(), "check" + service + " " + subservice, Toast.LENGTH_SHORT).show();
 
-                    if(service.isEmpty() || subservice.isEmpty())
-                    {
+                    if (service.isEmpty() || subservice.isEmpty()) {
                         jservicetitle.setError("");
-                    }
-                    else if (stitle.isEmpty()) {
+                    } else if (stitle.isEmpty()) {
                         jservicetitle.setError("Service title needed (i:e Shop Name)");
                         //Toast.makeText(AddMyServiceActivity.this, "Service title is required", Toast.LENGTH_SHORT).show();
                     } else if (service_desc.isEmpty()) {
@@ -250,8 +249,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                     else if (address.isEmpty()) {
                         jsaddress.setError("Address is required");
                         //Toast.makeText(AddMyServiceActivity.this, "Address is required", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (address.length() < 7) {
+                    } else if (address.length() < 7) {
                         jsaddress.setError("Address very short, please enter proper address!!");
                         //Toast.makeText(AddMyServiceActivity.this, "Address very short, please enter proper address!!", Toast.LENGTH_SHORT).show();
                     } else if (city.isEmpty()) {
@@ -263,8 +261,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                     } /*else if(foo_pin < 2)
                     {
                         jpin.setError("Please provide correct PIN-CODE");
-                    }*/
-                    else if (web.isEmpty() || !Patterns.DOMAIN_NAME.matcher(web).matches()) {
+                    }*/ else if (web.isEmpty() || !Patterns.DOMAIN_NAME.matcher(web).matches()) {
                         jweb.setError("Provide valid web address");
                         //Toast.makeText(AddMyServiceActivity.this, "Provide a valid web address", Toast.LENGTH_SHORT).show();
                     } else {
@@ -357,7 +354,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
                 String fileNameSegments[] = imgPath.split("/");
                 fileName = fileNameSegments[fileNameSegments.length - 1];
                 // Put file name in Async Http Post Param which will used in Php web app
-                Toast.makeText(AddMyServiceActivity.this,fileName,Toast.LENGTH_LONG).show();
+                Toast.makeText(AddMyServiceActivity.this, fileName, Toast.LENGTH_LONG).show();
 
 
             } else {
@@ -380,7 +377,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
             // Convert image to String using Base64
             encodeImagetoString();
 
-            register(userid, service, subservice, fileName, "default_hop_pic.png" , city, service_desc, min_price, address, city, pin, web, stitle, AppConfig.URL_ADD_SERVICE);
+            register(userid, service, subservice, fileName, "default_hop_pic.png", city, service_desc, min_price, address, city, pin, web, stitle, AppConfig.URL_ADD_SERVICE);
 
             // When Image is not selected from Gallery
         } else {
@@ -492,12 +489,12 @@ public class AddMyServiceActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
 
                     if (spin == 1) {
                         JSONArray dash = response.getJSONArray("dashboard_services");
 
-                        JSONObject jsonObject ; //= response.getJSONObject("dashboard_services");
+                        JSONObject jsonObject; //= response.getJSONObject("dashboard_services");
                         //JSONArray dash = jsonObject.getJSONArray("dashoard_services");
 
                         for (int i = 0; i < dash.length(); i++) {
@@ -540,7 +537,7 @@ public class AddMyServiceActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 prgDialog.hide();
-                Toast.makeText(AddMyServiceActivity.this, "Error"+error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddMyServiceActivity.this, "Error" + error.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         });
@@ -611,8 +608,10 @@ public class AddMyServiceActivity extends AppCompatActivity {
                             editor.putString("typeKey", "SP");
                             editor.commit();
 
-                            Toast.makeText(AddMyServiceActivity.this,"Service data Added Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddMyServiceActivity.this, "Service data Added Succesfully", Toast.LENGTH_SHORT).show();
 
+                            Intent i = new Intent(AddMyServiceActivity.this, HomeActivity.class);
+                            startActivity(i);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(AddMyServiceActivity.this, "Something went wrong, please come back later", Toast.LENGTH_SHORT).show();

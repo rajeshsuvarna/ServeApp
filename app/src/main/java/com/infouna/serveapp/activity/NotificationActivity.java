@@ -201,7 +201,7 @@ public class NotificationActivity extends AppCompatActivity {
                                 jsonObject = dash.getJSONObject(i);
 
                                 String a = jsonObject.getString("user_message"), b = jsonObject.getString("generated_datetime"),
-                                        c = jsonObject.getString("sp_accepted"), d = jsonObject.getString("service_name"),
+                                        c = jsonObject.getString("sp_accepted"), d = jsonObject.getString("service_title"),
                                         e = jsonObject.getString("reqid"), f = jsonObject.getString("userid");
 
                                 data.add(new NotificationCard(a, b, c, d, e, f));
@@ -279,7 +279,7 @@ public class NotificationActivity extends AppCompatActivity {
                                 jsonObject = dash.getJSONObject(i);
 
                                 String a = jsonObject.getString("sp_message"), b = jsonObject.getString("generated_datetime"),
-                                        c = jsonObject.getString("request_from"), d = jsonObject.getString("service_name"),
+                                        c = jsonObject.getString("request_from"), d = jsonObject.getString("service_title"),
                                         e = jsonObject.getString("spid"), f = jsonObject.getString("reqid");
 
 
