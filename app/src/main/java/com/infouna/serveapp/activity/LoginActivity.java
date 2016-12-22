@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.content.Intent;
@@ -16,10 +18,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.infouna.serveapp.R;
 import com.infouna.serveapp.app.AppConfig;
 import com.infouna.serveapp.app.AppController;
@@ -102,13 +109,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-            private void login(String phone, String url) {
+            private void login(final String phone, String url) {
 
                 pDialog.setIndeterminate(true);
                 pDialog.setMessage("Authenticating...");
                 showDialog();
 
-                String tag_json_obj = "json_obj_req";
+                final String tag_json_obj = "json_obj_req";
 
                 url += phone;
 
@@ -138,7 +145,105 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         editor.commit();
                                         // hideDialog();
-                                        sucess();
+
+                                        String url_otp = AppConfig.LOGIN_SEND_OTP;
+                                        url_otp += phone;
+
+                                        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url_otp, null,
+                                                new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        try {
+
+                                                            String res = response.getString("result");
+                                                            if (res.equals("1")) {
+                                                                hideDialog();
+                                                                final String otp = response.getString("OTP");
+                                                                final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(LoginActivity.this);
+                                                                builder.setTitle("OTP : " + otp);
+                                                                builder.setDescription("Sit back and relax while we verify your OTP");
+                                                                builder.withDialogAnimation(true, Duration.SLOW);
+                                                                builder.setStyle(Style.HEADER_WITH_TITLE);
+                                                                builder.setNegativeText("Close");
+                                                                builder.onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                                    @Override
+                                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                                        builder.autoDismiss(true);
+                                                                    }
+                                                                });
+                                                                builder.show();
+
+
+                                                                final Handler handler = new Handler();
+                                                                handler.postDelayed(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        // Do something after 5s = 5000ms
+
+                                                                        String url_send_otp = AppConfig.LOGIN_USER_VERIFY_OTP;
+                                                                        url_send_otp += phone + "&otp=" + otp;
+
+                                                                        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url_send_otp, null,
+                                                                                new Response.Listener<JSONObject>() {
+                                                                                    @Override
+                                                                                    public void onResponse(JSONObject response) {
+                                                                                        try {
+
+                                                                                            String res = response.getString("result");
+
+                                                                                            if (res.equals("1")) {
+                                                                                                sucess();
+
+
+                                                                                            } else {
+                                                                                                Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                                                                hideDialog();
+
+                                                                                                hideDialog();
+                                                                                            }
+
+                                                                                        } catch (JSONException e) {
+                                                                                            e.printStackTrace();
+                                                                                        }
+
+                                                                                    }
+                                                                                }, new Response.ErrorListener() {
+
+                                                                            @Override
+                                                                            public void onErrorResponse(VolleyError error) {
+                                                                                Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                                                hideDialog();
+
+                                                                            }
+                                                                        });
+
+                                                                        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+                                                                    }
+                                                                }, 3000);
+                                                            } else {
+                                                                Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                                hideDialog();
+
+                                                                hideDialog();
+                                                            }
+
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                hideDialog();
+
+                                            }
+                                        });
+
+                                        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+
                                     } else {
                                         input_phone.setError("Number not registered");
                                         // Toast.makeText(getApplicationContext(),"Number not Registered", Toast.LENGTH_LONG).show();

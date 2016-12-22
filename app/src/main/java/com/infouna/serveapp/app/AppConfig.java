@@ -88,4 +88,10 @@ public class AppConfig {
 
     //Request Service
     public static String SERVICE_REQUEST = "http://www.serveapp.in/assets/api/request_service.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a";
+
+    //Login send OTP
+    public static String LOGIN_SEND_OTP = "http://www.serveapp.in/assets/api/sendloginotp.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobile=";
+
+    //Login OTP verify
+    public static String LOGIN_USER_VERIFY_OTP = "http://www.serveapp.in/assets/api/verifyuser_login.php?key=fd0e5f476a68c73bba35f3ee71ff3b4a&mobile=";
 }
