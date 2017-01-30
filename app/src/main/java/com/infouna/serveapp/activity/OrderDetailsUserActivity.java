@@ -107,6 +107,8 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
         jbtncancel = (Button) findViewById(R.id.cancel);
         jbtnrate = (Button) findViewById(R.id.rate);
 
+        jbtnrate.setEnabled(false);
+
         jstatusicon = (ImageView) findViewById(R.id.icon_odu);
 
         jbtnreport.setOnClickListener(new View.OnClickListener() {
@@ -182,12 +184,15 @@ public class OrderDetailsUserActivity extends AppCompatActivity {
                             if (accepted.equals("1")) {
                                 jacceptedstatus.setText("Accepted");
                                 jstatusicon.setImageResource(R.mipmap.ic_check);
+                                jbtnrate.setEnabled(true);
                             } else if (accepted.equals("0")) {
                                 jacceptedstatus.setText("Declined");
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+                                jbtnrate.setEnabled(false);
                             } else {
                                 jacceptedstatus.setText("Pending Approval from Service Provider");
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
+                                jbtnrate.setEnabled(false);
                             }
 
                             //Toast.makeText(OrderDetailsUserActivity.this, "", Toast.LENGTH_SHORT).show();

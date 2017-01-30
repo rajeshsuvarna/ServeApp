@@ -98,6 +98,8 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
 
         jstatusicon = (ImageView) findViewById(R.id.icon_ods);
 
+        jbtnreport.setEnabled(false);
+
         jbtnaccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,12 +167,16 @@ public class OrderDetailsSPActivity extends AppCompatActivity {
                             if (accepted.equals("1")) {
                                 jstatusicon.setImageResource(R.mipmap.ic_check);
                                 jacceptedstatus.setText("Request Accepted");
+                                jbtnreport.setEnabled(true);
+
                             } else if (accepted.equals("0")) {
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
                                 jacceptedstatus.setText("Order Declined");
+                                jbtnreport.setEnabled(false);
                             } else {
                                 jstatusicon.setImageResource(R.mipmap.ic_warning_notification);
                                 jacceptedstatus.setText("Pending Your Approval");
+                                jbtnreport.setEnabled(false);
                             }
 
                             String dt = jsonObject.getString("reqstd_date_time");

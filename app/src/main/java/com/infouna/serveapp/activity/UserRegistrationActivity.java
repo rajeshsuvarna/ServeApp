@@ -35,12 +35,17 @@ import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import swarajsaaj.smscodereader.interfaces.OTPListener;
+import swarajsaaj.smscodereader.receivers.OtpReader;
 
 
-public class UserRegistrationActivity extends AppCompatActivity {
+public class UserRegistrationActivity extends AppCompatActivity implements OTPListener {
 
     private static final String TAG = "UserRegistration";
     public static String name, userid, finalUrl_reg;
+
+    public  String fOTP;
+    public  String otp;
 
     @Bind(R.id.input_fname)
     EditText _fnameText;
@@ -59,6 +64,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_registration);
+        OtpReader.bind(UserRegistrationActivity.this,"SerApp");
         ButterKnife.bind(this);
 
         _signupButton = (Button) findViewById(R.id.btn_reg);
@@ -154,20 +160,11 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                                                                     String res = response.getString("result");
                                                                                     if (res.equals("1")) {
                                                                                         hideDialog();
-                                                                                        final String otp = response.getString("OTP");
-                                                                                        final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(UserRegistrationActivity.this);
-                                                                                        builder.setTitle("OTP : " + otp);
-                                                                                        builder.setDescription("Sit back and relax while we verify your OTP");
-                                                                                        builder.withDialogAnimation(true, Duration.SLOW);
-                                                                                        builder.setStyle(Style.HEADER_WITH_TITLE);
-                                                                                        builder.setNegativeText("Close");
-                                                                                        builder.onNegative(new MaterialDialog.SingleButtonCallback() {
-                                                                                            @Override
-                                                                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                                                                builder.autoDismiss(true);
-                                                                                            }
-                                                                                        });
-                                                                                        builder.show();
+                                                                                        otp = response.getString("OTP");
+
+                                                                                        pDialog.setIndeterminate(true);
+                                                                                        pDialog.setMessage("Detecting your OTP...");
+                                                                                        showDialog();
 
 
                                                                                         final Handler handler = new Handler();
@@ -176,45 +173,62 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                                                                             public void run() {
                                                                                                 // Do something after 5s = 5000ms
 
-                                                                                                String url_send_otp = AppConfig.URL_OTP;
-                                                                                                url_send_otp += userid + "&otp=" + otp;
+                                                                                                try {
+                                                                                                    boolean vOTP = vOTP(fOTP, otp);
 
-                                                                                                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url_send_otp, null,
-                                                                                                        new Response.Listener<JSONObject>() {
-                                                                                                            @Override
-                                                                                                            public void onResponse(JSONObject response) {
-                                                                                                                try {
+                                                                                                    if (vOTP) {
 
-                                                                                                                    String res = response.getString("result");
+                                                                                                        String url_send_otp = AppConfig.URL_OTP;
+                                                                                                        url_send_otp += userid + "&otp=" + otp;
 
-                                                                                                                    if (res.equals("1")) {
-                                                                                                                        sucess();
+                                                                                                        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url_send_otp, null,
+                                                                                                                new Response.Listener<JSONObject>() {
+                                                                                                                    @Override
+                                                                                                                    public void onResponse(JSONObject response) {
+                                                                                                                        try {
+
+                                                                                                                            String res = response.getString("result");
+
+                                                                                                                            if (res.equals("1")) {
+                                                                                                                                sucess();
 
 
-                                                                                                                    } else {
-                                                                                                                        Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
-                                                                                                                        hideDialog();
+                                                                                                                            } else {
+                                                                                                                                Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                                                                                                hideDialog();
 
-                                                                                                                        hideDialog();
+                                                                                                                                hideDialog();
+                                                                                                                            }
+
+                                                                                                                        } catch (JSONException e) {
+                                                                                                                            e.printStackTrace();
+                                                                                                                        }
+
                                                                                                                     }
+                                                                                                                }, new Response.ErrorListener() {
 
-                                                                                                                } catch (JSONException e) {
-                                                                                                                    e.printStackTrace();
-                                                                                                                }
+                                                                                                            @Override
+                                                                                                            public void onErrorResponse(VolleyError error) {
+                                                                                                                Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                                                                                hideDialog();
 
                                                                                                             }
-                                                                                                        }, new Response.ErrorListener() {
+                                                                                                        });
 
-                                                                                                    @Override
-                                                                                                    public void onErrorResponse(VolleyError error) {
-                                                                                                        Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
+                                                                                                        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+                                                                                                    } else
+
+                                                                                                    {
                                                                                                         hideDialog();
-
+                                                                                                        Toast.makeText(getApplicationContext(), "OTP Not received , please enter correct number or try after some time", Toast.LENGTH_LONG).show();
                                                                                                     }
-                                                                                                });
-
-                                                                                                AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-                                                                                            }
+                                                                                                }
+                                                                                                    catch (Exception e)
+                                                                                                    {
+                                                                                                        hideDialog();
+                                                                                                        Toast.makeText(getApplicationContext(), "OTP not received, please enter correct number", Toast.LENGTH_LONG).show();
+                                                                                                    }
+                                                                                                }
                                                                                         }, 3000);
                                                                                     } else {
                                                                                         Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
@@ -309,16 +323,70 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
             }
 
-            private void showDialog() {
-                if (!pDialog.isShowing())
-                    pDialog.show();
-            }
 
-            private void hideDialog() {
-                if (pDialog.isShowing())
-                    pDialog.dismiss();
-            }
         });
     }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
+    @Override
+    public void otpReceived(String messageText) {
+
+            // Toast.makeText(this, "Got " + messageText, Toast.LENGTH_LONG).show();
+
+            hideDialog();
+            pDialog.setIndeterminate(true);
+            pDialog.setMessage("Verifying your OTP...");
+            showDialog();
+            Log.d("Otp", messageText);
+
+            String[] nbs = messageText.split("\\D+");
+            if (nbs.length != 0) {
+                for (String number : nbs) {
+                    if (number.matches("^[0-9]+$")) {
+                        fOTP = number;
+                    }
+                }
+            }
+
+
+            final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(UserRegistrationActivity.this);
+            builder.setTitle("OTP : " + fOTP);
+        builder.setDescription("Your Serve App OTP has received. Auto-Verifying the OTP to complete registration process.");
+            builder.withDialogAnimation(true, Duration.SLOW);
+            builder.setStyle(Style.HEADER_WITH_TITLE);
+            builder.setNegativeText("Close");
+            builder.onNegative(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    builder.autoDismiss(true);
+                }
+            });
+            builder.show();
+
+    }
+
+        private boolean vOTP(String messageText, String motp) {
+            final String mTXT = messageText;
+            final String mOTP = motp;
+            // Toast.makeText(this, "verify " + messageText + motp, Toast.LENGTH_LONG).show();
+
+            if (mTXT.equalsIgnoreCase(mOTP))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 }
 

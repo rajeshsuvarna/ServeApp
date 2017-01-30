@@ -337,7 +337,7 @@ public class LoginActivity extends AppCompatActivity implements OTPListener {
 
         final MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(LoginActivity.this);
         builder.setTitle("OTP : " + fOTP);
-        builder.setDescription("Your Serve App OTP has received. Verifying the OTP to complete login.");
+        builder.setDescription("Your Serve App OTP has received. Auto-Verifying the OTP to complete login.");
         builder.withDialogAnimation(true, Duration.SLOW);
         builder.setStyle(Style.HEADER_WITH_TITLE);
         builder.setNegativeText("Close");

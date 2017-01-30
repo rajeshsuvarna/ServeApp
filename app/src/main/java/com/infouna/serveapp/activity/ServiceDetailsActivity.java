@@ -227,7 +227,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
 
                             if (Integer.parseInt(reviews) > 0) {
-                                review_count.setText(reviews + "reviews");
+                                review_count.setText(reviews + " reviews");
                             } else {
                                 review_count.setText("0 reviews");
                             }
