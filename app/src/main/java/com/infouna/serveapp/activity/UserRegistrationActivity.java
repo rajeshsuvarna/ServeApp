@@ -229,7 +229,7 @@ public class UserRegistrationActivity extends AppCompatActivity implements OTPLi
                                                                                                         Toast.makeText(getApplicationContext(), "OTP not received, please enter correct number", Toast.LENGTH_LONG).show();
                                                                                                     }
                                                                                                 }
-                                                                                        }, 3000);
+                                                                                        }, 20000);
                                                                                     } else {
                                                                                         Toast.makeText(getApplicationContext(), "Unexpected network Error, please try again later", Toast.LENGTH_LONG).show();
                                                                                         hideDialog();
